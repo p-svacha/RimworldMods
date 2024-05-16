@@ -1,0 +1,4 @@
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\More Anomalous Content\Assemblies\MoreAnomalousContent.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\More Anomalous Content\Source\MoreAnomalousContent\obj\Debug\MoreAnomalousContent.csprojAssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\More Anomalous Content\Source\MoreAnomalousContent\obj\Debug\MoreAnomalousContent.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\More Anomalous Content\Source\MoreAnomalousContent\obj\Debug\MoreAnomalousContent.dll

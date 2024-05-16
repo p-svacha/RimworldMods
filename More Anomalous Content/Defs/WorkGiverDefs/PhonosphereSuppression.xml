@@ -1,0 +1,13 @@
+<Defs>
+    <WorkGiverDef>
+        <defName>PhonosphereSuppression</defName>
+        <giverClass>MoreAnomalousContent.WorkGiver_Warden_SuppressPhonosphere</giverClass>
+        <workType>Warden</workType>
+        <priorityInType>50</priorityInType>
+        <verb>suppress</verb>
+        <gerund>suppressing</gerund>
+        <requiredCapacities>
+            <li>Manipulation</li>
+        </requiredCapacities>
+    </WorkGiverDef>
+</Defs>

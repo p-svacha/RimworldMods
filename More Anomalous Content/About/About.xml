@@ -1,0 +1,9 @@
+<ModMetaData>
+    <name>More Anomalous Content</name>
+    <description>This mod adds new content for the Anomaly DLC, such as new entities, quests, events. It is designed to fit into and be balanced around a vanilla experience.</description>
+    <author>Phil42</author>
+    <supportedVersions>
+        <li>1.5</li>
+    </supportedVersions>
+    <packageId>phil42.moreanomalouscontent</packageId>
+</ModMetaData>

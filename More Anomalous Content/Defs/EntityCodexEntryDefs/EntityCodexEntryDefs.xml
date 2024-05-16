@@ -1,0 +1,23 @@
+﻿<Defs>
+
+	<EntityCodexEntryDef>
+		<defName>MAC_EntityCodexEntry_Phonosphere</defName>
+		<label>Phonosphere</label>
+		<category>Advanced</category>
+		<uiIconPath>Phil42/UI/CodexEntries/MAC_Phonosphere</uiIconPath>
+		<useDescriptionFrom>MAC_Phonosphere</useDescriptionFrom>
+		<linkedThings>
+			<li>MAC_Phonosphere</li>
+		</linkedThings>
+		<!--
+		<provocationIncidents>
+			<li>AE_IncidentDef_AnomalyBedSpawn</li>
+		</provocationIncidents>
+		<discoveredResearchProjects>
+			<li>AESleepEnhancerSerum</li>
+		</discoveredResearchProjects>
+		-->
+		<orderInCategory>4200</orderInCategory>
+	</EntityCodexEntryDef>
+
+</Defs>

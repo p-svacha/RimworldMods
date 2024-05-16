@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "h938DWicRYAWjhztVbRweEU6L0sw7s/6z3W97znr4uzKFuUUbWyzg1fd96g4wAiXgqPdl1ZYhSzC3j8Rgn2B+g==",
+  "success": true,
+  "projectFilePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\More Anomalous Content\\Source\\MoreAnomalousContent\\MoreAnomalousContent.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\phili\\.nuget\\packages\\krafs.rimworld.ref\\1.5.4085\\krafs.rimworld.ref.1.5.4085.nupkg.sha512"
+  ],
+  "logs": []
+}
