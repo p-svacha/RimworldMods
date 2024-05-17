@@ -1,6 +1,6 @@
 <Defs>
     <WorkGiverDef>
-        <defName>PhonosphereSuppression</defName>
+        <defName>P42_PhonosphereSuppression</defName>
         <giverClass>MoreAnomalousContent.WorkGiver_Warden_SuppressPhonosphere</giverClass>
         <workType>Warden</workType>
         <priorityInType>50</priorityInType>

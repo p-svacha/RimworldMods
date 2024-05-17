@@ -42,15 +42,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompProperties_PhonosphereActivity.cs" />
-    <Compile Include="JobDriver_SuppressWithMusic.cs" />
+    <Compile Include="HarmonyPatches\Explosion_StartExplosion_Patch.cs" />
+    <Compile Include="HarmonyPatches\Projectile_Impact_Patch.cs" />
+    <Compile Include="ModInitializer.cs" />
     <Compile Include="PhonosphereActivity.cs" />
     <Compile Include="PhonosphereActivityWorker.cs" />
+    <Compile Include="PhonosphereActivityGizmo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HarmonyPatches\WeatherEvent_LightningStrike_FireEvent_Patch.cs" />
     <Compile Include="WorkGiver_Warden_SuppressPhonosphere.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
       <Version>1.5.4085</Version>
+    </PackageReference>
+    <PackageReference Include="Lib.Harmony">
+      <Version>2.3.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

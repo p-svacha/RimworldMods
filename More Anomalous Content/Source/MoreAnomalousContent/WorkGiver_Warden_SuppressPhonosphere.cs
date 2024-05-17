@@ -18,84 +18,72 @@ namespace MoreAnomalousContent
 
         public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            if (!ModsConfig.AnomalyActive)
+            // Get activity component and check type
+            CompActivity activity = t.TryGetComp<CompActivity>();
+            if (activity == null || !(activity is PhonosphereActivity))
             {
                 return null;
             }
-
-            // Get thing that we are suppressing
-            Thing thingToSuppress = GetThingToSuppress(t, forced);
-            if (thingToSuppress == null)
-            {
-                return null;
-            }
-            //Log.Message("WorkGiver_Warden_SuppressPhonosphere: GotThingToSuppress");
-
-            // Get activity component
-            CompActivity compActivity = thingToSuppress.TryGetComp<CompActivity>();
-            if (compActivity == null)
-            {
-                return null;
-            }
-            //Log.Message("WorkGiver_Warden_SuppressPhonosphere: GotActivity");
-
-            // Check if compActivity is of correct type
-            if (!(compActivity is PhonosphereActivity))
-            {
-                return null;
-            }
-            Log.Message("WorkGiver_Warden_SuppressPhonosphere: GotPhonosphereActivity");
 
             // Get room that the sphere is in
-            Room room = thingToSuppress.GetRoom();
+            Room room = t.GetRoom();
             if (room == null)
             {
                 return null;
             }
             if(room.PsychologicallyOutdoors)
             {
-                JobFailReason.Is("CannotBeSuppressedOutside".Translate());
+                JobFailReason.Is("P42_TL_CannotBeSuppressedOutside".Translate());
                 return null;
             }
-            Log.Message("WorkGiver_Warden_SuppressPhonosphere: GotRoom");
 
-            // Get instrument in room
-            Building musicalInstrument = GetMusicalInstrument(room);
+            // Get non-reserved instrument in room
+            Building musicalInstrument = GetInstrumentInRoom(room);
             if(musicalInstrument == null)
             {
-                JobFailReason.Is("NoInstrumentInRoom".Translate());
+                JobFailReason.Is("P42_TL_NoInstrumentInRoom".Translate());
                 return null;
             }
-            Log.Message("WorkGiver_Warden_SuppressPhonosphere: GotInstrument");
 
-            Job job = JobMaker.MakeJob(JobDefOf.Play_MusicalInstrument, musicalInstrument);
-            job.targetB = thingToSuppress;
+            // Ensure the musical instrument can be reserved
+            if (!pawn.CanReserve(musicalInstrument, 1, -1, null, forced))
+            {
+                return null;
+            }
+
+            // If not forced, pawns will not always suppress it automatically
+            if (!forced)
+            {
+                if (!activity.suppressionEnabled) return null;
+                if (activity.ActivityLevel < activity.suppressIfAbove) return null;
+            }
+
+            Job job = JobMaker.MakeJob(JobDefOf.Play_MusicalInstrument, musicalInstrument, musicalInstrument.InteractionCell);
+            job.expiryInterval = 600; // job is done for 10 seconds
+            job.doUntilGatheringEnded = true; // So they do the job for exactly 10 seconds and don't stop when recreation is full
             job.playerForced = forced;
             return job;
         }
 
-        private Building GetMusicalInstrument(Room room)
+        /// <summary>
+        /// Returns the first non-reserved instrument in a room
+        /// </summary>
+        private Building GetInstrumentInRoom(Room room)
         {
+            if (room == null) return null;
+
             foreach (Thing thing in room.ContainedAndAdjacentThings)
             {
-                if (thing is Building_MusicalInstrument instrument)
+                if (thing is Building_MusicalInstrument instrument && !instrument.IsForbidden(Faction.OfPlayer) && !instrument.IsBurning() && instrument.CanBeSeenOver())
                 {
-                    return instrument;
+                    // Check if the instrument is reserved
+                    if (!instrument.Map.reservationManager.IsReserved(instrument))
+                    {
+                        return instrument;
+                    }
                 }
             }
             return null;
-        }
-
-        private Thing GetThingToSuppress(Thing thing, bool playerForced)
-        {
-            /*
-            if (!ActivitySuppressionUtility.CanBeSuppressed(thing, considerMinActivity: true, playerForced))
-            {
-                return null;
-            }
-            */
-
-            return thing;
         }
     }
 }

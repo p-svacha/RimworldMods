@@ -1,13 +1,13 @@
 ﻿<Defs>
 
 	<EntityCodexEntryDef>
-		<defName>MAC_EntityCodexEntry_Phonosphere</defName>
+		<defName>P42_EntityCodexEntry_Phonosphere</defName>
 		<label>Phonosphere</label>
 		<category>Advanced</category>
 		<uiIconPath>Phil42/UI/CodexEntries/MAC_Phonosphere</uiIconPath>
-		<useDescriptionFrom>MAC_Phonosphere</useDescriptionFrom>
+		<useDescriptionFrom>P42_Phonosphere</useDescriptionFrom>
 		<linkedThings>
-			<li>MAC_Phonosphere</li>
+			<li>P42_Phonosphere</li>
 		</linkedThings>
 		<!--
 		<provocationIncidents>

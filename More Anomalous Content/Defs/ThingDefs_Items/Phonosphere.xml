@@ -1,9 +1,9 @@
 <Defs>
     <ThingDef>
         <thingClass>ThingWithComps</thingClass>
-        <defName>MAC_Phonosphere</defName>
+        <defName>P42_Phonosphere</defName>
         <label>Phonosphere</label>
-        <description>A small sphere made out of a thin but very robust bioferrite membrane. It emits a soothing hum and seems to be undestroyable.</description>
+        <description>A small sphere made out of a thin but extremely robust bioferrite membrane. It is very slightly vibrating and emits a quiet hum.\n\nIt seems to react to sounds in a way that it records everything around it and then periodically emits waves depending on what it recorded. This means the higher its disturbance level is, the worse the effect of these waves.\n\nYou can send colonists to soothe it by playing instruments nearby. You can also mark the sphere for study to learn it's mechanisms and maybe find a way to make use of it or shut it down.</description>
         <category>Item</category>
         <genericMarketSellable>false</genericMarketSellable>
         <drawerType>MapMeshOnly</drawerType>
@@ -24,7 +24,7 @@
         </graphicData>
 
         <statBases>
-            <Mass>1</Mass>
+            <Mass>4</Mass>
             <Beauty>20</Beauty>
             <Flammability>0</Flammability>
             <MarketValue>900</MarketValue>
@@ -51,17 +51,14 @@
 
             <li Class="MoreAnomalousContent.CompProperties_PhonosphereActivity">
                 <startingRange>0.2~0.4</startingRange>
-                <changePerDayBase>0.9</changePerDayBase>
-                <warning>0.1</warning>
-                <requiresHoldingPlatform>false</requiresHoldingPlatform>
+                <changePerDayBase>0.2</changePerDayBase>
+                <changePerDayOutside>0.2</changePerDayOutside>
+                <warning>0.5</warning>
+                <suppressRatePerDayBase>1.2</suppressRatePerDayBase>
+                <maxEffectiveLoudspeakers>6</maxEffectiveLoudspeakers>
+                <suppressRatePerLoudspeaker>0.2</suppressRatePerLoudspeaker>
+                <suppressRateDanceParty>5</suppressRateDanceParty>
                 <workerClass>MoreAnomalousContent.PhonosphereActivityWorker</workerClass>
-                <activityResearchFactorCurve>
-                    <points>
-                      <li>0, 0.5</li>
-                      <li>0.5, 1</li>
-                      <li>0.99, 2</li>
-                    </points>
-                </activityResearchFactorCurve>
             </li>
         </comps>
 

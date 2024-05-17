@@ -9,6 +9,11 @@ namespace MoreAnomalousContent
 {
     public class CompProperties_PhonosphereActivity : CompProperties_Activity
     {
+        public float suppressRatePerDayBase;
+        public int maxEffectiveLoudspeakers;
+        public float suppressRatePerLoudspeaker;
+        public float suppressRateDanceParty;
+
         public CompProperties_PhonosphereActivity()
         {
             compClass = typeof(PhonosphereActivity);

@@ -10,52 +10,57 @@ namespace MoreAnomalousContent
 {
     public class PhonosphereActivity : CompActivity
     {
-        public override void Initialize(CompProperties props)
-        {
-            base.Initialize(props);
-            Log.Message("PhonosphereActivity: Initialized with properties");
-        }
+		private PhonosphereActivityGizmo disturbanceGizmo;
 
-        public override void PostSpawnSetup(bool respawningAfterLoad)
-        {
-            base.PostSpawnSetup(respawningAfterLoad);
-            Log.Message("PhonosphereActivity: PostSpawnSetup called for " + this.parent.Label);
+		private int lastNoiseIncreaseTick = -1;
+		private int noiseIncreaseCooldownTicks;
 
-            // Example: Set initial activity level only if not respawning after load
-            if (!respawningAfterLoad)
-            {
-                this.SetActivity(this.Props.startingRange.RandomInRange);
-            }
-        }
+		private const int MIN_NOISE_INCREASE_COOLDOWN = 900;
+		private const int MAX_NOISE_INCREASE_COOLDOWN = 6300;
 
-        public override void CompTick()
-        {
-            base.CompTick();
-            //Log.Message("PhonosphereActivity: CompTick called");
-        }
+		public PhonosphereActivity()
+		{
+			// Initialize the cooldown to a random value between 30 and 90 seconds
+			noiseIncreaseCooldownTicks = Rand.Range(MIN_NOISE_INCREASE_COOLDOWN, MAX_NOISE_INCREASE_COOLDOWN);
+		}
 
-        public override string CompInspectStringExtra()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(base.CompInspectStringExtra());
-            stringBuilder.Append("\nPhonosphere specific information.");
-            return stringBuilder.ToString();
-        }
+		public override IEnumerable<Gizmo> CompGetGizmosExtra()
+		{
+			if (Deactivated)
+			{
+				yield break;
+			}
+			if (disturbanceGizmo == null)
+			{
+				disturbanceGizmo = new PhonosphereActivityGizmo(parent);
+			}
+			if (Find.Selector.SelectedObjects.Count == 1 && IsDormant)
+			{
+				yield return disturbanceGizmo;
+			}
+		}
+		public override string CompInspectStringExtra()
+		{
+			if (Deactivated)
+			{
+				return "Deactivated".Translate();
+			}
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.Append(string.Format("{0}: {1} ({2} / {3})", "P42_TL_Disturbance".Translate(), ActivityLevel.ToStringPercent("0"), Props.Worker.GetChangeRatePerDay(parent).ToStringPercentSigned("0"), "day".Translate()));
+			return stringBuilder.ToString();
+		}
 
-        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+		public void IncreaseActivityDueToNoise(string message, float amount)
         {
-            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
-            {
-                yield return gizmo;
-            }
-            yield return new Command_Action
-            {
-                defaultLabel = "DEV: Phonosphere Test Action",
-                action = () =>
-                {
-                    Log.Message("PhonosphereActivity: Test Action executed");
-                }
-            };
-        }
-    }
+			if (Find.TickManager.TicksGame < lastNoiseIncreaseTick + noiseIncreaseCooldownTicks) return;
+			if (ActivityLevel > (1f - amount - 0.05f)) return; // avoid instant explosion of sphere
+
+			AdjustActivity(amount);
+			Messages.Message(message, parent, MessageTypeDefOf.NegativeEvent); // Display a notification message
+
+			// re-randomize cooldown
+			lastNoiseIncreaseTick = Find.TickManager.TicksGame;
+			noiseIncreaseCooldownTicks = Rand.Range(MIN_NOISE_INCREASE_COOLDOWN, MAX_NOISE_INCREASE_COOLDOWN);
+		}
+	}
 }
