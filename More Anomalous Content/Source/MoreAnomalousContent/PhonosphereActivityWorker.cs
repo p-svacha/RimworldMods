@@ -56,7 +56,7 @@ namespace MoreAnomalousContent
                 {
                     if (thingInRoom is Building_MusicalInstrument instrument)
                     {
-                        if (instrument.IsBeingPlayed)
+                        if (instrument.IsBeingPlayed && instrument.def.building.instrumentRange > 0)
                         {
                             numPlayedInstruments++;
                             float suppressionValue = -(props.suppressRatePerDayBase * instrument.def.building.instrumentRange / 12f);
@@ -65,52 +65,41 @@ namespace MoreAnomalousContent
                     }
                 }
 
-                // Check how many powered loudspeakers are in the room
-                if (numPlayedInstruments > 0)
+                // Check how many powered loudspeakers and drums are in the room (this only applies when a dance/drum party is going on)
+                int numLoudspeakers = 0;
+                int numDrums = 0;
+                foreach (Thing thingInRoom in thingsInRoom)
                 {
-                    int numLoudspeakers = 0;
-                    foreach (Thing thingInRoom in thingsInRoom)
+                    if (thingInRoom.def.defName == "Loudspeaker")
                     {
-                        if (thingInRoom.def.defName == "Loudspeaker")
+                        var compPower = thingInRoom.TryGetComp<CompPowerTrader>();
+                        if (compPower != null)
                         {
-                            var compPower = thingInRoom.TryGetComp<CompPowerTrader>();
-                            if (compPower != null)
+                            if (compPower.PowerNet != null && compPower.PowerOn)
                             {
-                                if (compPower.PowerNet != null && compPower.PowerNet.CurrentEnergyGainRate() > 0)
-                                {
-                                    numLoudspeakers++;
-                                }
+                                numLoudspeakers++;
                             }
                         }
                     }
-                    if (numLoudspeakers > props.maxEffectiveLoudspeakers) numLoudspeakers = props.maxEffectiveLoudspeakers;
-                    if (numLoudspeakers > 0)
+                    else if (thingInRoom.def.defName == "Drum" && thingInRoom is Building_MusicalInstrument drum)
                     {
-                        elements.Add(new KeyValuePair<string, float>(numLoudspeakers + "x " + "P42_TL_Loudspeakers".Translate(), -(numLoudspeakers * props.suppressRatePerLoudspeaker)));
-                    }
-                }
-
-                // Detect if a dance/drum party is going on in the room
-                bool dancePartyOngoing = false;
-                foreach (Thing thingInRoom in thingsInRoom)
-                {
-                    if (thingInRoom is Pawn pawn)
-                    {
-                        LordJob_Ritual ritualJob = thing.Map.lordManager.lords
-                        .Select(lord => lord.LordJob as LordJob_Ritual)
-                        .FirstOrDefault(lj => lj != null && lj.Ritual != null && lj.PawnsToCountTowardsPresence.Contains(pawn));
-
-                        if (ritualJob != null)
+                        if (drum.IsBeingPlayed)
                         {
-                            Log.Message(ritualJob.Ritual.def.defName);
-                            dancePartyOngoing = true;
-                            break;
+                            numDrums++;
                         }
                     }
                 }
-                if (dancePartyOngoing)
+
+                if (numLoudspeakers > props.maxEffectiveLoudspeakers) numLoudspeakers = props.maxEffectiveLoudspeakers;
+                if (numLoudspeakers > 0)
                 {
-                    elements.Add(new KeyValuePair<string, float>("P42_TL_DanceParty".Translate(), -props.suppressRateDanceParty));
+                    elements.Add(new KeyValuePair<string, float>(numLoudspeakers + "x " + "P42_TL_Loudspeakers".Translate(), -(numLoudspeakers * props.suppressRatePerLoudspeaker)));
+                }
+
+                if (numDrums > props.maxEffectiveDrums) numDrums = props.maxEffectiveDrums;
+                if (numDrums > 0)
+                {
+                    elements.Add(new KeyValuePair<string, float>(numDrums + "x " + "P42_TL_Drums".Translate(), -(numDrums * props.suppressRatePerDrum)));
                 }
             }
 

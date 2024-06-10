@@ -12,7 +12,8 @@ namespace MoreAnomalousContent
         public float suppressRatePerDayBase;
         public int maxEffectiveLoudspeakers;
         public float suppressRatePerLoudspeaker;
-        public float suppressRateDanceParty;
+        public int maxEffectiveDrums;
+        public float suppressRatePerDrum;
 
         public CompProperties_PhonosphereActivity()
         {

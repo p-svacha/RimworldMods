@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,12 @@ using Verse;
 namespace MoreAnomalousContent
 {
     [StaticConstructorOnStartup]
-    public static class YourModInitializer
+    public static class MoreAnomalousContent_Initializer
     {
-        static YourModInitializer()
+        static MoreAnomalousContent_Initializer()
         {
-            var harmony = new Harmony("rimworld.mod.phil42.moreanomalouscontent");
-            harmony.PatchAll();
+            // Register harmony patches
+            new Harmony("rimworld.mod.phil42.moreanomalouscontent").PatchAll();
         }
     }
 }

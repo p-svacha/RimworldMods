@@ -56,8 +56,9 @@
                 <warning>0.5</warning>
                 <suppressRatePerDayBase>1.2</suppressRatePerDayBase>
                 <maxEffectiveLoudspeakers>6</maxEffectiveLoudspeakers>
-                <suppressRatePerLoudspeaker>0.2</suppressRatePerLoudspeaker>
-                <suppressRateDanceParty>5</suppressRateDanceParty>
+                <suppressRatePerLoudspeaker>2</suppressRatePerLoudspeaker>
+                <maxEffectiveDrums>6</maxEffectiveDrums>
+                <suppressRatePerDrum>2</suppressRatePerDrum>
                 <workerClass>MoreAnomalousContent.PhonosphereActivityWorker</workerClass>
             </li>
         </comps>

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alert_PhonosphereDisturbance.cs" />
     <Compile Include="CompProperties_PhonosphereActivity.cs" />
     <Compile Include="HarmonyPatches\Explosion_StartExplosion_Patch.cs" />
     <Compile Include="HarmonyPatches\Projectile_Impact_Patch.cs" />

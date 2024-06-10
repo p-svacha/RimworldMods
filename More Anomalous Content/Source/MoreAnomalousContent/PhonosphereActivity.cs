@@ -38,7 +38,29 @@ namespace MoreAnomalousContent
 			{
 				yield return disturbanceGizmo;
 			}
+
+			// Dev mode
+			if (DebugSettings.godMode)
+			{
+				yield return new Command_Action
+				{
+					defaultLabel = "DEV: Activity -5%",
+					action = delegate
+					{
+						AdjustActivity(-0.05f);
+					}
+				};
+				yield return new Command_Action
+				{
+					defaultLabel = "DEV: Activity +5%",
+					action = delegate
+					{
+						AdjustActivity(0.05f);
+					}
+				};
+			}
 		}
+
 		public override string CompInspectStringExtra()
 		{
 			if (Deactivated)

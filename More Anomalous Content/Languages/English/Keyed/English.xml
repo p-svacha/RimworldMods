@@ -3,12 +3,14 @@
     <P42_TL_NoInstrumentInRoom>No usable instrument in room</P42_TL_NoInstrumentInRoom>
 
     <P42_TL_Loudspeakers>Loudspeakers</P42_TL_Loudspeakers>
+    <P42_TL_Drums>Drums</P42_TL_Drums>
     <P42_TL_Disturbance>Disturbance</P42_TL_Disturbance>
     <P42_TL_ChangeRate>Change rate</P42_TL_ChangeRate>
-    <P42_TL_DanceParty>Dance party</P42_TL_DanceParty>
     <P42_TL_PhonosphereActivityGizmoDesc>The Phonosphere's disturbance level rises over time. Disturbance rises faster when outside or exposed to loud noises.\n\nThe higher the disturbance level, the worse sounds the sphere will emit periodically.\n\nWardens can reduce the spheres disturbance by playing instrument nearby. They will suppress it anytime its activity is above the assigned level: {0}</P42_TL_PhonosphereActivityGizmoDesc>
     
     <P42_TL_DisturbanceIncreaseExplosion>The boom of a nearby explosion caused the Phonosphere's disturbance to increase.</P42_TL_DisturbanceIncreaseExplosion>
     <P42_TL_DisturbanceIncreaseThunder>A loud thunderclap caused the Phonosphere's disturbance to increase.</P42_TL_DisturbanceIncreaseThunder>
     <P42_TL_DisturbanceGunshots>The sound of nearby gunshots caused the Phonosphere's disturbance to increase.</P42_TL_DisturbanceGunshots>
+    <P42_TL_PhonosphereDisturbanceAlert>High Phonosphere disturbance</P42_TL_PhonosphereDisturbanceAlert>
+    <P42_TL_PhonosphereDisturbanceAlertDesc>The Phonosphere is at a dangerously high disturbance level. At this level it can cause severe damage to the colony.</P42_TL_PhonosphereDisturbanceAlertDesc>
 </LanguageData>
