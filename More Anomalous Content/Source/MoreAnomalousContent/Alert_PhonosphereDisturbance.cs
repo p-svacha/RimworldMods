@@ -8,7 +8,7 @@ using Verse;
 
 namespace MoreAnomalousContent
 {
-    class Alert_PhonosphereDisturbance : Alert_Critical
+    public class Alert_PhonosphereDisturbance : Alert_Critical
     {
 		private PhonosphereActivity disturbedPhonosphere;
 
@@ -23,7 +23,7 @@ namespace MoreAnomalousContent
 					if (thing.def.defName == "P42_Phonosphere")
 					{
 						PhonosphereActivity activity = thing.TryGetComp<PhonosphereActivity>();
-						if (activity.ActivityLevel > 0.6f)
+						if (activity.ActivityLevel > PhonosphereActivity.DANGEROUS_ACTIVITY_START)
 						{
 							disturbedPhonospheres.Add(thing);
 							disturbedPhonosphere = activity;

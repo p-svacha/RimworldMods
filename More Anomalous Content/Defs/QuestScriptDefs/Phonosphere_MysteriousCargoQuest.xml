@@ -1,0 +1,13 @@
+<Defs>
+    <QuestScriptDef ParentName="MysteriousCargoBase">
+        <defName>P42_MysteriousCargoPhonosphere</defName>
+        <root Class="MoreAnomalousContent.QuestNode_Root_MysteriousCargo_Phonosphere"/>
+        <questContentRules>
+          <rulesStrings>
+            <!-- Letter -->
+            <li>deliveredLetterLabel->Mysterious cargo</li>
+            <li>deliveredLetterText->The mysterious cargo has been delivered. It is a small sphere made out of a thin but extremely robust bioferrite membrane. It is very slightly vibrating and emits a quiet hum. You can study it to learn more.</li>
+          </rulesStrings>
+        </questContentRules>
+      </QuestScriptDef>
+</Defs>

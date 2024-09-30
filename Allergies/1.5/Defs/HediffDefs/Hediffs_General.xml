@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <HediffDef>
+    <defName>P42_AllergyHediff</defName>
+    <label>allergy</label>
+    <description>A specific allergic condition.</description>
+    <makesSickThought>false</makesSickThought>
+    <hediffClass>P42_Allergies.Hediff_Allergy</hediffClass>
+    <initialSeverity>0.001</initialSeverity>
+    <stages>
+      <li>
+        <label>hidden</label>
+        <becomeVisible>false</becomeVisible>
+      </li>
+      <li>
+        <minSeverity>0.1</minSeverity>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>P42_AllergenBuildup</defName>
+    <label>allergen buildup</label>
+    <description>The immune system is currently overloaded by exposure to allergens.
+      \nThe buildup of these substances can cause a range of uncomfortable symptoms, from mild
+      irritation to life-threatening reactions.
+      \nWithout treatment or removal from the allergen source, the condition will continue to
+      worsen, potentially leading to respiratory distress, or even anaphylactic shock.</description>
+    <defaultLabelColor>(1.0, 1.0, 0.6)</defaultLabelColor>
+    <initialSeverity>0.001</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <alwaysShowSeverity>true</alwaysShowSeverity>
+    <hediffClass>P42_Allergies.Hediff_AllergenBuildup</hediffClass>
+    <comps>
+      <li Class="P42_HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.35</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>initial</label>
+        <becomeVisible>false</becomeVisible>
+      </li>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>initial</label>
+        <minSeverity>0.04</minSeverity>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.05</WorkSpeedGlobal>
+          <RestFallRateFactor>0.05</RestFallRateFactor>
+        </statOffsets>
+      </li>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>minor</label>
+        <minSeverity>0.2</minSeverity>
+        <sneezingFitMtbDays>8</sneezingFitMtbDays>
+        <skinRashMtbDays>8</skinRashMtbDays>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.10</WorkSpeedGlobal>
+          <RestFallRateFactor>0.10</RestFallRateFactor>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.10</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+      </li>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>moderate</label>
+        <minSeverity>0.40</minSeverity>
+        <painOffset>0.05</painOffset>
+        <sneezingFitMtbDays>4</sneezingFitMtbDays>
+        <skinRashMtbDays>3</skinRashMtbDays>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.20</WorkSpeedGlobal>
+          <RestFallRateFactor>0.20</RestFallRateFactor>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.15</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Asthma</hediff>
+            <mtbDays>300</mtbDays>
+            <partsToAffect>
+              <li>Lung</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_AnaphylacticShock</hediff>
+            <mtbDays>150</mtbDays>
+          </li>
+        </hediffGivers>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>55</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_OwnRoom</mentalState>
+            <mtbDays>50</mtbDays>
+          </li>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>45</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_Sad</mentalState>
+            <mtbDays>40</mtbDays>
+          </li>
+          <li>
+            <mentalState>Tantrum</mentalState>
+            <mtbDays>35</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>serious</label>
+        <minSeverity>0.60</minSeverity>
+        <painOffset>0.15</painOffset>
+        <vomitMtbDays>5</vomitMtbDays>
+        <sneezingFitMtbDays>1</sneezingFitMtbDays>
+        <skinRashMtbDays>1</skinRashMtbDays>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.30</WorkSpeedGlobal>
+          <RestFallRateFactor>0.30</RestFallRateFactor>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.08</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.25</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.25</offset>
+          </li>
+        </capMods>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Asthma</hediff>
+            <mtbDays>40</mtbDays>
+            <partsToAffect>
+              <li>Lung</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_AnaphylacticShock</hediff>
+            <mtbDays>20</mtbDays>
+          </li>
+        </hediffGivers>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>35</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_OwnRoom</mentalState>
+            <mtbDays>32</mtbDays>
+          </li>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>29</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_Sad</mentalState>
+            <mtbDays>26</mtbDays>
+          </li>
+          <li>
+            <mentalState>Tantrum</mentalState>
+            <mtbDays>23</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>extreme</label>
+        <minSeverity>0.80</minSeverity>
+        <painOffset>0.25</painOffset>
+        <vomitMtbDays>2</vomitMtbDays>
+        <sneezingFitMtbDays>0.5</sneezingFitMtbDays>
+        <skinRashMtbDays>0.5</skinRashMtbDays>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.50</WorkSpeedGlobal>
+          <RestFallRateFactor>0.50</RestFallRateFactor>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.16</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.35</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.35</offset>
+          </li>
+          <li>
+            <capacity>BloodFiltration</capacity>
+            <offset>-0.20</offset>
+          </li>
+        </capMods>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Asthma</hediff>
+            <mtbDays>10</mtbDays>
+            <partsToAffect>
+              <li>Lung</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_AnaphylacticShock</hediff>
+            <mtbDays>5</mtbDays>
+          </li>
+        </hediffGivers>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>18</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_OwnRoom</mentalState>
+            <mtbDays>16</mtbDays>
+          </li>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>14</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_Sad</mentalState>
+            <mtbDays>12</mtbDays>
+          </li>
+          <li>
+            <mentalState>Tantrum</mentalState>
+            <mtbDays>10</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

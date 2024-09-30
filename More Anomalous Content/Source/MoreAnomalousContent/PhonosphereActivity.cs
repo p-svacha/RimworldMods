@@ -18,6 +18,8 @@ namespace MoreAnomalousContent
 		private const int MIN_NOISE_INCREASE_COOLDOWN = 900;
 		private const int MAX_NOISE_INCREASE_COOLDOWN = 6300;
 
+		public const float DANGEROUS_ACTIVITY_START = 0.6f; // level at which dangerous events can happen
+
 		public PhonosphereActivity()
 		{
 			// Initialize the cooldown to a random value between 30 and 90 seconds
@@ -60,7 +62,6 @@ namespace MoreAnomalousContent
 				};
 			}
 		}
-
 		public override string CompInspectStringExtra()
 		{
 			if (Deactivated)
@@ -71,7 +72,6 @@ namespace MoreAnomalousContent
 			stringBuilder.Append(string.Format("{0}: {1} ({2} / {3})", "P42_TL_Disturbance".Translate(), ActivityLevel.ToStringPercent("0"), Props.Worker.GetChangeRatePerDay(parent).ToStringPercentSigned("0"), "day".Translate()));
 			return stringBuilder.ToString();
 		}
-
 		public void IncreaseActivityDueToNoise(string message, float amount)
         {
 			if (Find.TickManager.TicksGame < lastNoiseIncreaseTick + noiseIncreaseCooldownTicks) return;

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "kx55v7Ay+4U7at+gKGuOCC4LRLIBX0xE1GunsB8h6LUvZXuJuHckbJAx6KhNDEy7XsmplD4at5O3CWoy0/mAtA==",
+  "success": true,
+  "projectFilePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Random Gene Mutations\\Source\\RandomGeneMutations\\RandomGeneMutations.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\phili\\.nuget\\packages\\krafs.rimworld.ref\\1.5.4104\\krafs.rimworld.ref.1.5.4104.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <RecipeDef>
+        <defName>P42_AdministerAntishockInjector</defName>
+        <label>administer antishock injector</label>
+        <description>Administer an antishock injector.</description>
+        <workerClass>Recipe_AdministerUsableItem</workerClass>
+        <jobString>Administering antishock injector.</jobString>
+        <targetsBodyPart>false</targetsBodyPart>
+        <anesthetize>false</anesthetize>
+        <workAmount>180</workAmount>
+        <dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+        <surgeryOutcomeEffect IsNull="True" />
+        <humanlikeOnly>true</humanlikeOnly>
+        <ingredients>
+            <li>
+                <filter>
+                    <thingDefs>
+                        <li>P42_AntishockInjector</li>
+                    </thingDefs>
+                </filter>
+                <count>1</count>
+            </li>
+        </ingredients>
+        <fixedIngredientFilter>
+            <thingDefs>
+                <li>P42_AntishockInjector</li>
+            </thingDefs>
+        </fixedIngredientFilter>
+    </RecipeDef>
+</Defs>

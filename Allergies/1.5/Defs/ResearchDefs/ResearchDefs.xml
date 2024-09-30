@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ResearchProjectDef>
+    <defName>P42_AllergyTreatments</defName>
+    <label>allergy treatments</label>
+    <description>Produce drugs that can help suppress and heal allergies, as well as deal with
+      allergic reactions.</description>
+    <baseCost>900</baseCost>
+    <techLevel>Industrial</techLevel>
+    <prerequisites>
+      <li>PenoxycylineProduction</li>
+      <li>Devilstrand</li>
+    </prerequisites>
+    <researchViewX>5.00</researchViewX>
+    <researchViewY>2.40</researchViewY>
+    <generalRules>
+      <rulesStrings>
+        <li>subject->allergy treatments</li>
+
+        <li>subject_story->helped countless pawns survive severe allergy seasons</li>
+        <li>subject_story->lost several test subjects to anaphylactic shock during early trials</li>
+        <li>subject_story->created the first reliable desensitization drug, leading to fewer
+          life-threatening allergic reactions</li>
+        <li>subject_story->failed spectacularly in an early attempt, causing every pawn in the
+          colony to sneeze uncontrollably for days</li>
+        <li>subject_story->developed a breakthrough treatment that allows pawns to live comfortably
+          even with extreme allergies</li>
+        <li>subject_story->was celebrated for discovering a drug that can heal allergies completely</li>
+        <li>subject_story->conducted dangerous trials on volunteers to test the safety of new
+          treatments</li>
+        <li>subject_story->had to redesign the lab's ventilation system after an airborne allergen
+          spread during testing</li>
+
+        <li>subject_gerund->synthesizing allercure</li>
+        <li>subject_gerund->producing antishock injectors</li>
+      </rulesStrings>
+    </generalRules>
+  </ResearchProjectDef>
+</Defs>

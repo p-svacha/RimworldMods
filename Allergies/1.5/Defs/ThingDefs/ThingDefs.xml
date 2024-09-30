@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <ThingDef ParentName="MakeableDrugPillBase">
+        <defName>P42_Allercure</defName>
+        <label>allercure</label>
+        <description>A specialized drug used to temporarily suppress allergic sensitivity and reduce
+            allergen buildup.
+            \n\nIf consumed regularly over a long period of time, it may reduce allergy severity or
+            even heal allergies completely.
+            \n\nAllercure can cause an addiction and in very rare cases it can cause an anaphylactic
+            shock.</description>
+        <descriptionHyperlinks>
+            <HediffDef>P42_AllercureHigh</HediffDef>
+            <HediffDef>P42_AllercureAddiction</HediffDef>
+            <HediffDef>P42_AnaphylacticShock</HediffDef>
+        </descriptionHyperlinks>
+
+        <socialPropernessMatters>false</socialPropernessMatters>
+        <techLevel>Industrial</techLevel>
+
+        <graphicData>
+            <texPath>Things/Item/Drug/Allercure</texPath>
+            <graphicClass>Graphic_StackCount</graphicClass>
+        </graphicData>
+
+        <statBases>
+            <WorkToMake>800</WorkToMake>
+            <MarketValue>29.5</MarketValue>
+            <Mass>0.01</Mass>
+            <Flammability>0.7</Flammability>
+        </statBases>
+
+        <ingestible>
+            <drugCategory>Medical</drugCategory>
+            <outcomeDoers>
+                <!-- Add mood boost effect: "AllercureHigh" -->
+                <li Class="IngestionOutcomeDoer_GiveHediff">
+                    <hediffDef>P42_AllercureHigh</hediffDef>
+                    <severity>1.0</severity>
+                    <toleranceChemical>P42_Allercure</toleranceChemical>
+                </li>
+
+                <!-- Add allergen buildup reduction of 10% instantly -->
+                <li Class="P42_Allergies.IngestionOutcomeDoer_OffsetAllergenBuildup">
+                    <severity>0.1</severity>
+                </li>
+
+                <!-- 1% chance to trigger Anaphylactic Shock -->
+                <li Class="IngestionOutcomeDoer_GiveHediff">
+                    <hediffDef>P42_AnaphylacticShock</hediffDef>
+                    <severity>0.4</severity>
+                    <chance>0.01</chance>
+                </li>
+            </outcomeDoers>
+        </ingestible>
+
+        <recipeMaker>
+            <researchPrerequisite>P42_AllergyTreatments</researchPrerequisite>
+            <recipeUsers>
+                <li>DrugLab</li>
+            </recipeUsers>
+            <displayPriority>501</displayPriority>
+            <skillRequirements>
+                <Crafting>5</Crafting>
+            </skillRequirements>
+        </recipeMaker>
+        <costList>
+            <Penoxycyline>1</Penoxycyline>
+            <Devilstrand>2</Devilstrand>
+        </costList>
+
+        <comps>
+            <li Class="CompProperties_Drug">
+                <chemical>P42_Allercure</chemical>
+                <listOrder>990</listOrder>
+                <overdoseSeverityOffset>0.08~0.14</overdoseSeverityOffset>
+                <addictiveness>0.03</addictiveness>
+                <existingAddictionSeverityOffset>0.32</existingAddictionSeverityOffset>
+                <needLevelOffset>0.9</needLevelOffset>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef ParentName="ResourceBase">
+        <defName>P42_AntishockInjector</defName>
+        <label>antishock injector</label>
+        <description>A potent emergency treatment that forcefully and violently regulates someones
+            bodily functions.
+            \n\nThe injection will instantly heal the user from an anaphylactic shock and remove all
+            allergen buildup, toxic buildup, food poisoning, heatstroke and hypothermia. It's
+            unpleasant and
+            induces a boosting and painful state for a while.
+            \n\nSide effects can include nausea and in very rare cases also chemical damage or heart
+            attacks.</description>
+        <graphicData>
+            <texPath>Things/Item/Drug/AntishockInjector</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+
+        <stackLimit>5</stackLimit>
+        <thingClass>ThingWithComps</thingClass>
+        <category>Item</category>
+        <techLevel>Industrial</techLevel>
+        <thingCategories>
+            <li>Drugs</li>
+        </thingCategories>
+        <useHitPoints>true</useHitPoints>
+        <thingSetMakerTags>
+            <li>RewardStandardLowFreq</li>
+        </thingSetMakerTags>
+
+        <statBases>
+            <WorkToMake>3200</WorkToMake>
+            <MarketValue>390</MarketValue>
+            <MaxHitPoints>60</MaxHitPoints>
+            <Mass>0.1</Mass>
+            <DeteriorationRate>3.0</DeteriorationRate>
+            <Flammability>0.2</Flammability>
+        </statBases>
+
+        <tradeTags>
+            <li>ExoticMisc</li>
+            <li>Serum</li>
+        </tradeTags>
+        <tradeability>Sellable</tradeability>
+
+        <recipeMaker>
+            <researchPrerequisite>P42_AllergyTreatments</researchPrerequisite>
+            <recipeUsers>
+                <li>DrugLab</li>
+            </recipeUsers>
+            <displayPriority>500</displayPriority>
+            <skillRequirements>
+                <Crafting>8</Crafting>
+                <Medical>5</Medical>
+            </skillRequirements>
+        </recipeMaker>
+        <costList>
+            <P42_Allercure>4</P42_Allercure>
+            <MedicineIndustrial>4</MedicineIndustrial>
+            <GoJuice>2</GoJuice>
+            <Devilstrand>10</Devilstrand>
+        </costList>
+
+        <comps>
+            <li Class="CompProperties_Usable">
+                <useJob>UseItem</useJob>
+                <useLabel>Use {0_label}</useLabel>
+                <useDuration>180</useDuration>
+                <showUseGizmo>true</showUseGizmo>
+            </li>
+            <li Class="CompProperties_UseEffect">
+                <compClass>P42_Allergies.CompUseEffect_AntishockInjector</compClass>
+            </li>
+            <li Class="CompProperties_UseEffectPlaySound">
+                <soundOnUsed>MechSerumUsed</soundOnUsed>
+            </li>
+            <li Class="CompProperties_UseEffectDestroySelf" />
+
+            <li Class="IngestionOutcomeDoer_GiveHediff">
+                <hediffDef>AntishockInjectorHigh</hediffDef>
+                <severity>1.0</severity>
+            </li>
+        </comps>
+
+    </ThingDef>
+</Defs>
