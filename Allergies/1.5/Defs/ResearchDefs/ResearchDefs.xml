@@ -3,13 +3,12 @@
   <ResearchProjectDef>
     <defName>P42_AllergyTreatments</defName>
     <label>allergy treatments</label>
-    <description>Produce drugs that can help suppress and heal allergies, as well as deal with
-      allergic reactions.</description>
+    <description>Produce drugs that can help suppress and heal allergies, as well as deal with allergic reactions. afaf af sad as faf asf safas fsa fasf saf as fasf saf saf sud houfhs f sdfosdfosdfsdf
+      \n\nAllergy treatment drugs are based on penoxycyline and berries and require them as ingredients for production.</description>
     <baseCost>900</baseCost>
     <techLevel>Industrial</techLevel>
     <prerequisites>
       <li>PenoxycylineProduction</li>
-      <li>Devilstrand</li>
     </prerequisites>
     <researchViewX>5.00</researchViewX>
     <researchViewY>2.40</researchViewY>

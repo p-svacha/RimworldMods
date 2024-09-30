@@ -3,12 +3,9 @@
     <ThingDef ParentName="MakeableDrugPillBase">
         <defName>P42_Allercure</defName>
         <label>allercure</label>
-        <description>A specialized drug used to temporarily suppress allergic sensitivity and reduce
-            allergen buildup.
-            \n\nIf consumed regularly over a long period of time, it may reduce allergy severity or
-            even heal allergies completely.
-            \n\nAllercure can cause an addiction and in very rare cases it can cause an anaphylactic
-            shock.</description>
+        <description>A specialized drug used to temporarily suppress allergic sensitivity and reduce allergen buildup.
+            \n\nIf consumed regularly over a long period of time, it may reduce allergy severity or even heal allergies completely.
+            \n\nAllercure can cause an addiction and in very rare cases it can cause an anaphylactic shock.</description>
         <descriptionHyperlinks>
             <HediffDef>P42_AllercureHigh</HediffDef>
             <HediffDef>P42_AllercureAddiction</HediffDef>
@@ -25,7 +22,7 @@
 
         <statBases>
             <WorkToMake>800</WorkToMake>
-            <MarketValue>29.5</MarketValue>
+            <MarketValue>25</MarketValue>
             <Mass>0.01</Mass>
             <Flammability>0.7</Flammability>
         </statBases>
@@ -66,7 +63,7 @@
         </recipeMaker>
         <costList>
             <Penoxycyline>1</Penoxycyline>
-            <Devilstrand>2</Devilstrand>
+            <RawBerries>4</RawBerries>
         </costList>
 
         <comps>
@@ -84,14 +81,9 @@
     <ThingDef ParentName="ResourceBase">
         <defName>P42_AntishockInjector</defName>
         <label>antishock injector</label>
-        <description>A potent emergency treatment that forcefully and violently regulates someones
-            bodily functions.
-            \n\nThe injection will instantly heal the user from an anaphylactic shock and remove all
-            allergen buildup, toxic buildup, food poisoning, heatstroke and hypothermia. It's
-            unpleasant and
-            induces a boosting and painful state for a while.
-            \n\nSide effects can include nausea and in very rare cases also chemical damage or heart
-            attacks.</description>
+        <description>A potent emergency treatment that forcefully and violently regulates someones bodily functions.
+            \n\nThe injection will instantly heal the user from an anaphylactic shock and remove all allergen buildup, toxic buildup, food poisoning, heatstroke and hypothermia. It's unpleasant and induces a boosting and painful state for a while.
+            \n\nSide effects can include nausea and in very rare cases also chemical damage or heart attacks.</description>
         <graphicData>
             <texPath>Things/Item/Drug/AntishockInjector</texPath>
             <graphicClass>Graphic_Single</graphicClass>
@@ -111,7 +103,7 @@
 
         <statBases>
             <WorkToMake>3200</WorkToMake>
-            <MarketValue>390</MarketValue>
+            <MarketValue>610</MarketValue>
             <MaxHitPoints>60</MaxHitPoints>
             <Mass>0.1</Mass>
             <DeteriorationRate>3.0</DeteriorationRate>
@@ -132,14 +124,14 @@
             <displayPriority>500</displayPriority>
             <skillRequirements>
                 <Crafting>8</Crafting>
-                <Medical>5</Medical>
+                <Medicine>5</Medicine>
             </skillRequirements>
         </recipeMaker>
         <costList>
             <P42_Allercure>4</P42_Allercure>
             <MedicineIndustrial>4</MedicineIndustrial>
-            <GoJuice>2</GoJuice>
-            <Devilstrand>10</Devilstrand>
+            <GoJuice>4</GoJuice>
+            <RawBerries>20</RawBerries>
         </costList>
 
         <comps>
@@ -156,11 +148,6 @@
                 <soundOnUsed>MechSerumUsed</soundOnUsed>
             </li>
             <li Class="CompProperties_UseEffectDestroySelf" />
-
-            <li Class="IngestionOutcomeDoer_GiveHediff">
-                <hediffDef>AntishockInjectorHigh</hediffDef>
-                <severity>1.0</severity>
-            </li>
         </comps>
 
     </ThingDef>

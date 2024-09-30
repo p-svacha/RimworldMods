@@ -12,8 +12,7 @@
       </li>
       <li>
         <label>annoying allergies</label>
-        <description>These allergies are starting to bothering me. It’s making it hard to breathe
-          and concentrate.</description>
+        <description>These allergies are starting to bothering me. It’s making it hard to breathe and concentrate.</description>
         <baseMoodEffect>-4</baseMoodEffect>
       </li>
       <li>
@@ -29,8 +28,7 @@
       </li>
       <li>
         <label>life-threatening allergy</label>
-        <description>This allergic reaction is severe and could be fatal if untreated. I can barely
-          stay conscious.</description>
+        <description>This allergic reaction is severe and could be fatal if untreated. I can barely stay conscious.</description>
         <baseMoodEffect>-15</baseMoodEffect>
       </li>
     </stages>
@@ -60,26 +58,40 @@
     <stages>
       <li>
         <label>feeling good from allercure</label>
-        <description>I'm feeling better thanks to allercure. My allergies are under control, and I
-          have a nice, calming sensation.</description>
+        <description>I'm feeling better thanks to allercure. My allergies are under control, and I have a nice, calming sensation.</description>
         <baseMoodEffect>5</baseMoodEffect>
       </li>
     </stages>
   </ThoughtDef>
 
   <ThoughtDef>
-    <defName>P42_AntishockInjection</defName>
+    <defName>P42_AntishockBoost</defName>
     <workerClass>ThoughtWorker_Hediff</workerClass>
-    <hediff>P42_AntishockInjectionHigh</hediff>
+    <hediff>P42_AntishockInjectorHigh</hediff>
     <validWhileDespawned>true</validWhileDespawned>
     <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
     <stages>
       <li>
-        <label>antishock injection</label>
-        <description>That injection hit hard. My stomach feels like it's tied in knots, but at least
-          I’m still alive. I just hope the benefits are worth the queasiness.</description>
-        <baseMoodEffect>-3</baseMoodEffect>
+        <label>antishock boost</label>
+        <description>That boost from the antishock injection is quite something, I can really feel the go-juice in there.</description>
+        <baseMoodEffect>3</baseMoodEffect>
       </li>
     </stages>
   </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_AntishockInjection</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>1.2</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.5</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>antishock injection</label>
+        <description>That injection hit hard. My stomach feels like it's tied in knots, but at least I’m still alive. I just hope the benefits are worth the queasiness.</description>
+        <baseMoodEffect>-9</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
 </Defs>

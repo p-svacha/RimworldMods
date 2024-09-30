@@ -4,8 +4,7 @@
     <defName>P42_SkinRash</defName>
     <label>skin rash</label>
     <labelNoun>a skin rash</labelNoun>
-    <description>A rash caused by an allergic reaction, making the affected skin red and irritated.
-      It’s painful and unsightly.</description>
+    <description>A rash caused by an allergic reaction, making the affected skin red and irritated. It’s painful and unsightly.</description>
     <hediffClass>Hediff_Injury</hediffClass>
     <tendable>true</tendable>
     <displayWound>true</displayWound>
@@ -17,24 +16,46 @@
       <li Class="HediffCompProperties_GetsPermanent">
         <permanentLabel>skin rash scar</permanentLabel>
       </li>
-      <li Class="HediffCompProperties_HealPermanentWounds" />
     </comps>
     <injuryProps>
       <painPerSeverity>0.008</painPerSeverity>
       <averagePainPerSeverityPermanent>0.004</averagePainPerSeverityPermanent>
       <bleedRate>0</bleedRate>
       <canMerge>false</canMerge>
-      <!-- todo: add beauty per severity property -->
     </injuryProps>
+
+    <stages>
+      <li>
+        <statOffsets>
+          <PawnBeauty>-0.2</PawnBeauty>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>2</minSeverity>
+        <statOffsets>
+          <PawnBeauty>-0.4</PawnBeauty>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>4</minSeverity>
+        <statOffsets>
+          <PawnBeauty>-0.6</PawnBeauty>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>6</minSeverity>
+        <statOffsets>
+          <PawnBeauty>-0.8</PawnBeauty>
+        </statOffsets>
+      </li>
+    </stages>
   </HediffDef>
 
   <HediffDef>
     <defName>P42_AnaphylacticShock</defName>
     <label>anaphylactic shock</label>
     <labelNoun>an anaphylactic shock</labelNoun>
-    <description>A severe and potentially fatal allergic reaction. It involves difficulty breathing,
-      a rapid drop in blood pressure, and loss of consciousness. Immediate medical treatment is
-      crucial to prevent death.</description>
+    <description>A severe and potentially fatal allergic reaction. It involves difficulty breathing, a rapid drop in blood pressure, and loss of consciousness. Immediate medical treatment is crucial to prevent death.</description>
     <hediffClass>P42_Allergies.Hediff_AnaphylacticShock</hediffClass>
     <defaultLabelColor>(1, 0.2, 0.2)</defaultLabelColor>
     <initialSeverity>0.4</initialSeverity>
@@ -52,7 +73,7 @@
           </li>
           <li>
             <capacity>Breathing</capacity>
-            <postFactor>-0.30</postFactor>
+            <offset>-0.30</offset>
           </li>
         </capMods>
       </li>
@@ -68,7 +89,7 @@
           </li>
           <li>
             <capacity>Breathing</capacity>
-            <postFactor>-0.40</postFactor>
+            <offset>-0.40</offset>
           </li>
         </capMods>
       </li>

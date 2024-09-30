@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-    <MessageAllergyHealed>{PAWN_labelShort}'s {2} has healed. Cause: {0}</MessageAllergyHealed>
+    <P42_MessageAllergyHealed>{1}'s {2} has healed. Cause: {0}</P42_MessageAllergyHealed>
 </LanguageData>

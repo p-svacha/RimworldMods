@@ -13,6 +13,9 @@ namespace P42_Allergies
         private const int ReactionCheckInterval = 300;
         private const float InitialAnaShockSeverityAtMaxSeverity = 0.6f;
 
+        private const float SkinRashMinSeverity = 2f;
+        private const float SkinRashMaxSeverity = 7f;
+
         public override void Tick()
         {
             base.Tick();

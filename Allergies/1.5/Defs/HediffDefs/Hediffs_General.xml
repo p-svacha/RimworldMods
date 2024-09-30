@@ -22,17 +22,15 @@
     <defName>P42_AllergenBuildup</defName>
     <label>allergen buildup</label>
     <description>The immune system is currently overloaded by exposure to allergens.
-      \nThe buildup of these substances can cause a range of uncomfortable symptoms, from mild
-      irritation to life-threatening reactions.
-      \nWithout treatment or removal from the allergen source, the condition will continue to
-      worsen, potentially leading to respiratory distress, or even anaphylactic shock.</description>
+      \nThe buildup of these substances can cause a range of uncomfortable symptoms, from mild irritation to life-threatening reactions.
+      \nWithout treatment or removal from the allergen source, the condition will continue to worsen, potentially leading to respiratory distress, or even anaphylactic shock.</description>
     <defaultLabelColor>(1.0, 1.0, 0.6)</defaultLabelColor>
     <initialSeverity>0.001</initialSeverity>
     <maxSeverity>1</maxSeverity>
     <alwaysShowSeverity>true</alwaysShowSeverity>
     <hediffClass>P42_Allergies.Hediff_AllergenBuildup</hediffClass>
     <comps>
-      <li Class="P42_HediffCompProperties_SeverityPerDay">
+      <li Class="HediffCompProperties_SeverityPerDay">
         <severityPerDay>-0.35</severityPerDay>
       </li>
     </comps>
@@ -209,10 +207,6 @@
           <li>
             <capacity>Sight</capacity>
             <offset>-0.35</offset>
-          </li>
-          <li>
-            <capacity>BloodFiltration</capacity>
-            <offset>-0.20</offset>
           </li>
         </capMods>
         <hediffGivers>

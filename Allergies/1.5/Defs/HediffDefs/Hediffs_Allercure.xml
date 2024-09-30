@@ -5,8 +5,7 @@
     <hediffClass>Hediff_High</hediffClass>
     <label>allercure</label>
     <labelNoun>an allercure concentration</labelNoun>
-    <description>Active allercure concentration in the body. Temporarily suppresses allergic
-      reactions and induces a slightly euphoric feeling.</description>
+    <description>Active allercure concentration in the body. Temporarily suppresses allergic reactions and induces a slightly euphoric feeling.</description>
     <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
     <scenarioCanAdd>true</scenarioCanAdd>
     <maxSeverity>1.0</maxSeverity>
@@ -16,14 +15,14 @@
         <severityPerDay>-0.9</severityPerDay>
         <showHoursToRecover>true</showHoursToRecover>
       </li>
-      <comps>
-        <li Class="P42_Allergies.HediffComp_HealAllergiesOverTime" />
-      </comps>
+      <li>
+        <compClass>P42_Allergies.HediffComp_HealAllergiesOverTime</compClass>
+      </li>
     </comps>
     <stages>
       <li>
         <statFactors>
-          <AllergicSensitivity>0.5</AllergicSensitivity>
+          <P42_AllergicSensitivity>0.5</P42_AllergicSensitivity>
         </statFactors>
       </li>
     </stages>
@@ -32,13 +31,10 @@
   <HediffDef ParentName="AddictionBase">
     <defName>P42_AllercureAddiction</defName>
     <label>allercure addiction</label>
-    <description>A reliance of the body on allercure to maintain normal functionality. Without
-      regular doses, withdrawal symptoms manifest, including impaired breathing and heightened
-      allergic sensitivity.
-      \nHowever, extended abstinence will force the brain to adapt back to its normal state,
-      resolving the addiction.</description>
+    <description>A reliance of the body on allercure to maintain normal functionality. Without regular doses, withdrawal symptoms manifest, including impaired breathing and heightened allergic sensitivity.
+      \nHowever, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
     <hediffClass>Hediff_Addiction</hediffClass>
-    <causesNeed>Chemical_Smokeleaf</causesNeed>
+    <causesNeed>P42_Chemical_Allercure</causesNeed>
     <comps>
       <li Class="HediffCompProperties_SeverityPerDay">
         <severityPerDay>-0.0333</severityPerDay>
@@ -61,7 +57,7 @@
           </li>
         </capMods>
         <statFactors>
-          <AllergicSensitivity>1.50</AllergicSensitivity>
+          <P42_AllergicSensitivity>1.50</P42_AllergicSensitivity>
         </statFactors>
       </li>
     </stages>
