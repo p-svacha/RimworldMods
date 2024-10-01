@@ -7,6 +7,9 @@
     <makesSickThought>false</makesSickThought>
     <hediffClass>P42_Allergies.Hediff_Allergy</hediffClass>
     <initialSeverity>0.001</initialSeverity>
+    <injuryProps>
+      <canMerge>false</canMerge>
+    </injuryProps>
     <stages>
       <li>
         <label>hidden</label>
@@ -50,8 +53,10 @@
       <li Class="P42_Allergies.AllergenBuildupStage">
         <label>minor</label>
         <minSeverity>0.2</minSeverity>
-        <sneezingFitMtbDays>8</sneezingFitMtbDays>
+        <sneezingFitMtbDays>6</sneezingFitMtbDays>
         <skinRashMtbDays>8</skinRashMtbDays>
+        <pinkEyeMtbDays>8</pinkEyeMtbDays>
+        <throatTightnessMtbDays>20</throatTightnessMtbDays>
         <statOffsets>
           <WorkSpeedGlobal>-0.10</WorkSpeedGlobal>
           <RestFallRateFactor>0.10</RestFallRateFactor>
@@ -71,8 +76,10 @@
         <label>moderate</label>
         <minSeverity>0.40</minSeverity>
         <painOffset>0.05</painOffset>
-        <sneezingFitMtbDays>4</sneezingFitMtbDays>
-        <skinRashMtbDays>3</skinRashMtbDays>
+        <sneezingFitMtbDays>3</sneezingFitMtbDays>
+        <skinRashMtbDays>4</skinRashMtbDays>
+        <pinkEyeMtbDays>4</pinkEyeMtbDays>
+        <throatTightnessMtbDays>7</throatTightnessMtbDays>
         <statOffsets>
           <WorkSpeedGlobal>-0.20</WorkSpeedGlobal>
           <RestFallRateFactor>0.20</RestFallRateFactor>
@@ -98,6 +105,13 @@
           <li Class="HediffGiver_Random">
             <hediff>P42_AnaphylacticShock</hediff>
             <mtbDays>150</mtbDays>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_ChronicSinusitis</hediff>
+            <mtbDays>250</mtbDays>
+            <partsToAffect>
+              <li>Nose</li>
+            </partsToAffect>
           </li>
         </hediffGivers>
         <mentalStateGivers>
@@ -128,8 +142,10 @@
         <minSeverity>0.60</minSeverity>
         <painOffset>0.15</painOffset>
         <vomitMtbDays>5</vomitMtbDays>
-        <sneezingFitMtbDays>1</sneezingFitMtbDays>
+        <sneezingFitMtbDays>0.7</sneezingFitMtbDays>
         <skinRashMtbDays>1</skinRashMtbDays>
+        <pinkEyeMtbDays>1</pinkEyeMtbDays>
+        <throatTightnessMtbDays>3</throatTightnessMtbDays>
         <statOffsets>
           <WorkSpeedGlobal>-0.30</WorkSpeedGlobal>
           <RestFallRateFactor>0.30</RestFallRateFactor>
@@ -160,6 +176,13 @@
             <hediff>P42_AnaphylacticShock</hediff>
             <mtbDays>20</mtbDays>
           </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_ChronicSinusitis</hediff>
+            <mtbDays>35</mtbDays>
+            <partsToAffect>
+              <li>Nose</li>
+            </partsToAffect>
+          </li>
         </hediffGivers>
         <mentalStateGivers>
           <li>
@@ -189,8 +212,10 @@
         <minSeverity>0.80</minSeverity>
         <painOffset>0.25</painOffset>
         <vomitMtbDays>2</vomitMtbDays>
-        <sneezingFitMtbDays>0.5</sneezingFitMtbDays>
+        <sneezingFitMtbDays>0.35</sneezingFitMtbDays>
         <skinRashMtbDays>0.5</skinRashMtbDays>
+        <pinkEyeMtbDays>0.5</pinkEyeMtbDays>
+        <throatTightnessMtbDays>1.5</throatTightnessMtbDays>
         <statOffsets>
           <WorkSpeedGlobal>-0.50</WorkSpeedGlobal>
           <RestFallRateFactor>0.50</RestFallRateFactor>
@@ -220,6 +245,13 @@
           <li Class="HediffGiver_Random">
             <hediff>P42_AnaphylacticShock</hediff>
             <mtbDays>5</mtbDays>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_ChronicSinusitis</hediff>
+            <mtbDays>8</mtbDays>
+            <partsToAffect>
+              <li>Nose</li>
+            </partsToAffect>
           </li>
         </hediffGivers>
         <mentalStateGivers>

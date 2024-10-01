@@ -27,13 +27,12 @@ namespace P42_Allergies
 
         private static Dictionary<FoodType, float> FoodTypeCommonalities = new Dictionary<FoodType, float>()
         {
-            { FoodType.Fruit, 1.2f },
+            { FoodType.Produce, 1.2f },
             { FoodType.Meat, 0.8f },
             { FoodType.Milk, 1.5f },
             { FoodType.Egg, 1.3f },
             { FoodType.Fungus, 0.7f },
             { FoodType.Plants, 0.7f },
-            { FoodType.Processed, 0.6f },
             { FoodType.Kibble, 0.4f },
         };
 
@@ -41,28 +40,60 @@ namespace P42_Allergies
 
         #region Allergy generation
 
-        public static Allergy CreateRandomAllergyFor(Hediff_Allergy hediff, Pawn pawn)
+        public static void GenerateAndApplyRandomAllergy(Pawn pawn)
         {
-            // Choose a random allergy type
+            // Get existing allergies
+            List<Hediff_Allergy> existingAllergies = new List<Hediff_Allergy>();
+            pawn.health.hediffSet.GetHediffs<Hediff_Allergy>(ref existingAllergies);
+
+            // Create a random allergy that the pawn does not yet have
+            int tries = 0;
+            int maxTries = 20;
+            Allergy newAllergy = null;
+            do
+            {
+                tries++;
+                newAllergy = CreateRandomAllergy();
+            }
+            while (tries < maxTries && existingAllergies.Any(x => x.GetAllergy().IsDuplicateOf(newAllergy)));
+
+            if(tries == maxTries)
+            {
+                Log.Message($"[Allergies Mod] Aborting allergy creation on {pawn.Name}.");
+                return;
+            }
+
+
+            // Create new hediff
+            Hediff_Allergy allergyHediff = (Hediff_Allergy)HediffMaker.MakeHediff(HediffDef.Named("P42_AllergyHediff"), pawn);
+            allergyHediff.Severity = 0.05f;
+            allergyHediff.SetAllergy(newAllergy);
+            newAllergy.Init(allergyHediff);
+            pawn.health.AddHediff(allergyHediff);
+            Log.Message($"[Allergies Mod] Initialized a new allergy: {newAllergy.TypeLabel} with severity {newAllergy.Severity} on {pawn.Name}.");
+        }
+
+        private static Allergy CreateRandomAllergy()
+        {
             AllergyTypeId chosenAllergyType = GetWeightedRandomElement(AllergyTypeCommonalities);
             AllergySeverity chosenAllergySeverity = GetWeightedRandomElement(AllergySeverityCommonalities);
 
-            Allergy newAllergy = CreateAllergy(hediff, chosenAllergyType, chosenAllergySeverity);
-
-            Log.Message($"[Allergies Mod] Initialized a new allergy: {newAllergy.TypeLabel} with severity {newAllergy.Severity} on {pawn.Name}");
+            Allergy newAllergy = CreateAllergyByType(chosenAllergyType);
+            newAllergy.Severity = chosenAllergySeverity;
             return newAllergy;
         }
 
-        private static Allergy CreateAllergy(Hediff_Allergy hediff, AllergyTypeId type, AllergySeverity severity)
+        private static Allergy CreateAllergyByType(AllergyTypeId type)
         {
             switch(type)
             {
                 case AllergyTypeId.FoodType:
-                    FoodType foodType = GetWeightedRandomElement(FoodTypeCommonalities);
-                    return new FoodTypeAllergy(hediff, severity, foodType);
+                    FoodTypeAllergy allergy = new FoodTypeAllergy();
+                    allergy.FoodType = GetWeightedRandomElement(FoodTypeCommonalities);
+                    return allergy;
 
-                case AllergyTypeId.Ingredient: return new IngredientAllergy(hediff, severity);
-                case AllergyTypeId.Animal: return new AnimalAllergy(hediff, severity);
+                case AllergyTypeId.Ingredient: return new IngredientAllergy();
+                case AllergyTypeId.Animal: return new AnimalAllergy();
             }
             throw new Exception();
         }
@@ -81,7 +112,8 @@ namespace P42_Allergies
                 tmpSum += kvp.Value;
                 if (rng < tmpSum) return kvp.Key;
             }
-            throw new System.Exception();
+            Log.Error($"[Allergies Mod] ERROR in GetWeightedRandomElement<T>");
+            return weightDictionary.Keys.First();
         }
 
         #endregion

@@ -12,18 +12,33 @@ namespace P42_Allergies
     {
         private Allergy Allergy;
 
-        // PostMake is called after the Hediff has been created by HediffMaker.
-        public override void PostMake()
-        {
-            base.PostMake();
-            Allergy = AllergyGenerator.CreateRandomAllergyFor(this, pawn);
-        }
-
         public override void Tick()
         {
             base.Tick();
             Allergy.Tick();
         }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Deep.Look(ref Allergy, "Allergy");
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && Allergy != null)
+            {
+                Allergy.Init(this); // Re-initialize after loading
+            }
+        }
+
+        public override bool TryMergeWith(Hediff other)
+        {
+            return false; // never merge allergies
+        }
+
+        public void SetAllergy(Allergy allergy)
+        {
+            Allergy = allergy;
+        }
+        public Allergy GetAllergy() => Allergy;
 
         public override string Label => Allergy.FullAllergyNameCap + " (" + Allergy.Severity.ToString().ToLower() + ")";
     }

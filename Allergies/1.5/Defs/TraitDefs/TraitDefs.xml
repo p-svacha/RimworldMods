@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <TraitDef>
+        <defName>P42_Allergy</defName>
+        <commonality>0.8</commonality>
+        <conflictingTraits>
+            <li>Immunity</li>
+        </conflictingTraits>
+
+        <degreeDatas>
+            <li>
+                <label>allergy-resistant</label>
+                <description>[PAWN_nameDef] has an immune system that is exceptional at identifying threats, rendering [PAWN_objective] completely impervious to allergies.</description>
+                <degree>1</degree>
+                <statOffsets>
+                    <ImmunityGainSpeed>0.10</ImmunityGainSpeed>
+                </statOffsets>
+                <statFactors>
+                    <P42_AllergicSensitivity>0</P42_AllergicSensitivity>
+                </statFactors>
+                <marketValueFactorOffset>0.05</marketValueFactorOffset>
+            </li>
+
+            <li>
+                <label>allergy-prone</label>
+                <description>[PAWN_nameDef] has an overactive immune system that often mistakenly identifies harmless substances as threats, making [PAWN_objective] more susceptible to allergies. [PAWN_pronoun] develops allergies frequently and reacts strongly to them.</description>
+                <degree>-1</degree>
+                <skillGains>
+                    <Medicine>2</Medicine>
+                </skillGains>
+                <statOffsets>
+                    <ImmunityGainSpeed>0.10</ImmunityGainSpeed>
+                    <P42_AllergicSensitivity>0.50</P42_AllergicSensitivity>
+                </statOffsets>
+                <possessions>
+                    <P42_Allercure>2~15</P42_Allercure>
+                    <Penoxycyline>5~10</Penoxycyline>
+                    <MedicineHerbal>5~10</MedicineHerbal>
+                    <RawBerries>5~10</RawBerries>
+                    <P42_AntishockInjector />
+                </possessions>
+                <marketValueFactorOffset>-0.05</marketValueFactorOffset>
+            </li>
+        </degreeDatas>
+    </TraitDef>
+
+    
+</Defs>

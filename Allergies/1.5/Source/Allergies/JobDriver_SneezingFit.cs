@@ -11,11 +11,12 @@ namespace P42_Allergies
 {
     public class JobDriver_SneezingFit : JobDriver
     {
-        private const int MIN_DURATION = 150; // 150 ticks = 2.5 seconds
-        private const int MAX_DURATION = 600; // 600 ticks = 10 seconds
+        private const int MinSneezeFitDuration = 150; // 150 ticks = 2.5 seconds
+        private const int MaxSneezeFitDuration = 600; // 600 ticks = 10 seconds
 
-		private const float SINGLE_SNEEZE_DURATION = 150;
-		private const float REST_FALL_PER_SNEEZE = 0.03f;
+		private const float SingleSneezeDuration = 150;
+		private const float RestFallPerSneeze = 0.03f;
+		private float SlimeChancePerSneeze = 0.4f;
 
 		private int ticksLeft;
 
@@ -35,7 +36,7 @@ namespace P42_Allergies
 			Toil toil = ToilMaker.MakeToil("MakeNewToils");
 			toil.initAction = delegate
 			{
-				ticksLeft = Rand.Range(MIN_DURATION, MAX_DURATION);
+				ticksLeft = Rand.Range(MinSneezeFitDuration, MaxSneezeFitDuration);
 				int num = 0;
 				IntVec3 intVec;
 				do
@@ -62,13 +63,17 @@ namespace P42_Allergies
 
 			toil.tickAction = delegate
 			{	
-				if (ticksLeft % SINGLE_SNEEZE_DURATION == (SINGLE_SNEEZE_DURATION - 1)) // Single sneeze
+				if (ticksLeft % SingleSneezeDuration == (SingleSneezeDuration - 1)) // Single sneeze
 				{
-					FilthMaker.TryMakeFilth(job.targetA.Cell, base.Map, ThingDefOf.Filth_Slime, pawn.LabelIndefinite());
-					Need_Rest need_Rest = pawn.needs?.TryGetNeed<Need_Rest>();
-					if (need_Rest != null && need_Rest.CurLevelPercentage > REST_FALL_PER_SNEEZE)
+					if (Rand.Chance(SlimeChancePerSneeze))
 					{
-						need_Rest.CurLevel -= REST_FALL_PER_SNEEZE;
+						FilthMaker.TryMakeFilth(job.targetA.Cell, base.Map, ThingDefOf.Filth_Slime, pawn.LabelIndefinite());
+					}
+
+					Need_Rest need_Rest = pawn.needs?.TryGetNeed<Need_Rest>();
+					if (need_Rest != null && need_Rest.CurLevelPercentage > RestFallPerSneeze)
+					{
+						need_Rest.CurLevel -= RestFallPerSneeze;
 					}
 				}
 				ticksLeft--;

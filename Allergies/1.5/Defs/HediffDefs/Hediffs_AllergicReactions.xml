@@ -27,25 +27,19 @@
     <stages>
       <li>
         <statOffsets>
-          <PawnBeauty>-0.2</PawnBeauty>
+          <PawnBeauty>-0.1</PawnBeauty>
         </statOffsets>
       </li>
       <li>
         <minSeverity>2</minSeverity>
         <statOffsets>
-          <PawnBeauty>-0.4</PawnBeauty>
+          <PawnBeauty>-0.2</PawnBeauty>
         </statOffsets>
       </li>
       <li>
         <minSeverity>4</minSeverity>
         <statOffsets>
-          <PawnBeauty>-0.6</PawnBeauty>
-        </statOffsets>
-      </li>
-      <li>
-        <minSeverity>6</minSeverity>
-        <statOffsets>
-          <PawnBeauty>-0.8</PawnBeauty>
+          <PawnBeauty>-0.3</PawnBeauty>
         </statOffsets>
       </li>
     </stages>
@@ -96,6 +90,83 @@
       <li>
         <label>fatal</label>
         <minSeverity>1</minSeverity>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="DiseaseBase">
+    <defName>P42_TightThroat</defName>
+    <label>tight throat</label>
+    <labelNoun>a tight throat</labelNoun>
+    <description>A tight feeling in the throat.</description>
+    <initialSeverity>0.4</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <alwaysShowSeverity>false</alwaysShowSeverity>
+
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+
+    <stages>
+      <li>
+        <partEfficiencyOffset>-0.25</partEfficiencyOffset>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="DiseaseBase">
+    <defName>P42_PinkEye</defName>
+    <label>pink eye</label>
+    <description>The eye is swollen and irritated, making it itch and burn.</description>
+    <initialSeverity>0.4</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <alwaysShowSeverity>false</alwaysShowSeverity>
+
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+
+    <stages>
+      <li>
+        <painOffset>0.05</painOffset>
+        <partEfficiencyOffset>-0.25</partEfficiencyOffset>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="ChronicDiseaseBase">
+    <defName>P42_ChronicSinusitis</defName>
+    <label>chronic sinusitis</label>
+    <description>Chronicly inflamed and swollen sinuses.</description>
+
+    <aptitudes>
+      <Cooking>-3</Cooking>
+      <Social>-1</Social>
+    </aptitudes>
+
+    <stages>
+      <li>
+        <painOffset>0.05</painOffset>
+        <capMods>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.15</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.05</WorkSpeedGlobal>
+          <RestFallRateFactor>0.05</RestFallRateFactor>
+        </statOffsets>
       </li>
     </stages>
   </HediffDef>

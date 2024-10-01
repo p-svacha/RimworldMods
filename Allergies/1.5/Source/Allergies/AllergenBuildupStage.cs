@@ -11,5 +11,7 @@ namespace P42_Allergies
     {
         public float sneezingFitMtbDays = -1f;
         public float skinRashMtbDays = -1f;
+        public float throatTightnessMtbDays = -1f;
+        public float pinkEyeMtbDays = -1f;
     }
 }

@@ -10,13 +10,12 @@ namespace P42_Allergies
 {
     public enum FoodType
     {
-        Fruit,
+        Produce,
         Meat,
         Milk,
         Egg,
         Fungus,
         Plants,
-        Processed,
         Kibble
     }
 
@@ -28,14 +27,13 @@ namespace P42_Allergies
             {
                 switch(FoodType)
                 {
-                    case FoodType.Fruit: return "fruit";
-                    case FoodType.Meat: return "meat";
-                    case FoodType.Milk: return "milk";
-                    case FoodType.Egg: return "egg";
-                    case FoodType.Fungus: return "fungus";
-                    case FoodType.Plants: return "plant food";
-                    case FoodType.Processed: return "processed food";
-                    case FoodType.Kibble: return "kibble";
+                    case FoodType.Produce: return "P42_AllergyFoodType_Produce".Translate();
+                    case FoodType.Meat: return "P42_AllergyFoodType_Meat".Translate();
+                    case FoodType.Milk: return "P42_AllergyFoodType_Milk".Translate();
+                    case FoodType.Egg: return "P42_AllergyFoodType_Egg".Translate();
+                    case FoodType.Fungus: return "P42_AllergyFoodType_Fungus".Translate();
+                    case FoodType.Plants: return "P42_AllergyFoodType_Plants".Translate();
+                    case FoodType.Kibble: return "P42_AllergyFoodType_Kibble".Translate();
                     default: return "???";
                 }
             }
@@ -47,54 +45,43 @@ namespace P42_Allergies
             {
                 switch (FoodType)
                 {
-                    case FoodType.Fruit: return "fruits";
-                    case FoodType.Meat: return "meat";
-                    case FoodType.Milk: return "milk";
-                    case FoodType.Egg: return "eggs";
-                    case FoodType.Fungus: return "fungi";
-                    case FoodType.Plants: return "plant food";
-                    case FoodType.Processed: return "processed food";
-                    case FoodType.Kibble: return "kibble";
+                    case FoodType.Produce: return "P42_AllergyFoodType_ProducePlural".Translate();
+                    case FoodType.Meat: return "P42_AllergyFoodType_MeatPlural".Translate();
+                    case FoodType.Milk: return "P42_AllergyFoodType_MilkPlural".Translate();
+                    case FoodType.Egg: return "P42_AllergyFoodType_EggPlural".Translate();
+                    case FoodType.Fungus: return "P42_AllergyFoodType_FungusPlural".Translate();
+                    case FoodType.Plants: return "P42_AllergyFoodType_PlantsPlural".Translate();
+                    case FoodType.Kibble: return "P42_AllergyFoodType_KibblePlural".Translate();
                     default: return "???";
                 }
             }
         }
 
-        public FoodType FoodType { get; set; }
-
-        // Tick
-        private int tickCounter_itemCheck = 0; // Track the number of ticks since the last execution.
-        private const int tickInterval_ItemCheck = 180; // Number of ticks between logic executions (2500 ticks = 1 in-game hour).
-
-        public FoodTypeAllergy(Hediff_Allergy hediff, AllergySeverity severity, FoodType foodType) : base(hediff, severity)
-        {
-            FoodType = foodType;
-        }
+        public FoodType FoodType;
 
         public override void Tick()
         {
             base.Tick();
-            tickCounter_itemCheck++;
 
-            if(tickCounter_itemCheck >= tickInterval_ItemCheck)
+            if(Pawn.IsHashIntervalTick(ExposureCheckInterval))
             {
-
-                tickCounter_itemCheck = 0;
-
                 // PIE-checks
                 DoPieCheck(GetIdentifier());
             }
         }
 
+        public override bool IsDuplicateOf(Allergy otherAllergy)
+        {
+            return (otherAllergy is FoodTypeAllergy otherFoodTypeAllergy && otherFoodTypeAllergy.FoodType == FoodType);
+        }
+
         private bool HasFoodTypeFlag(Thing item, FoodTypeFlags flag)
         {
-            return item.def.IsIngestible && item.def.ingestible.HumanEdible &&
-                (item.def.ingestible.foodType & flag) != 0;
+            return item.def.IsIngestible && ((item.def.ingestible.foodType & flag) != 0);
         }
         private bool HasFoodTypeFlags(Thing item, FoodTypeFlags[] flags)
         {
             if (!item.def.IsIngestible) return false;
-            if (!item.def.ingestible.HumanEdible) return false;
             foreach(FoodTypeFlags flag in flags)
             {
                 if((item.def.ingestible.foodType & flag) == 0) return false;
@@ -106,11 +93,10 @@ namespace P42_Allergies
         {
             switch(FoodType)
             {
-                case FoodType.Fruit: return IsFruit;
+                case FoodType.Produce: return IsProduce;
                 case FoodType.Meat: return IsMeat;
                 case FoodType.Fungus: return IsFungus;
                 case FoodType.Plants: return IsPlantFood;
-                case FoodType.Processed: return IsProcessed;
                 case FoodType.Kibble: return IsKibble;
                 case FoodType.Egg: return IsEgg;
                 case FoodType.Milk: return IsMilk;
@@ -118,9 +104,11 @@ namespace P42_Allergies
             throw new Exception("Type " + FoodType.ToString() + " not handled.");
         }
 
-        private bool IsFruit(Thing item)
+        private bool IsProduce(Thing item)
         {
-            return HasFoodTypeFlag(item, FoodTypeFlags.VegetableOrFruit);
+            if (!HasFoodTypeFlag(item, FoodTypeFlags.VegetableOrFruit)) return false;
+            if (HasFoodTypeFlag(item, FoodTypeFlags.Fungus)) return false;
+            return true;
         }
         private bool IsMeat(Thing item)
         {
@@ -149,6 +137,12 @@ namespace P42_Allergies
         private bool IsMilk(Thing item)
         {
             return HasFoodTypeFlags(item, new FoodTypeFlags[] { FoodTypeFlags.AnimalProduct, FoodTypeFlags.Fluid }) && item.def.defName.ToLower().Contains("milk");
+        }
+
+        protected override void ExposeExtraData()
+        {
+            base.ExposeExtraData();
+            Scribe_Values.Look(ref FoodType, "foodType");
         }
     }
 

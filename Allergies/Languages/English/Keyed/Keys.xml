@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+    <!-- Food Types -->
+    <P42_AllergyFoodType_Produce>produce</P42_AllergyFoodType_Produce>
+    <P42_AllergyFoodType_ProducePlural>produce (fruits and vegetables)</P42_AllergyFoodType_ProducePlural>
+
+    <P42_AllergyFoodType_Meat>meat</P42_AllergyFoodType_Meat>
+    <P42_AllergyFoodType_MeatPlural>meat</P42_AllergyFoodType_MeatPlural>
+
+    <P42_AllergyFoodType_Milk>milk</P42_AllergyFoodType_Milk>
+    <P42_AllergyFoodType_MilkPlural>milk</P42_AllergyFoodType_MilkPlural>
+
+    <P42_AllergyFoodType_Egg>egg</P42_AllergyFoodType_Egg>
+    <P42_AllergyFoodType_EggPlural>eggs</P42_AllergyFoodType_EggPlural>
+
+    <P42_AllergyFoodType_Fungus>fungus</P42_AllergyFoodType_Fungus>
+    <P42_AllergyFoodType_FungusPlural>mushrooms</P42_AllergyFoodType_FungusPlural>
+
+    <P42_AllergyFoodType_Plants>plant food</P42_AllergyFoodType_Plants>
+    <P42_AllergyFoodType_PlantsPlural>plant food</P42_AllergyFoodType_PlantsPlural>
+
+    <P42_AllergyFoodType_Kibble>kibble</P42_AllergyFoodType_Kibble>
+    <P42_AllergyFoodType_KibblePlural>kibble</P42_AllergyFoodType_KibblePlural>
+
+    <!-- Misc -->
     <P42_MessageAllergyHealed>{1}'s {2} has healed. Cause: {0}</P42_MessageAllergyHealed>
 </LanguageData>

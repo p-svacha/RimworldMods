@@ -11,6 +11,9 @@ namespace P42_Allergies
         public override string TypeLabel => "ingredient";
         public override string TypeLabelPlural => "ingredients";
 
-        public IngredientAllergy(Hediff_Allergy hediff, AllergySeverity severity) : base(hediff, severity) { }
+        public override bool IsDuplicateOf(Allergy otherAllergy)
+        {
+            return true;
+        }
     }
 }

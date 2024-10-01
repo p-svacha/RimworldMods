@@ -8,7 +8,7 @@ using Verse;
 
 namespace P42_Allergies
 {
-    public abstract class Allergy
+    public abstract class Allergy : IExposable
     {
         private Dictionary<AllergySeverity, float> SEVERITY_MULTIPLIER = new Dictionary<AllergySeverity, float>()
         {
@@ -25,13 +25,19 @@ namespace P42_Allergies
         public string FullAllergyNameCap => TypeLabel.CapitalizeFirst() + " allergy";
         public AllergySeverity Severity;
 
-        public Allergy(Hediff_Allergy hediff, AllergySeverity severity)
+        protected int ExposureCheckInterval = 200;
+
+        public void Init(Hediff_Allergy hediff)
         {
             AllergyHediff = hediff;
-            Severity = severity;
         }
 
         public virtual void Tick() { }
+
+        /// <summary>
+        /// Returns if two allergies are of the exact same type and subtype. Used to avoid generating duplicate allergies.
+        /// </summary>
+        public abstract bool IsDuplicateOf(Allergy otherAllergy);
 
         /// <summary>
         /// Executes the PIE (Passive Item Exposure) check for a certain item and increases allergen buildup accordingly.
@@ -59,7 +65,6 @@ namespace P42_Allergies
                 }
             }
         }
-
         protected void IncreaseAllergenBuildup(float baseAmount, string reasonForIncrease)
         {
             if (Pawn == null || Pawn.Dead) return;
@@ -68,45 +73,53 @@ namespace P42_Allergies
             float amount = baseAmount;
             amount *= SEVERITY_MULTIPLIER[Severity]; // Scale by allergy severity
             amount *= Pawn.GetStatValue(StatDef.Named("P42_AllergicSensitivity")); // Scale by allergic sensitivity stat
+            if (amount <= 0) return;
 
             // Try to get the allergen buildup hediff from the pawn's health
-            Hediff allergenBuildup = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllergenBuildup"));
+            Hediff existingAllergenBuildup = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllergenBuildup"));
 
             // If the hediff exists, increase its severity
-            if (allergenBuildup != null) allergenBuildup.Severity += amount;
+            if (existingAllergenBuildup != null) existingAllergenBuildup.Severity += amount;
             else
             {
                 // If the hediff is not present, add it to the pawn with the initial severity
                 Hediff newBuildup = HediffMaker.MakeHediff(HediffDef.Named("P42_AllergenBuildup"), Pawn);
                 newBuildup.Severity = amount;
                 Pawn.health.AddHediff(newBuildup);
+            }
 
-                // If the allergy has not been visible so far make it visible
-                if(!AllergyHediff.Visible)
+            // If the allergy has not been visible so far make it visible
+            if (!AllergyHediff.Visible)
+            {
+                AllergyHediff.Severity = 0.2f; // makes it visible
+
+                // Create a letter to notify the player of the newly discovered allergy
+                if (Pawn.IsColonistPlayerControlled)
                 {
-                    AllergyHediff.Severity = 0.2f; // makes it visible
+                    string letterLabel = "New Allergy Discovered";
+                    string letterTextStart = "";
 
-                    // Create a letter to notify the player of the newly discovered allergy
-                    if (Pawn.IsColonistPlayerControlled)
-                    {
-                        string letterLabel = "New Allergy Discovered";
-                        string letterTextStart = "";
+                    if (Severity == AllergySeverity.Mild)
+                        letterTextStart = $"When {reasonForIncrease}, {Pawn.NameShortColored} felt a mild irritation on {Pawn.Possessive()} skin.";
+                    if (Severity == AllergySeverity.Moderate)
+                        letterTextStart = $"When {reasonForIncrease}, {Pawn.NameShortColored} had to sneeze repeatedly and {Pawn.Possessive()} skin and eyes started to itch.";
+                    if (Severity == AllergySeverity.Severe)
+                        letterTextStart = $"When {reasonForIncrease}, {Pawn.NameShortColored} felt {Pawn.Possessive()} throat tightening, had to sneeze violently and {Pawn.Possessive()} eyes started to burn.";
 
-                        if (Severity == AllergySeverity.Mild)
-                            letterTextStart = $"When {reasonForIncrease}, {Pawn.NameShortColored} felt a mild irritation on {Pawn.Possessive()} skin.";
-                        if (Severity == AllergySeverity.Moderate)
-                            letterTextStart = $"When {reasonForIncrease}, {Pawn.NameShortColored} had to sneeze repeatedly and {Pawn.Possessive()} skin and eyes started to itch.";
-                        if (Severity == AllergySeverity.Severe)
-                            letterTextStart = $"When {reasonForIncrease}, {Pawn.NameShortColored} felt {Pawn.Possessive()} throat tightening, had to sneeze violently and {Pawn.Possessive()} eyes started to burn.";
+                    string letterTextEnd = $"\n\n{Pawn.NameShortColored} discovered that {Pawn.ProSubj()} has a {Severity.ToString().ToLower()} {FullAllergyName}." +
+                                        $"\n\nKeep {Pawn.ProObj()} away from {TypeLabelPlural} or try to treat the allergy to avoid health complications.";
 
-                        string letterTextEnd = $"\n\n{Pawn.NameShortColored} discovered that {Pawn.ProSubj()} has a {Severity.ToString().ToLower()} {FullAllergyName}." +
-                                            $"\n\nKeep {Pawn.ProObj()} away from {TypeLabelPlural} or try to treat the allergy to avoid health complications.";
-
-                        string letterText = letterTextStart + letterTextEnd;
-                        Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NegativeEvent, Pawn);
-                    }
+                    string letterText = letterTextStart + letterTextEnd;
+                    Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NegativeEvent, Pawn);
                 }
             }
         }
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref Severity, "allergySeverity");
+            ExposeExtraData();
+        }
+        protected virtual void ExposeExtraData() { }
     }
 }

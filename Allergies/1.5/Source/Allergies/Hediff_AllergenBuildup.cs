@@ -14,7 +14,24 @@ namespace P42_Allergies
         private const float InitialAnaShockSeverityAtMaxSeverity = 0.6f;
 
         private const float SkinRashMinSeverity = 2f;
-        private const float SkinRashMaxSeverity = 7f;
+        private const float SkinRashMaxSeverity = 6f;
+
+        private const float TightThroatMinSeverity = 0.2f;
+        private const float TightThroatMaxSeverity = 1f;
+
+        private const float PinkEyeMinSeverity = 0.2f;
+        private const float PinkEyeMaxSeverity = 1f;
+
+        private Dictionary<string, float> SkinRashBodyPartTable = new Dictionary<string, float>()
+        {
+            { "Head", 1f },
+            { "Neck", 0.6f },
+            { "Torso", 1.5f },
+            { "Arm", 1.3f },
+            { "Hand", 0.5f },
+            { "Leg", 1.3f },
+            { "Foot", 0.5f },
+        };
 
         public override void Tick()
         {
@@ -29,6 +46,8 @@ namespace P42_Allergies
 
                 TryTriggerSneezingFit(stage);
                 TryApplySkinRash(stage);
+                TryApplyTightThroat(stage);
+                TryApplyPinkEye(stage);
                 
                 // Instantly cause an anaphylactic shock at 60% when buildup reaches 100%
                 if(Severity >= 1f)
@@ -48,7 +67,7 @@ namespace P42_Allergies
         {
             if (stage.sneezingFitMtbDays > 0)
             {
-                if (Rand.MTBEventOccurs(stage.sneezingFitMtbDays, 60000f, ReactionCheckInterval))
+                if (Rand.MTBEventOccurs(0.1f, 60000f, ReactionCheckInterval)) // TODO: stage.sneezingFitMtbDays
                 {
                     StartSneezingFit();
                 }
@@ -65,7 +84,7 @@ namespace P42_Allergies
         {
             if (stage.skinRashMtbDays > 0)
             {
-                if (Rand.MTBEventOccurs(stage.skinRashMtbDays, 60000f, ReactionCheckInterval))
+                if (Rand.MTBEventOccurs(0.1f, 60000f, ReactionCheckInterval)) // TODO: stage.skinRashMtbDays
                 {
                     ApplySkinRash();
                 }
@@ -74,21 +93,69 @@ namespace P42_Allergies
 
         private void ApplySkinRash()
         {
-            // Get a list of valid outer body parts for applying the skin rash.
-            var outerBodyParts = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Outside);
-            if (outerBodyParts == null || !outerBodyParts.Any()) return;
+            string chosenBodyPartString = AllergyGenerator.GetWeightedRandomElement(SkinRashBodyPartTable);
+            BodyPartRecord bodyPart = pawn.health.hediffSet.GetBodyPartRecord(DefDatabase<BodyPartDef>.GetNamed(chosenBodyPartString));
 
-            // Choose a random outer body part to apply the rash.
-            BodyPartRecord randomBodyPart = outerBodyParts.RandomElement();
-
-            // Create a new injury hediff with the SkinRash HediffDef.
-            Hediff_Injury rashInjury = (Hediff_Injury)HediffMaker.MakeHediff(DefDatabase<HediffDef>.GetNamed("P42_SkinRash"), pawn, randomBodyPart);
-
-            // Set the severity of the rash randomly between a minor and a more serious injury.
-            rashInjury.Severity = Rand.Range(2f, 7f);
-
-            // Add the injury to the pawn.
+            Hediff_Injury rashInjury = (Hediff_Injury)HediffMaker.MakeHediff(DefDatabase<HediffDef>.GetNamed("P42_SkinRash"), pawn, bodyPart);
+            rashInjury.Severity = Rand.Range(SkinRashMinSeverity, SkinRashMaxSeverity);
+            rashInjury.sourceLabel = "source?";
+            rashInjury.combatLogText = "clt";
             pawn.health.AddHediff(rashInjury);
+        }
+
+        private void TryApplyTightThroat(AllergenBuildupStage stage)
+        {
+            if (stage.throatTightnessMtbDays > 0)
+            {
+                if (Rand.MTBEventOccurs(0.1f, 60000f, ReactionCheckInterval)) // TODO: stage.throatTightnessMtbDays
+                {
+                    ApplyTightThroat();
+                }
+            }
+        }
+        private void ApplyTightThroat()
+        {
+            float severity = Rand.Range(TightThroatMinSeverity, TightThroatMaxSeverity);
+            BodyPartRecord bodyPart = pawn.health.hediffSet.GetBodyPartRecord(DefDatabase<BodyPartDef>.GetNamed("Neck"));
+
+            Hediff existingHediff = pawn.health.hediffSet.hediffs.FirstOrDefault(x => x.Part == bodyPart && x.def == HediffDef.Named("P42_TightThroat"));
+            if (existingHediff == null)
+            {
+                Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("P42_TightThroat"), pawn, bodyPart);
+                newHediff.Severity = severity;
+                newHediff.sourceLabel = "source?";
+                newHediff.combatLogText = "clt";
+                pawn.health.AddHediff(newHediff);
+            }
+            else existingHediff.Severity = Math.Max(existingHediff.Severity, severity);
+        }
+
+
+        private void TryApplyPinkEye(AllergenBuildupStage stage)
+        {
+            if (stage.pinkEyeMtbDays > 0)
+            {
+                if (Rand.MTBEventOccurs(0.1f, 60000f, ReactionCheckInterval)) // TODO: stage.pinkEyeMtbDays
+                {
+                    ApplyPinkEye();
+                }
+            }
+        }
+        private void ApplyPinkEye()
+        {
+            float severity = Rand.Range(PinkEyeMinSeverity, PinkEyeMaxSeverity);
+            BodyPartRecord bodyPart = pawn.health.hediffSet.GetBodyPartRecord(DefDatabase<BodyPartDef>.GetNamed("Eye"));
+
+            Hediff existingHediff = pawn.health.hediffSet.hediffs.FirstOrDefault(x => x.Part == bodyPart && x.def == HediffDef.Named("P42_PinkEye"));
+            if (existingHediff == null)
+            {
+                Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("P42_PinkEye"), pawn, bodyPart);
+                newHediff.Severity = severity;
+                newHediff.sourceLabel = "source?";
+                newHediff.combatLogText = "clt";
+                pawn.health.AddHediff(newHediff);
+            }
+            else existingHediff.Severity = Math.Max(existingHediff.Severity, severity);
         }
     }
 }
