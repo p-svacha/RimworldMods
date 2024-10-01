@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <!-- Sickly child forces allergy-prone trait -->
+    <Operation Class="PatchOperationConditional">
+        <xpath>*/BackstoryDef[defName = "SicklyChild55"]/forcedTraits</xpath>
+        <match Class="PatchOperationAdd">
+            <xpath>*/BackstoryDef[defName = "SicklyChild55"]/forcedTraits</xpath>
+            <value>
+                <P42_Allergy>-1</P42_Allergy>
+            </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>*/BackstoryDef[defName = "SicklyChild55"]</xpath>
+            <value>
+                <forcedTraits>
+                    <P42_Allergy>-1</P42_Allergy>
+                </forcedTraits>
+            </value>
+        </nomatch>
+    </Operation>
+
+    <!-- Abandonded child forces allergy-resistant trait -->
+    <Operation Class="PatchOperationConditional">
+        <xpath>*/BackstoryDef[defName = "AbandonedChild23"]/forcedTraits</xpath>
+        <match Class="PatchOperationAdd">
+            <xpath>*/BackstoryDef[defName = "AbandonedChild23"]/forcedTraits</xpath>
+            <value>
+                <P42_Allergy>1</P42_Allergy>
+            </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>*/BackstoryDef[defName = "AbandonedChild23"]</xpath>
+            <value>
+                <forcedTraits>
+                    <P42_Allergy>1</P42_Allergy>
+                </forcedTraits>
+            </value>
+        </nomatch>
+    </Operation>
+</Patch>

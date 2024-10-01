@@ -2,7 +2,7 @@
 <Defs>
     <TraitDef>
         <defName>P42_Allergy</defName>
-        <commonality>0.8</commonality>
+        <commonality>0.7</commonality>
         <conflictingTraits>
             <li>Immunity</li>
         </conflictingTraits>
