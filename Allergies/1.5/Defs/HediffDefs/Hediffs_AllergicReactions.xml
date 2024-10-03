@@ -9,6 +9,7 @@
     <tendable>true</tendable>
     <displayWound>true</displayWound>
     <makesSickThought>false</makesSickThought>
+    <canAffectBionicOrImplant>false</canAffectBionicOrImplant>
     <comps>
       <li Class="HediffCompProperties_Infecter">
         <infectionChance>0.05</infectionChance>
@@ -124,6 +125,7 @@
     <initialSeverity>0.4</initialSeverity>
     <maxSeverity>1</maxSeverity>
     <alwaysShowSeverity>false</alwaysShowSeverity>
+    <canAffectBionicOrImplant>false</canAffectBionicOrImplant>
 
     <comps>
       <li Class="HediffCompProperties_SeverityPerDay">
@@ -144,6 +146,7 @@
     <defName>P42_ChronicSinusitis</defName>
     <label>chronic sinusitis</label>
     <description>Chronicly inflamed and swollen sinuses.</description>
+    <canAffectBionicOrImplant>false</canAffectBionicOrImplant>
 
     <aptitudes>
       <Cooking>-3</Cooking>

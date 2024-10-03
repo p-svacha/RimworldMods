@@ -55,13 +55,11 @@ namespace P42_Allergies
 
         private void ResetTicksUntilNaturalSeverityChange()
         {
-            TicksUntilNaturalSeverityChange = 2500;
-            //TODO: TicksUntilSeverityChange = Rand.Range(MinTicksUntilSeverityChange, MaxTicksUntilSeverityChange);
+            TicksUntilNaturalSeverityChange = Rand.Range(MinTicksUntilNaturalSeverityChange, MaxTicksUntilNaturalSeverityChange);
         }
         private void ResetTicksUntilAllercureSeverityChange()
         {
-            TicksUntilAllercureImpact = 2500;
-            //TODO: TicksUntilAllercureSeverityChange = Rand.Range(MinTicksUntilAllercureImpact, MaxTicksUntilAllercureImpact);
+            TicksUntilAllercureImpact = Rand.Range(MinTicksUntilAllercureImpact, MaxTicksUntilAllercureImpact);
         }
 
         public virtual void Tick()
@@ -152,7 +150,7 @@ namespace P42_Allergies
             Severity = (AllergySeverity)(((int)Severity) - 1);
             if (AllergyHediff.Visible && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
-                Messages.Message("P42_Message_AllergySeverityReducedNaturally".Translate(Pawn.Name.ToStringShort, Severity.ToString().ToLower()), Pawn, MessageTypeDefOf.PositiveEvent);
+                Messages.Message("P42_Message_AllergySeverityReducedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
         }
         private void IncreaseAllergySeverityNaturally()
@@ -160,7 +158,7 @@ namespace P42_Allergies
             Severity = (AllergySeverity)(((int)Severity) + 1);
             if (AllergyHediff.Visible && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
-                Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, Severity.ToString().ToLower()), Pawn, MessageTypeDefOf.NegativeEvent);
+                Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.NegativeEvent);
             }
         }
         private void SetToExtremeSeverityNaturally()
@@ -168,7 +166,7 @@ namespace P42_Allergies
             Severity = AllergySeverity.Extreme;
             if (AllergyHediff.Visible && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
-                Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, Severity.ToString().ToLower()), Pawn, MessageTypeDefOf.NegativeEvent);
+                Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.NegativeEvent);
             }
         }
 
@@ -185,7 +183,7 @@ namespace P42_Allergies
             Severity = (AllergySeverity)(((int)Severity) - 1);
             if (AllergyHediff.Visible && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
-                Messages.Message("P42_Message_AllergySeverityReducedAllercure".Translate(Pawn.Name.ToStringShort, Pawn.Possessive(), Severity.ToString().ToLower()), Pawn, MessageTypeDefOf.PositiveEvent);
+                Messages.Message("P42_Message_AllergySeverityReducedAllercure".Translate(Pawn.Name.ToStringShort, Pawn.Possessive(), GetSeverityString()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
         }
 
@@ -272,12 +270,21 @@ namespace P42_Allergies
                     if (Severity == AllergySeverity.Extreme)
                         letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Extreme".Translate(reasonForIncrease, Pawn.NameShortColored, Pawn.Possessive());
 
-                    string letterTextEnd = "\n\n"+"P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.NameShortColored, Pawn.ProSubj(), Severity.ToString().ToLower(), FullAllergyName, Pawn.ProObj(), TypeLabelPlural);
+                    string letterTextEnd = "\n\n"+"P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.NameShortColored, Pawn.ProSubj(), GetSeverityString(), FullAllergyName, Pawn.ProObj(), TypeLabelPlural);
 
                     string letterText = letterTextStart + letterTextEnd;
                     Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NegativeEvent, Pawn);
                 }
             }
+        }
+
+        public string GetSeverityString()
+        {
+            if (Severity == AllergySeverity.Mild) return "P42_AllergySeverity_Mild".Translate();
+            if (Severity == AllergySeverity.Moderate) return "P42_AllergySeverity_Moderate".Translate();
+            if (Severity == AllergySeverity.Severe) return "P42_AllergySeverity_Severe".Translate();
+            if (Severity == AllergySeverity.Extreme) return "P42_AllergySeverity_Extreme".Translate();
+            return "???";
         }
 
         public void ExposeData()

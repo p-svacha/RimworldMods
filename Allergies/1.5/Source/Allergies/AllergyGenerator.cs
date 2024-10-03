@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,8 @@ namespace P42_Allergies
 
         #endregion
 
+        private static int MaxAllergiesPerPawn = 5;
+
         #region Allergy generation
 
         public static void GenerateAndApplyRandomAllergy(Pawn pawn)
@@ -46,6 +49,9 @@ namespace P42_Allergies
             // Get existing allergies
             List<Hediff_Allergy> existingAllergies = new List<Hediff_Allergy>();
             pawn.health.hediffSet.GetHediffs<Hediff_Allergy>(ref existingAllergies);
+
+            // Check if pawn can get an allergy
+            if (!CanApplyAllergy(pawn, existingAllergies)) return;
 
             // Create a random allergy that the pawn does not yet have
             int tries = 0;
@@ -74,7 +80,18 @@ namespace P42_Allergies
             Log.Message($"[Allergies Mod] Initialized a new allergy: {newAllergy.TypeLabel} with severity {newAllergy.Severity} on {pawn.Name}.");
         }
 
-        private static Allergy CreateRandomAllergy()
+        private static bool CanApplyAllergy(Pawn pawn, List<Hediff_Allergy> existingAllergies)
+        {
+            if (pawn == null) return false;
+            if (pawn.Dead) return false; // No allergies for dead pawns
+            if (pawn.NonHumanlikeOrWildMan()) return false; // Only humanlikes get allergies
+            if (pawn.GetStatValue(StatDef.Named("P42_AllergicSensitivity")) <= 0f) return false; // No allergies for pawns with 0 allergic sensitivity
+            if (existingAllergies.Count >= MaxAllergiesPerPawn) return false; // max amount of allergies
+
+            return true;
+        }
+
+        public static Allergy CreateRandomAllergy()
         {
             AllergyTypeId chosenAllergyType = GetWeightedRandomElement(AllergyTypeCommonalities);
             AllergySeverity chosenAllergySeverity = GetWeightedRandomElement(AllergySeverityCommonalities);

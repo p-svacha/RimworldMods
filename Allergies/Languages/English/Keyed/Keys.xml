@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-    <!-- Food Types -->
+
+    <!-- Allergy severities -->
+    <P42_AllergySeverity_Mild>mild</P42_AllergySeverity_Mild>
+    <P42_AllergySeverity_Moderate>moderate</P42_AllergySeverity_Moderate>
+    <P42_AllergySeverity_Severe>severe</P42_AllergySeverity_Severe>
+    <P42_AllergySeverity_Extreme>extreme</P42_AllergySeverity_Extreme>
+
+    <!-- Food types -->
     <P42_AllergyFoodType_Produce>produce</P42_AllergyFoodType_Produce>
     <P42_AllergyFoodType_ProducePlural>produce (fruits and vegetables)</P42_AllergyFoodType_ProducePlural>
 
@@ -31,7 +38,7 @@
     <P42_Message_AllergySeverityReducedAllercure>{0}'s allergy has become better because of {1} regular intake of allercure. It is now {2}.</P42_Message_AllergySeverityReducedAllercure>
 
     <!-- Letters -->
-    <P42_LetterLabel_NewAllergyDiscovered>New Allergy Discovered</P42_LetterLabel_NewAllergyDiscovered>
+    <P42_LetterLabel_NewAllergyDiscovered>New allergy discovered</P42_LetterLabel_NewAllergyDiscovered>
     <P42_LetterTextStart_NewAllergyDiscovered_Mild>When {0}, {1} felt a mild irritation on {2} skin.</P42_LetterTextStart_NewAllergyDiscovered_Mild>
     <P42_LetterTextStart_NewAllergyDiscovered_Moderate>When {0}, {1} had to sneeze repeatedly and {2} skin and eyes started to itch.</P42_LetterTextStart_NewAllergyDiscovered_Moderate>
     <P42_LetterTextStart_NewAllergyDiscovered_Severe>When {0}, {1} felt {2} throat tightening, had to sneeze violently, and {2} eyes started to burn.</P42_LetterTextStart_NewAllergyDiscovered_Severe>

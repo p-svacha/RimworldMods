@@ -38,9 +38,14 @@ namespace P42_Allergies
 
         private bool ShouldPawnGetNewAllergy(Pawn pawn)
         {
-            float mtbDays = -1f;
+            float mtbDays;
+            float allergicSensitivity = pawn.GetStatValue(StatDef.Named("P42_AllergicSensitivity"));
+            if (allergicSensitivity <= 0f) return false;
+
             if (HasAllergyProneTrait(pawn)) mtbDays = NewAllergyFromTraitMtbDays;
-            else mtbDays = NewAllergyRandomMtbDays / pawn.GetStatValue(StatDef.Named("P42_AllergicSensitivity"));
+            else mtbDays = NewAllergyRandomMtbDays / allergicSensitivity;
+
+            Log.Message($"[Allergies Mod] {pawn.Name} with an allergic sensitivity of {allergicSensitivity} has an mtb of {mtbDays} to develop a new allergy.");
 
             return (Rand.MTBEventOccurs(mtbDays, 60000f, NewAllergyCheckInterval));
         }

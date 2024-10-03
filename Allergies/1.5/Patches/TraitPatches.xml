@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
 
-    <!-- Add allergic sensitivity to super-immune trait (maybe need to add full statOffsets property) -->
+    <!-- Super-immune trait: -20% allergic sensitivity -->
     <Operation Class="PatchOperationConditional">
         <xpath>*/TraitDef[defName = "Immunity"]/degreeDatas/li[label="super-immune"]/statOffsets</xpath>
         <match Class="PatchOperationAdd">
@@ -20,7 +20,7 @@
         </nomatch>
     </Operation>
 
-    <!-- Add allergic sensitivity to sickly trait (maybe need to add full statOffsets property) -->
+    <!-- Sickly trait: +20% allergic sensitivity -->
     <Operation Class="PatchOperationConditional">
         <xpath>*/TraitDef[defName = "Immunity"]/degreeDatas/li[label="sickly"]/statOffsets</xpath>
         <match Class="PatchOperationAdd">
@@ -38,4 +38,5 @@
             </value>
         </nomatch>
     </Operation>
+
 </Patch>

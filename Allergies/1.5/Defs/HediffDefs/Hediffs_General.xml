@@ -4,6 +4,8 @@
     <defName>P42_AllergyHediff</defName>
     <label>allergy</label>
     <description>A specific allergic condition.</description>
+    <chronic>true</chronic>
+    <isBad>true</isBad>
     <makesSickThought>false</makesSickThought>
     <hediffClass>P42_Allergies.Hediff_Allergy</hediffClass>
     <initialSeverity>0.001</initialSeverity>

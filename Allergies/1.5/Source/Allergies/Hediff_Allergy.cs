@@ -15,6 +15,8 @@ namespace P42_Allergies
         public override void Tick()
         {
             base.Tick();
+
+            if (Allergy == null) Allergy = AllergyGenerator.CreateRandomAllergy(); // failsafe if adding hediff in devmode
             Allergy.Tick();
         }
 
@@ -40,7 +42,7 @@ namespace P42_Allergies
         }
         public Allergy GetAllergy() => Allergy;
 
-        public override string Label => Allergy.FullAllergyNameCap + " (" + Allergy.Severity.ToString().ToLower() + ")";
+        public override string Label => Allergy.FullAllergyNameCap + " (" + Allergy.GetSeverityString() + ")";
         public override string DebugString()
         {
             return base.DebugString() + "\nticks until severity change: " + Allergy.TicksUntilNaturalSeverityChange + "\nticks until allercure impact: " + Allergy.TicksUntilAllercureImpact;

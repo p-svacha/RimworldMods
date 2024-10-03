@@ -17,8 +17,6 @@ namespace P42_Allergies
         [HarmonyPostfix]
         public static void Postfix(Pawn pawn, PawnGenerationRequest request)
         {
-            if (pawn.NonHumanlikeOrWildMan()) return;
-
             // Chance to add allergy
             if (Rand.Chance(BaseAllergyChance))
             {
