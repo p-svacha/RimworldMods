@@ -25,7 +25,7 @@ namespace P42_Allergies
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit && Allergy != null)
             {
-                Allergy.Init(this); // Re-initialize after loading
+                Allergy.OnInitOrLoad(this); // Re-initialize after loading
             }
         }
 
@@ -41,5 +41,9 @@ namespace P42_Allergies
         public Allergy GetAllergy() => Allergy;
 
         public override string Label => Allergy.FullAllergyNameCap + " (" + Allergy.Severity.ToString().ToLower() + ")";
+        public override string DebugString()
+        {
+            return base.DebugString() + "\nticks until severity change: " + Allergy.TicksUntilNaturalSeverityChange + "\nticks until allercure impact: " + Allergy.TicksUntilAllercureImpact;
+        }
     }
 }

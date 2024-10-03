@@ -15,9 +15,6 @@
         <severityPerDay>-0.9</severityPerDay>
         <showHoursToRecover>true</showHoursToRecover>
       </li>
-      <li>
-        <compClass>P42_Allergies.HediffComp_HealAllergiesOverTime</compClass>
-      </li>
     </comps>
     <stages>
       <li>

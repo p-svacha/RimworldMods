@@ -22,7 +22,8 @@ namespace P42_Allergies
         {
             { AllergySeverity.Mild, 1f },
             { AllergySeverity.Moderate, 1f },
-            { AllergySeverity.Severe, 0.8f },
+            { AllergySeverity.Severe, 1f },
+            { AllergySeverity.Extreme, 0.05f },
         };
 
         private static Dictionary<FoodType, float> FoodTypeCommonalities = new Dictionary<FoodType, float>()
@@ -68,7 +69,7 @@ namespace P42_Allergies
             Hediff_Allergy allergyHediff = (Hediff_Allergy)HediffMaker.MakeHediff(HediffDef.Named("P42_AllergyHediff"), pawn);
             allergyHediff.Severity = 0.05f;
             allergyHediff.SetAllergy(newAllergy);
-            newAllergy.Init(allergyHediff);
+            newAllergy.OnInitOrLoad(allergyHediff);
             pawn.health.AddHediff(allergyHediff);
             Log.Message($"[Allergies Mod] Initialized a new allergy: {newAllergy.TypeLabel} with severity {newAllergy.Severity} on {pawn.Name}.");
         }
@@ -79,7 +80,7 @@ namespace P42_Allergies
             AllergySeverity chosenAllergySeverity = GetWeightedRandomElement(AllergySeverityCommonalities);
 
             Allergy newAllergy = CreateAllergyByType(chosenAllergyType);
-            newAllergy.Severity = chosenAllergySeverity;
+            newAllergy.OnNewAllergyCreated(chosenAllergySeverity);
             return newAllergy;
         }
 

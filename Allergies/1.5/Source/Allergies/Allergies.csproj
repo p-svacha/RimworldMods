@@ -51,7 +51,6 @@
     <Compile Include="AllergyTypeId.cs" />
     <Compile Include="CompUseEffect_AntishockInjector.cs" />
     <Compile Include="Harmony\GeneratePawn_Patch.cs" />
-    <Compile Include="HediffComp_HealAllergiesOverTime.cs" />
     <Compile Include="Hediff_AllergenBuildup.cs" />
     <Compile Include="Hediff_Allergy.cs" />
     <Compile Include="Harmony\ModInitializer.cs" />
@@ -60,7 +59,7 @@
     <Compile Include="JobDriver_SneezingFit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThoughtWorker_AllergenBuildupThought.cs" />
-    <Compile Include="TraitsManager.cs" />
+    <Compile Include="AllergiesGameComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">

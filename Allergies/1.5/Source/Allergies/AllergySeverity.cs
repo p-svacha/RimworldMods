@@ -8,8 +8,9 @@ namespace P42_Allergies
 {
     public enum AllergySeverity
     {
-        Mild,
-        Moderate,
-        Severe
+        Mild = 0,
+        Moderate = 1,
+        Severe = 2,
+        Extreme = 3
     }
 }
