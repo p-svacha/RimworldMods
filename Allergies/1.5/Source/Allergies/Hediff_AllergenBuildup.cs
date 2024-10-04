@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RimWorld;
+using RimWorld.Planet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +23,9 @@ namespace P42_Allergies
 
         private const float PinkEyeMinSeverity = 0.2f;
         private const float PinkEyeMaxSeverity = 1f;
+
+        private int DontCheckFullSeverityFor = 0;
+        private const int StopCheckingFullSeverityFor = 1000;
 
         private Dictionary<string, float> SkinRashBodyPartTable = new Dictionary<string, float>()
         {
@@ -48,19 +53,25 @@ namespace P42_Allergies
                 TryApplySkinRash(stage);
                 TryApplyTightThroat(stage);
                 TryApplyPinkEye(stage);
-                
-                // Instantly cause an anaphylactic shock at 60% when buildup reaches 100%
-                if(Severity >= 1f)
+            }
+
+            // Instantly cause an anaphylactic shock at 60% when buildup reaches 100%
+            if (Severity >= 1f)
+            {
+                if (DontCheckFullSeverityFor == 0)
                 {
                     Hediff existingHediff = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AnaphylacticShock"));
-                    if(existingHediff == null)
+                    if (existingHediff == null)
                     {
                         Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("P42_AnaphylacticShock"), pawn);
                         newHediff.Severity = InitialAnaShockSeverityAtMaxSeverity;
                         pawn.health.AddHediff(newHediff);
                     }
+                    DontCheckFullSeverityFor = StopCheckingFullSeverityFor;
                 }
             }
+
+            if (DontCheckFullSeverityFor > 0) DontCheckFullSeverityFor--;
         }
 
         private void TryTriggerSneezingFit(AllergenBuildupStage stage)
@@ -76,6 +87,11 @@ namespace P42_Allergies
 
         private void StartSneezingFit()
         {
+            if (!pawn.Awake()) return;
+            if (pawn.IsCaravanMember()) return;
+            if (pawn.Downed) return;
+            if (pawn.InCryptosleep) return;
+
             Job sneezingJob = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("P42_SneezingFit"), pawn);
             pawn.jobs.StartJob(sneezingJob, JobCondition.InterruptForced, null, resumeCurJobAfterwards: true);
         }
@@ -156,6 +172,16 @@ namespace P42_Allergies
                 pawn.health.AddHediff(newHediff);
             }
             else existingHediff.Severity = Math.Max(existingHediff.Severity, severity);
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Deep.Look(ref DontCheckFullSeverityFor, "dontCheckFullSeverityFor");
+        }
+        public override string DebugString()
+        {
+            return base.DebugString() + "\ndontCheckFullSeverityFor: " + DontCheckFullSeverityFor;
         }
     }
 }

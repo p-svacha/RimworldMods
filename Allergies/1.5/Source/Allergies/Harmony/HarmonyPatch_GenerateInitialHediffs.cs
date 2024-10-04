@@ -10,7 +10,7 @@ using Verse;
 namespace P42_Allergies
 {
     [HarmonyPatch(typeof(PawnGenerator), "GenerateInitialHediffs")]
-    public static class GeneratePawn_Patch
+    public static class HarmonyPatch_GenerateInitialHediffs
     {
         private const float BaseAllergyChance = 1f; // TODO: 0.1f
 

@@ -11,12 +11,14 @@ namespace P42_Allergies
     public enum FoodType
     {
         Produce,
+        Seed,
         Meat,
         Milk,
         Egg,
         Fungus,
-        Plants,
-        Kibble
+        Kibble,
+        Liquor,
+        ProcessedMeals
     }
 
     public class FoodTypeAllergy : Allergy
@@ -28,12 +30,14 @@ namespace P42_Allergies
                 switch(FoodType)
                 {
                     case FoodType.Produce: return "P42_AllergyFoodType_Produce".Translate();
+                    case FoodType.Seed: return "P42_AllergyFoodType_Seed".Translate();
                     case FoodType.Meat: return "P42_AllergyFoodType_Meat".Translate();
                     case FoodType.Milk: return "P42_AllergyFoodType_Milk".Translate();
                     case FoodType.Egg: return "P42_AllergyFoodType_Egg".Translate();
                     case FoodType.Fungus: return "P42_AllergyFoodType_Fungus".Translate();
-                    case FoodType.Plants: return "P42_AllergyFoodType_Plants".Translate();
                     case FoodType.Kibble: return "P42_AllergyFoodType_Kibble".Translate();
+                    case FoodType.Liquor: return "P42_AllergyFoodType_Liquor".Translate();
+                    case FoodType.ProcessedMeals: return "P42_AllergyFoodType_ProcessedMeals".Translate();
                     default: return "???";
                 }
             }
@@ -46,12 +50,14 @@ namespace P42_Allergies
                 switch (FoodType)
                 {
                     case FoodType.Produce: return "P42_AllergyFoodType_ProducePlural".Translate();
+                    case FoodType.Seed: return "P42_AllergyFoodType_SeedPlural".Translate();
                     case FoodType.Meat: return "P42_AllergyFoodType_MeatPlural".Translate();
                     case FoodType.Milk: return "P42_AllergyFoodType_MilkPlural".Translate();
                     case FoodType.Egg: return "P42_AllergyFoodType_EggPlural".Translate();
                     case FoodType.Fungus: return "P42_AllergyFoodType_FungusPlural".Translate();
-                    case FoodType.Plants: return "P42_AllergyFoodType_PlantsPlural".Translate();
                     case FoodType.Kibble: return "P42_AllergyFoodType_KibblePlural".Translate();
+                    case FoodType.Liquor: return "P42_AllergyFoodType_LiquorPlural".Translate();
+                    case FoodType.ProcessedMeals: return "P42_AllergyFoodType_ProcessedMealsPlural".Translate();
                     default: return "???";
                 }
             }
@@ -75,69 +81,92 @@ namespace P42_Allergies
             return (otherAllergy is FoodTypeAllergy otherFoodTypeAllergy && otherFoodTypeAllergy.FoodType == FoodType);
         }
 
-        private bool HasFoodTypeFlag(Thing item, FoodTypeFlags flag)
+        /// <summary>
+        /// Checks if a thing has all the included food type flags, none of the excluded food type flags, any of the provided cat defs and includes the defNameContains
+        /// </summary>
+        private bool DoesThingDefConformCriteria(ThingDef thingDef, FoodTypeFlags[] includedFlags = null, FoodTypeFlags[] excludedFlags = null, ThingCategoryDef[] anyOfCatDefs = null, string defNameContains = "")
         {
-            return item.def.IsIngestible && ((item.def.ingestible.foodType & flag) != 0);
-        }
-        private bool HasFoodTypeFlags(Thing item, FoodTypeFlags[] flags)
-        {
-            if (!item.def.IsIngestible) return false;
-            foreach(FoodTypeFlags flag in flags)
+            if(includedFlags != null)
             {
-                if((item.def.ingestible.foodType & flag) == 0) return false;
+                if (!thingDef.IsIngestible) return false;
+                foreach(FoodTypeFlags flag in includedFlags)
+                {
+                    if ((thingDef.ingestible.foodType & flag) == 0) return false;
+                }
             }
+            if(excludedFlags != null && thingDef.IsIngestible)
+            {
+                foreach (FoodTypeFlags flag in excludedFlags)
+                {
+                    if ((thingDef.ingestible.foodType & flag) != 0) return false;
+                }
+            }
+            if(anyOfCatDefs != null)
+            {
+                foreach (ThingCategoryDef cat in anyOfCatDefs)
+                {
+                    if (!thingDef.thingCategories.Any(x => anyOfCatDefs.Contains(x))) return false;
+                }
+            }
+            if (defNameContains != "" && !thingDef.defName.ToLower().Contains(defNameContains)) return false;
             return true;
         }
 
-        private Func<Thing, bool> GetIdentifier()
+        public Func<ThingDef, bool> GetIdentifier()
         {
             switch(FoodType)
             {
                 case FoodType.Produce: return IsProduce;
+                case FoodType.Seed: return IsSeed;
                 case FoodType.Meat: return IsMeat;
-                case FoodType.Fungus: return IsFungus;
-                case FoodType.Plants: return IsPlantFood;
-                case FoodType.Kibble: return IsKibble;
-                case FoodType.Egg: return IsEgg;
                 case FoodType.Milk: return IsMilk;
+                case FoodType.Egg: return IsEgg;
+                case FoodType.Fungus: return IsFungus;
+                case FoodType.Kibble: return IsKibble;
+                case FoodType.Liquor: return IsLiquor;
+                case FoodType.ProcessedMeals: return IsProcessedMeal;
             }
             throw new Exception("Type " + FoodType.ToString() + " not handled.");
         }
 
-        private bool IsProduce(Thing item)
+        private bool IsProduce(ThingDef item)
         {
-            if (!HasFoodTypeFlag(item, FoodTypeFlags.VegetableOrFruit)) return false;
-            if (HasFoodTypeFlag(item, FoodTypeFlags.Fungus)) return false;
-            return true;
+            return item.IsIngestible && item.ingestible.foodType == FoodTypeFlags.VegetableOrFruit;
         }
-        private bool IsMeat(Thing item)
+        private bool IsSeed(ThingDef item)
         {
-            return HasFoodTypeFlag(item, FoodTypeFlags.Meat);
+            return DoesThingDefConformCriteria(item, includedFlags: new[] { FoodTypeFlags.Seed });
         }
-        private bool IsFungus(Thing item)
+        private bool IsMeat(ThingDef item)
         {
-            return HasFoodTypeFlag(item, FoodTypeFlags.Fungus);
+            return DoesThingDefConformCriteria(item, includedFlags: new[] { FoodTypeFlags.Meat });
         }
-        private bool IsPlantFood(Thing item)
+        private bool IsMilk(ThingDef item)
         {
-            return HasFoodTypeFlag(item, FoodTypeFlags.Plant);
+            return DoesThingDefConformCriteria(item, includedFlags: new[] { FoodTypeFlags.AnimalProduct, FoodTypeFlags.Fluid }, defNameContains: "milk");
         }
-        private bool IsProcessed(Thing item)
+        private bool IsEgg(ThingDef item)
         {
-            return HasFoodTypeFlag(item, FoodTypeFlags.Processed);
+            return DoesThingDefConformCriteria(item, includedFlags: new FoodTypeFlags[] { FoodTypeFlags.AnimalProduct }, anyOfCatDefs: new[] { ThingCategoryDefOf.EggsFertilized, ThingCategoryDefOf.EggsUnfertilized });
         }
-        private bool IsKibble(Thing item)
+        private bool IsFungus(ThingDef item)
         {
-            return HasFoodTypeFlag(item, FoodTypeFlags.Kibble);
+            return DoesThingDefConformCriteria(item, includedFlags: new[] { FoodTypeFlags.Fungus }, excludedFlags: new[] { FoodTypeFlags.VegetableOrFruit });
         }
-        private bool IsEgg(Thing item)
+        private bool IsKibble(ThingDef item)
         {
-            return HasFoodTypeFlag(item, FoodTypeFlags.AnimalProduct) && item.def.defName.ToLower().Contains("egg");
+            return DoesThingDefConformCriteria(item, includedFlags: new[] { FoodTypeFlags.Kibble });
         }
-        private bool IsMilk(Thing item)
+        private bool IsLiquor(ThingDef item)
         {
-            return HasFoodTypeFlags(item, new FoodTypeFlags[] { FoodTypeFlags.AnimalProduct, FoodTypeFlags.Fluid }) && item.def.defName.ToLower().Contains("milk");
+            return DoesThingDefConformCriteria(item, includedFlags: new[] { FoodTypeFlags.Liquor });
         }
+        private bool IsProcessedMeal(ThingDef item)
+        {
+            return DoesThingDefConformCriteria(item, includedFlags: new[] { FoodTypeFlags.Meal });
+        }
+
+
 
         protected override void ExposeExtraData()
         {

@@ -7,9 +7,26 @@
     <P42_AllergySeverity_Severe>severe</P42_AllergySeverity_Severe>
     <P42_AllergySeverity_Extreme>extreme</P42_AllergySeverity_Extreme>
 
+    <!-- Allergic reaction causess -->
+    <P42_AllergyCause_Ingested>ingesting {0}</P42_AllergyCause_Ingested>
+    <P42_AllergyCause_IngestedIngredient>ingesting {0} (with {1} as an ingredient)</P42_AllergyCause_IngestedIngredient>
+    <P42_AllergyCause_BeingNearby>being nearby {0}</P42_AllergyCause_BeingNearby>
+    <P42_AllergyCause_BeingNearbyIngredient>being nearby {0} (with {1} as an ingredient)</P42_AllergyCause_BeingNearbyIngredient>
+    <P42_AllergyCause_InSameRoom>being in the same room as {0}</P42_AllergyCause_InSameRoom>
+    <P42_AllergyCause_InSameRoomIngredient>being in the same room as {0} (with {1} as an ingredient)</P42_AllergyCause_InSameRoomIngredient>
+    <P42_AllergyCause_Holding>holding {0}</P42_AllergyCause_Holding>
+    <P42_AllergyCause_HoldingIngredient>holding {0} (with {1} as an ingredient)</P42_AllergyCause_HoldingIngredient>
+    <P42_AllergyCause_InInventory>holding {0} in {1} inventory</P42_AllergyCause_InInventory>
+    <P42_AllergyCause_InInventoryIngredient>holding {0} (with {2} as an ingredient) in {1} inventory</P42_AllergyCause_InInventoryIngredient>
+    <P42_AllergyCause_InInventoryCaravan>traveling in a caravan with {0}</P42_AllergyCause_InInventoryCaravan>
+    <P42_AllergyCause_InInventoryCaravanIngredient>traveling in a caravan with {0} (with {1} as an ingredient)</P42_AllergyCause_InInventoryCaravanIngredient>
+
     <!-- Food types -->
     <P42_AllergyFoodType_Produce>produce</P42_AllergyFoodType_Produce>
     <P42_AllergyFoodType_ProducePlural>produce (fruits and vegetables)</P42_AllergyFoodType_ProducePlural>
+
+    <P42_AllergyFoodType_Seed>seed</P42_AllergyFoodType_Seed>
+    <P42_AllergyFoodType_SeedPlural>seeds (i.e. rice)</P42_AllergyFoodType_SeedPlural>
 
     <P42_AllergyFoodType_Meat>meat</P42_AllergyFoodType_Meat>
     <P42_AllergyFoodType_MeatPlural>meat</P42_AllergyFoodType_MeatPlural>
@@ -23,11 +40,14 @@
     <P42_AllergyFoodType_Fungus>fungus</P42_AllergyFoodType_Fungus>
     <P42_AllergyFoodType_FungusPlural>mushrooms</P42_AllergyFoodType_FungusPlural>
 
-    <P42_AllergyFoodType_Plants>plant food</P42_AllergyFoodType_Plants>
-    <P42_AllergyFoodType_PlantsPlural>plant food</P42_AllergyFoodType_PlantsPlural>
-
     <P42_AllergyFoodType_Kibble>kibble</P42_AllergyFoodType_Kibble>
     <P42_AllergyFoodType_KibblePlural>kibble</P42_AllergyFoodType_KibblePlural>
+
+    <P42_AllergyFoodType_Liquor>liquor</P42_AllergyFoodType_Liquor>
+    <P42_AllergyFoodType_LiquorPlural>liquor</P42_AllergyFoodType_LiquorPlural>
+
+    <P42_AllergyFoodType_ProcessedMeals>processed meal</P42_AllergyFoodType_ProcessedMeals>
+    <P42_AllergyFoodType_ProcessedMealsPlural>processed meals</P42_AllergyFoodType_ProcessedMealsPlural>
 
     <!-- Messages -->
     <P42_Message_AllergyHealedNaturally>{0}'s allergy has naturally gone away.</P42_Message_AllergyHealedNaturally>

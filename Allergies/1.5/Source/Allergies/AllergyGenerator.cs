@@ -30,12 +30,14 @@ namespace P42_Allergies
         private static Dictionary<FoodType, float> FoodTypeCommonalities = new Dictionary<FoodType, float>()
         {
             { FoodType.Produce, 1.2f },
-            { FoodType.Meat, 0.8f },
+            { FoodType.Seed, 0.6f },
+            { FoodType.Meat, 0.9f },
             { FoodType.Milk, 1.5f },
             { FoodType.Egg, 1.3f },
             { FoodType.Fungus, 0.7f },
-            { FoodType.Plants, 0.7f },
             { FoodType.Kibble, 0.4f },
+            { FoodType.Liquor, 0.6f },
+            { FoodType.ProcessedMeals, 0.8f },
         };
 
         #endregion
@@ -47,8 +49,7 @@ namespace P42_Allergies
         public static void GenerateAndApplyRandomAllergy(Pawn pawn)
         {
             // Get existing allergies
-            List<Hediff_Allergy> existingAllergies = new List<Hediff_Allergy>();
-            pawn.health.hediffSet.GetHediffs<Hediff_Allergy>(ref existingAllergies);
+            List<Hediff_Allergy> existingAllergies = AllergyUtility.GetPawnAllergies(pawn);
 
             // Check if pawn can get an allergy
             if (!CanApplyAllergy(pawn, existingAllergies)) return;
@@ -66,7 +67,7 @@ namespace P42_Allergies
 
             if(tries == maxTries)
             {
-                Log.Message($"[Allergies Mod] Aborting allergy creation on {pawn.Name}.");
+                if (Prefs.DevMode) Log.Message($"[Allergies Mod] Aborting allergy creation on {pawn.Name}.");
                 return;
             }
 
@@ -77,7 +78,7 @@ namespace P42_Allergies
             allergyHediff.SetAllergy(newAllergy);
             newAllergy.OnInitOrLoad(allergyHediff);
             pawn.health.AddHediff(allergyHediff);
-            Log.Message($"[Allergies Mod] Initialized a new allergy: {newAllergy.TypeLabel} with severity {newAllergy.Severity} on {pawn.Name}.");
+            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Initialized a new allergy: {newAllergy.TypeLabel} with severity {newAllergy.Severity} on {pawn.Name}.");
         }
 
         private static bool CanApplyAllergy(Pawn pawn, List<Hediff_Allergy> existingAllergies)
@@ -85,7 +86,7 @@ namespace P42_Allergies
             if (pawn == null) return false;
             if (pawn.Dead) return false; // No allergies for dead pawns
             if (pawn.NonHumanlikeOrWildMan()) return false; // Only humanlikes get allergies
-            if (pawn.GetStatValue(StatDef.Named("P42_AllergicSensitivity")) <= 0f) return false; // No allergies for pawns with 0 allergic sensitivity
+            if (AllergyUtility.GetAllergicSensitivity(pawn) <= 0f) return false; // No allergies for pawns with 0 allergic sensitivity
             if (existingAllergies.Count >= MaxAllergiesPerPawn) return false; // max amount of allergies
 
             return true;

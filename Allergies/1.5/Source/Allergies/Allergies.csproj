@@ -49,8 +49,10 @@
     <Compile Include="AllergyGenerator.cs" />
     <Compile Include="AllergySeverity.cs" />
     <Compile Include="AllergyTypeId.cs" />
+    <Compile Include="AllergyUtility.cs" />
     <Compile Include="CompUseEffect_AntishockInjector.cs" />
-    <Compile Include="Harmony\GeneratePawn_Patch.cs" />
+    <Compile Include="Harmony\HarmonyPatch_GenerateInitialHediffs.cs" />
+    <Compile Include="Harmony\HarmonyPatch_ThingIngested.cs" />
     <Compile Include="Hediff_AllergenBuildup.cs" />
     <Compile Include="Hediff_Allergy.cs" />
     <Compile Include="Harmony\ModInitializer.cs" />
