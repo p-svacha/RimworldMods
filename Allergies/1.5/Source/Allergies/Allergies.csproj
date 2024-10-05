@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AllergenBuildupStage.cs" />
     <Compile Include="Allergies\AnimalAllergy.cs" />
+    <Compile Include="Allergies\DrugAllergy.cs" />
     <Compile Include="Allergies\IngredientAllergy.cs" />
     <Compile Include="Allergy.cs" />
     <Compile Include="Allergies\FoodTypeAllergy.cs" />

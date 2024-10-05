@@ -22,5 +22,29 @@ namespace P42_Allergies
         {
             return pawn.GetStatValue(StatDef.Named("P42_AllergicSensitivity"));
         }
+
+        public static ThingDef GetRandomIngredient()
+        {
+            List<ThingDef> candidates = DefDatabase<ThingDef>.AllDefsListForReading.Where(x => IsFoodIngredient(x)).ToList();
+            return candidates.RandomElement();
+        }
+        private static bool IsFoodIngredient(ThingDef def)
+        {
+            if (!def.IsIngestible) return false;
+            if (!def.ingestible.HumanEdible) return false;
+            if (def.IsDrug) return false;
+            return true;
+        }
+
+        public static ThingDef GetRandomDrug()
+        {
+            List<ThingDef> candidates = DefDatabase<ThingDef>.AllDefsListForReading.Where(x => IsDrug(x)).ToList();
+            return candidates.RandomElement();
+        }
+        private static bool IsDrug(ThingDef def)
+        {
+            if (!def.IsDrug) return false;
+            return true;
+        }
     }
 }

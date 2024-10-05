@@ -14,8 +14,9 @@ namespace P42_Allergies
 
         private static Dictionary<AllergyTypeId, float> AllergyTypeCommonalities = new Dictionary<AllergyTypeId, float>()
         {
-            { AllergyTypeId.FoodType, 10f },
+            { AllergyTypeId.FoodType, 1f },
             { AllergyTypeId.Ingredient, 1f },
+            { AllergyTypeId.Drug, 1f },
             { AllergyTypeId.Animal, 1f },
         };
 
@@ -107,11 +108,20 @@ namespace P42_Allergies
             switch(type)
             {
                 case AllergyTypeId.FoodType:
-                    FoodTypeAllergy allergy = new FoodTypeAllergy();
-                    allergy.FoodType = GetWeightedRandomElement(FoodTypeCommonalities);
-                    return allergy;
+                    FoodTypeAllergy allergy_foodType = new FoodTypeAllergy();
+                    allergy_foodType.FoodType = GetWeightedRandomElement(FoodTypeCommonalities);
+                    return allergy_foodType;
 
-                case AllergyTypeId.Ingredient: return new IngredientAllergy();
+                case AllergyTypeId.Ingredient:
+                    IngredientAllergy allergy_ingredient = new IngredientAllergy();
+                    allergy_ingredient.Ingredient = AllergyUtility.GetRandomIngredient();
+                    return allergy_ingredient;
+
+                case AllergyTypeId.Drug:
+                    DrugAllergy allergy_drug = new DrugAllergy();
+                    allergy_drug.Drug = AllergyUtility.GetRandomDrug();
+                    return allergy_drug;
+
                 case AllergyTypeId.Animal: return new AnimalAllergy();
             }
             throw new Exception();

@@ -18,27 +18,54 @@ namespace P42_Allergies
             List<Hediff_Allergy> allergies = AllergyUtility.GetPawnAllergies(ingester);
             foreach(Hediff_Allergy allergyHediff in allergies)
             {
-                if(allergyHediff.GetAllergy() is FoodTypeAllergy foodTypeAllergy)
+                Allergy allergy = allergyHediff.GetAllergy();
+
+                // Food type allergy
+                if(allergy is FoodTypeAllergy foodTypeAllergy)
                 {
                     Func<ThingDef, bool> identifier = foodTypeAllergy.GetIdentifier();
-                    if(identifier(__instance.def))
-                    {
-                        float buildup = Allergy.ExtremeExposureEventIncrease;
-                        foodTypeAllergy.IncreaseAllergenBuildup(buildup, "P42_AllergyCause_Ingested".Translate(__instance.Label));
-                        break;
-                    }
+                    CheckBuildup(foodTypeAllergy, identifier, __instance);
+                }
 
-                    if (__instance.TryGetComp<CompIngredients>() != null)
+                // Ingredient allergy
+                if (allergy is IngredientAllergy ingredientAllergy)
+                {
+                    CheckBuildup(ingredientAllergy, ingredientAllergy.IsIngredient, __instance);
+                }
+
+                // Drug allergy
+                if(allergy is DrugAllergy drugAllergy)
+                {
+                    if (drugAllergy.IsDrug(__instance.def)) // ingested drug => strong or extreme exposure event
                     {
-                        foreach (ThingDef ingredient in __instance.TryGetComp<CompIngredients>().ingredients)
-                        {
-                            if (identifier(ingredient)) // Something with item as ingredient in caravan inventory => minor passive exposure
-                            {
-                                float buildup = Allergy.StrongExposureEventIncrease;
-                                foodTypeAllergy.IncreaseAllergenBuildup(buildup, "P42_AllergyCause_IngestedIngredient".Translate(__instance.Label, ingredient.label));
-                                break;
-                            }
-                        }
+                        float buildUpValue;
+
+                        if (Rand.Chance(0.5f)) buildUpValue = Allergy.ExtremeExposureEventIncrease;
+                        else buildUpValue = Allergy.StrongExposureEventIncrease;
+
+                        allergy.IncreaseAllergenBuildup(buildUpValue, "P42_AllergyCause_Ingested".Translate(__instance.Label));
+                    }
+                }
+            }
+        }
+        
+        private static void CheckBuildup(Allergy allergy, Func<ThingDef, bool> identifier, Thing thing)
+        {
+            if (identifier(thing.def)) // ingested item => extreme exposure event
+            {
+                float buildup = Allergy.ExtremeExposureEventIncrease;
+                allergy.IncreaseAllergenBuildup(buildup, "P42_AllergyCause_Ingested".Translate(thing.Label));
+                return;
+            }
+
+            if (thing.TryGetComp<CompIngredients>() != null)
+            {
+                foreach (ThingDef ingredient in thing.TryGetComp<CompIngredients>().ingredients)
+                {
+                    if (identifier(ingredient)) // ingested something with item as ingredient => strong exposure event
+                    {
+                        float buildup = Allergy.StrongExposureEventIncrease;
+                        allergy.IncreaseAllergenBuildup(buildup, "P42_AllergyCause_IngestedIngredient".Translate(thing.Label, ingredient.label));
                     }
                 }
             }

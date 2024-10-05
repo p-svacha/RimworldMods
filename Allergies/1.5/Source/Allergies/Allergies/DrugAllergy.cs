@@ -7,9 +7,9 @@ using Verse;
 
 namespace P42_Allergies
 {
-    public class IngredientAllergy : Allergy
+    public class DrugAllergy : Allergy
     {
-        public ThingDef Ingredient;
+        public ThingDef Drug;
 
         public override void Tick()
         {
@@ -18,17 +18,17 @@ namespace P42_Allergies
             if (Pawn.IsHashIntervalTick(ExposureCheckInterval))
             {
                 // PIE-checks
-                DoPieCheck(IsIngredient);
+                DoPieCheck(IsDrug);
             }
         }
 
-        public bool IsIngredient(ThingDef thing) => thing == Ingredient;
+        public bool IsDrug(ThingDef thing) => thing == Drug;
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {
-            return (otherAllergy is IngredientAllergy otherIngredientAllergy && otherIngredientAllergy.Ingredient == Ingredient);
+            return (otherAllergy is DrugAllergy drugAllergy && drugAllergy.Drug == Drug);
         }
-        public override string TypeLabel => Ingredient.label;
-        public override string TypeLabelPlural => Ingredient.label;
+        public override string TypeLabel => Drug.label;
+        public override string TypeLabelPlural => Drug.label;
     }
 }
