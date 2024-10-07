@@ -46,27 +46,28 @@ namespace P42_Allergies
         private const float ExtremePassiveExposureIncreasePerHour = 0.30f;
 
         private const int TicksPerHour = 2500;
-        public const int ExposureCheckInterval = 200;
-   
-        public const float MinorPassiveExposureIncreasePerCheck = MinorPassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / TicksPerHour);
-        public const float StrongPassiveExposureIncreasePerCheck = StrongPassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / TicksPerHour);
-        public const float ExtremePassiveExposureIncreasePerCheck = ExtremePassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / TicksPerHour);
+        private const int ExposureCheckInterval = 200;
 
-        public const float MinorExposureEventIncrease = 0.10f;
-        public const float StrongExposureEventIncrease = 0.25f;
-        public const float ExtremeExposureEventIncrease = 0.45f;
+        private const float MinorPassiveExposureIncreasePerCheck = MinorPassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / TicksPerHour);
+        private const float StrongPassiveExposureIncreasePerCheck = StrongPassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / TicksPerHour);
+        private const float ExtremePassiveExposureIncreasePerCheck = ExtremePassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / TicksPerHour);
+
+        private const float MinorExposureEventIncrease = 0.10f;
+        private const float StrongExposureEventIncrease = 0.25f;
+        private const float ExtremeExposureEventIncrease = 0.45f;
 
         public void OnInitOrLoad(Hediff_Allergy hediff)
         {
             AllergyHediff = hediff;
         }
-
         public void OnNewAllergyCreated(AllergySeverity severity)
         {
             Severity = severity;
             ResetTicksUntilNaturalSeverityChange();
             ResetTicksUntilAllercureSeverityChange();
         }
+
+        #region Development
 
         private void ResetTicksUntilNaturalSeverityChange()
         {
@@ -75,81 +76,6 @@ namespace P42_Allergies
         private void ResetTicksUntilAllercureSeverityChange()
         {
             TicksUntilAllercureImpact = Rand.Range(MinTicksUntilAllercureImpact, MaxTicksUntilAllercureImpact);
-        }
-
-        public virtual void Tick()
-        {
-            // Check for natural severity change
-            TicksUntilNaturalSeverityChange--;
-            if(TicksUntilNaturalSeverityChange <= 0)
-            {
-                // Define what kind of change should occur
-                float chanceForGoodOutcome = 0.5f;
-                float allergicSensitivity = AllergyUtility.GetAllergicSensitivity(Pawn);
-                if (allergicSensitivity == 0f) chanceForGoodOutcome = 1f;
-                else if (allergicSensitivity < 1f) chanceForGoodOutcome = 0.6f;
-                else if (allergicSensitivity > 1f) chanceForGoodOutcome = 0.4f;
-
-                bool isGoodOutcome = Rand.Chance(chanceForGoodOutcome);
-                bool isExtremeOutcome = Rand.Chance(ExtremeNaturalSeverityChangeChance);
-
-                // Do the change
-                if(isGoodOutcome && isExtremeOutcome)
-                {
-                    HealAllergyNaturally();
-                    return;
-                }
-                else if(isGoodOutcome && !isExtremeOutcome)
-                {
-                    if (Severity == AllergySeverity.Mild)
-                    {
-                        HealAllergyNaturally();
-                        return;
-                    }
-                    else ReduceAllergySeverityNaturally();
-                }
-                else if(!isGoodOutcome && !isExtremeOutcome)
-                {
-                    if (Severity != AllergySeverity.Extreme) IncreaseAllergySeverityNaturally();
-                }
-                else if(!isGoodOutcome && isExtremeOutcome)
-                {
-                    if (Severity != AllergySeverity.Extreme) SetToExtremeSeverityNaturally();
-                }
-
-                ResetTicksUntilNaturalSeverityChange();
-            }
-
-            // Check for allercure severity change
-            if(Pawn.IsHashIntervalTick(AllercureHighCheckInterval))
-            {
-                Hediff allercureHigh = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllercureHigh"));
-                if(allercureHigh != null)
-                {
-                    TicksUntilAllercureImpact -= AllercureHighCheckInterval;
-                    if(TicksUntilAllercureImpact <= 0)
-                    {
-                        bool isInstantHeal = Rand.Chance(AllercureInstantHealChance);
-
-                        if(isInstantHeal)
-                        {
-                            HealAllergyWithAllercure();
-                            return;
-                        }
-                        else
-                        {
-                            if(Severity == AllergySeverity.Mild)
-                            {
-                                HealAllergyWithAllercure();
-                                return;
-                            }
-                            else ReduceAllergySeverityAllercure();
-                        }
-
-                        ResetTicksUntilAllercureSeverityChange();
-                    }
-                }
-            }
         }
 
         private void HealAllergyNaturally()
@@ -202,163 +128,128 @@ namespace P42_Allergies
             }
         }
 
-        /// <summary>
-        /// Returns if two allergies are of the exact same type and subtype. Used to avoid generating duplicate allergies.
-        /// </summary>
-        public abstract bool IsDuplicateOf(Allergy otherAllergy);
+        #endregion
 
-        /// <summary>
-        /// Executes the PIE (Passive Item Exposure) check for a certain item and increases allergen buildup accordingly.
-        /// </summary>
-        protected void DoPieCheck(Func<ThingDef, bool> ItemIdentifier)
+        #region Tick
+
+        public void Tick()
         {
-            // Get the current info of the pawn
-            Map map = Pawn.Map;
-            IntVec3 pawnPosition = Pawn.Position;
-            Room room = Pawn.GetRoom();
-
-            if (map != null)
+            // Check for natural severity change
+            TicksUntilNaturalSeverityChange--;
+            if (TicksUntilNaturalSeverityChange <= 0)
             {
-                // Pawn inside
-                if (room == null || room.IsHuge)
-                {
-                    int searchRadius = 5;
-                    foreach (Thing item in GenRadial.RadialDistinctThingsAround(pawnPosition, map, searchRadius, useCenter: true))
-                    {
-                        if (ItemIdentifier(item.def)) // Being nearby item => minor passive exposure
-                        {
-                            float buildup = MinorPassiveExposureIncreasePerCheck;
-                            IncreaseAllergenBuildup(buildup, "P42_AllergyCause_BeingNearby".Translate(item.Label));
-                            break;
-                        }
+                // Define what kind of change should occur
+                float chanceForGoodOutcome = 0.5f;
+                float allergicSensitivity = AllergyUtility.GetAllergicSensitivity(Pawn);
+                if (allergicSensitivity == 0f) chanceForGoodOutcome = 1f;
+                else if (allergicSensitivity < 1f) chanceForGoodOutcome = 0.6f;
+                else if (allergicSensitivity > 1f) chanceForGoodOutcome = 0.4f;
 
-                        if (item.TryGetComp<CompIngredients>() != null)
-                        {
-                            foreach (ThingDef ingredient in item.TryGetComp<CompIngredients>().ingredients)
-                            {
-                                if (ItemIdentifier(ingredient)) // Being nearby something with item as ingredient => minor passive exposure
-                                {
-                                    float buildup = MinorPassiveExposureIncreasePerCheck;
-                                    IncreaseAllergenBuildup(buildup, "P42_AllergyCause_BeingNearbyIngredient".Translate(item.Label, ingredient.label));
-                                    break;
-                                }
-                            }
-                        }
+                bool isGoodOutcome = Rand.Chance(chanceForGoodOutcome);
+                bool isExtremeOutcome = Rand.Chance(ExtremeNaturalSeverityChangeChance);
+
+                // Do the change
+                if (isGoodOutcome && isExtremeOutcome)
+                {
+                    HealAllergyNaturally();
+                    return;
+                }
+                else if (isGoodOutcome && !isExtremeOutcome)
+                {
+                    if (Severity == AllergySeverity.Mild)
+                    {
+                        HealAllergyNaturally();
+                        return;
                     }
+                    else ReduceAllergySeverityNaturally();
+                }
+                else if (!isGoodOutcome && !isExtremeOutcome)
+                {
+                    if (Severity != AllergySeverity.Extreme) IncreaseAllergySeverityNaturally();
+                }
+                else if (!isGoodOutcome && isExtremeOutcome)
+                {
+                    if (Severity != AllergySeverity.Extreme) SetToExtremeSeverityNaturally();
                 }
 
-                // Pawn outside
-                else
+                ResetTicksUntilNaturalSeverityChange();
+            }
+
+            // Check for allercure severity change
+            if (Pawn.IsHashIntervalTick(AllercureHighCheckInterval))
+            {
+                Hediff allercureHigh = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllercureHigh"));
+                if (allercureHigh != null)
                 {
-                    foreach (Thing item in room.ContainedAndAdjacentThings)
+                    TicksUntilAllercureImpact -= AllercureHighCheckInterval;
+                    if (TicksUntilAllercureImpact <= 0)
                     {
-                        if (ItemIdentifier(item.def)) // Being in same room as item => strong passive exposure
+                        bool isInstantHeal = Rand.Chance(AllercureInstantHealChance);
+
+                        if (isInstantHeal)
                         {
-                            float buildup = StrongPassiveExposureIncreasePerCheck;
-                            IncreaseAllergenBuildup(buildup, "P42_AllergyCause_InSameRoom".Translate(item.Label));
-                            break;
+                            HealAllergyWithAllercure();
+                            return;
+                        }
+                        else
+                        {
+                            if (Severity == AllergySeverity.Mild)
+                            {
+                                HealAllergyWithAllercure();
+                                return;
+                            }
+                            else ReduceAllergySeverityAllercure();
                         }
 
-                        if (item.TryGetComp<CompIngredients>() != null)
-                        {
-                            foreach (ThingDef ingredient in item.TryGetComp<CompIngredients>().ingredients)
-                            {
-                                if (ItemIdentifier(ingredient)) // Being in same room as something with item as ingredient => minor passive exposure
-                                {
-                                    float buildup = MinorPassiveExposureIncreasePerCheck;
-                                    IncreaseAllergenBuildup(buildup, "P42_AllergyCause_InSameRoomIngredient".Translate(item.Label, ingredient.label));
-                                    break;
-                                }
-                            }
-                        }
+                        ResetTicksUntilAllercureSeverityChange();
                     }
                 }
             }
 
-            // Holding item
-            if (Pawn.carryTracker.CarriedThing != null)
+            // Allergy-specific passive exposure checks
+            if (Pawn.IsHashIntervalTick(ExposureCheckInterval))
             {
-                Thing carriedThing = Pawn.carryTracker.CarriedThing;
-                if (carriedThing != null && ItemIdentifier(carriedThing.def)) // Holding item => extreme passive exposure
-                {
-                    float buildup = ExtremePassiveExposureIncreasePerCheck;
-                    IncreaseAllergenBuildup(buildup, "P42_AllergyCause_Holding".Translate(carriedThing.Label));
-                }
-
-                if (carriedThing.TryGetComp<CompIngredients>() != null)
-                {
-                    foreach (ThingDef ingredient in carriedThing.TryGetComp<CompIngredients>().ingredients)
-                    {
-                        if (ItemIdentifier(ingredient)) // Holding something with item as ingredient => strong passive exposure
-                        {
-                            float buildup = StrongPassiveExposureIncreasePerCheck;
-                            IncreaseAllergenBuildup(buildup, "P42_AllergyCause_HoldingIngredient".Translate(carriedThing.Label, ingredient.label));
-                            break;
-                        }
-                    }
-                }
+                DoPassiveExposureChecks();
             }
-
-            // Inventory
-            if (Pawn.inventory?.innerContainer != null && Pawn.inventory.innerContainer.Count > 0)
-            {
-                foreach (Thing item in Pawn.inventory.GetDirectlyHeldThings())
-                {
-                    if (ItemIdentifier(item.def)) // Having item in inventory => extreme passive exposure
-                    {
-                        float buildup = ExtremePassiveExposureIncreasePerCheck;
-                        IncreaseAllergenBuildup(buildup, "P42_AllergyCause_InInventory".Translate(item.Label, Pawn.Possessive()));
-                        break;
-                    }
-
-                    if (item.TryGetComp<CompIngredients>() != null)
-                    {
-                        foreach (ThingDef ingredient in item.TryGetComp<CompIngredients>().ingredients)
-                        {
-                            if (ItemIdentifier(ingredient)) // Having something with item as ingredient in inventory => strong passive exposure
-                            {
-                                float buildup = StrongPassiveExposureIncreasePerCheck;
-                                IncreaseAllergenBuildup(buildup, "P42_AllergyCause_InInventoryIngredient".Translate(item.Label, Pawn.Possessive(), ingredient.label));
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            // Caravan inventory
-            Caravan caravan = Pawn.GetCaravan();
-            if (caravan != null)
-            {
-                foreach(Thing item in caravan.AllThings)
-                {
-                    if (ItemIdentifier(item.def)) // Item is in caravan inventory => minor passive exposure
-                    {
-                        float buildup = MinorPassiveExposureIncreasePerCheck;
-                        IncreaseAllergenBuildup(buildup, "P42_AllergyCause_InInventoryCaravan".Translate(item.Label));
-                        break;
-                    }
-
-                    if (item.TryGetComp<CompIngredients>() != null)
-                    {
-                        foreach (ThingDef ingredient in item.TryGetComp<CompIngredients>().ingredients)
-                        {
-                            if (ItemIdentifier(ingredient)) // Something with item as ingredient in caravan inventory => minor passive exposure
-                            {
-                                float buildup = MinorPassiveExposureIncreasePerCheck;
-                                IncreaseAllergenBuildup(buildup, "P42_AllergyCause_InInventoryCaravanIngredient".Translate(item.Label, ingredient.label));
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-
-
         }
-        public void IncreaseAllergenBuildup(float baseAmount, string reasonForIncrease)
+        protected abstract void DoPassiveExposureChecks();
+
+        #endregion
+
+        #region Exposure
+
+        private void MinorPassiveExposure(string cause)
+        {
+            float buildup = MinorPassiveExposureIncreasePerCheck;
+            IncreaseAllergenBuildup(buildup, cause);
+        }
+        private void StrongPassiveExposure(string cause)
+        {
+            float buildup = StrongPassiveExposureIncreasePerCheck;
+            IncreaseAllergenBuildup(buildup, cause);
+        }
+        private void ExtremePassiveExposure(string cause)
+        {
+            float buildup = ExtremePassiveExposureIncreasePerCheck;
+            IncreaseAllergenBuildup(buildup, cause);
+        }
+        public void MinorExposureEvent(string cause)
+        {
+            float buildup = MinorExposureEventIncrease;
+            IncreaseAllergenBuildup(buildup, cause);
+        }
+        public void StrongExposureEvent(string cause)
+        {
+            float buildup = StrongExposureEventIncrease;
+            IncreaseAllergenBuildup(buildup, cause);
+        }
+        public void ExtremeExposureEvent(string cause)
+        {
+            float buildup = ExtremeExposureEventIncrease;
+            IncreaseAllergenBuildup(buildup, cause);
+        }
+
+        private void IncreaseAllergenBuildup(float baseAmount, string reasonForIncrease)
         {
             if (Pawn == null || Pawn.Dead) return;
 
@@ -420,6 +311,155 @@ namespace P42_Allergies
             }
         }
 
+        /// <summary>
+        /// Executes the PIE (Passive Item Exposure) check for a certain item and increases allergen buildup accordingly.
+        /// </summary>
+        protected void DoPieCheck(Func<ThingDef, bool> ItemIdentifier)
+        {
+            // Get the current info of the pawn
+            Map map = Pawn.Map;
+            IntVec3 pawnPosition = Pawn.Position;
+            Room room = Pawn.GetRoom();
+
+            if (map != null)
+            {
+                // Pawn inside
+                if (room == null || room.IsHuge)
+                {
+                    int searchRadius = 5;
+                    foreach (Thing item in GenRadial.RadialDistinctThingsAround(pawnPosition, map, searchRadius, useCenter: true))
+                    {
+                        if (ItemIdentifier(item.def)) // Being nearby item => minor passive exposure
+                        {
+                            MinorPassiveExposure("P42_AllergyCause_BeingNearby".Translate(item.Label));
+                            break;
+                        }
+
+                        if (item.TryGetComp<CompIngredients>() != null)
+                        {
+                            foreach (ThingDef ingredient in item.TryGetComp<CompIngredients>().ingredients)
+                            {
+                                if (ItemIdentifier(ingredient)) // Being nearby something with item as ingredient => minor passive exposure
+                                {
+                                    MinorPassiveExposure("P42_AllergyCause_BeingNearbyIngredient".Translate(item.Label, ingredient.label));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Pawn outside
+                else
+                {
+                    foreach (Thing item in room.ContainedAndAdjacentThings)
+                    {
+                        if (ItemIdentifier(item.def)) // Being in same room as item => strong passive exposure
+                        {
+                            StrongPassiveExposure("P42_AllergyCause_InSameRoom".Translate(item.Label));
+                            break;
+                        }
+
+                        if (item.TryGetComp<CompIngredients>() != null)
+                        {
+                            foreach (ThingDef ingredient in item.TryGetComp<CompIngredients>().ingredients)
+                            {
+                                if (ItemIdentifier(ingredient)) // Being in same room as something with item as ingredient => minor passive exposure
+                                {
+                                    MinorPassiveExposure("P42_AllergyCause_InSameRoomIngredient".Translate(item.Label, ingredient.label));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Holding item
+            if (Pawn.carryTracker.CarriedThing != null)
+            {
+                Thing carriedThing = Pawn.carryTracker.CarriedThing;
+                if (carriedThing != null && ItemIdentifier(carriedThing.def)) // Holding item => extreme passive exposure
+                {
+                    ExtremePassiveExposure("P42_AllergyCause_Holding".Translate(carriedThing.Label));
+                }
+
+                if (carriedThing.TryGetComp<CompIngredients>() != null)
+                {
+                    foreach (ThingDef ingredient in carriedThing.TryGetComp<CompIngredients>().ingredients)
+                    {
+                        if (ItemIdentifier(ingredient)) // Holding something with item as ingredient => strong passive exposure
+                        {
+                            StrongPassiveExposure("P42_AllergyCause_HoldingIngredient".Translate(carriedThing.Label, ingredient.label));
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Inventory
+            if (Pawn.inventory?.innerContainer != null && Pawn.inventory.innerContainer.Count > 0)
+            {
+                foreach (Thing item in Pawn.inventory.GetDirectlyHeldThings())
+                {
+                    if (ItemIdentifier(item.def)) // Having item in inventory => extreme passive exposure
+                    {
+                        ExtremePassiveExposure("P42_AllergyCause_InInventory".Translate(item.Label, Pawn.Possessive()));
+                        break;
+                    }
+
+                    if (item.TryGetComp<CompIngredients>() != null)
+                    {
+                        foreach (ThingDef ingredient in item.TryGetComp<CompIngredients>().ingredients)
+                        {
+                            if (ItemIdentifier(ingredient)) // Having something with item as ingredient in inventory => strong passive exposure
+                            {
+                                StrongPassiveExposure("P42_AllergyCause_InInventoryIngredient".Translate(item.Label, Pawn.Possessive(), ingredient.label));
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            // Caravan inventory
+            Caravan caravan = Pawn.GetCaravan();
+            if (caravan != null)
+            {
+                foreach (Thing item in caravan.AllThings)
+                {
+                    if (ItemIdentifier(item.def)) // Item is in caravan inventory => minor passive exposure
+                    {
+                        MinorPassiveExposure("P42_AllergyCause_InInventoryCaravan".Translate(item.Label));
+                        break;
+                    }
+
+                    if (item.TryGetComp<CompIngredients>() != null)
+                    {
+                        foreach (ThingDef ingredient in item.TryGetComp<CompIngredients>().ingredients)
+                        {
+                            if (ItemIdentifier(ingredient)) // Something with item as ingredient in caravan inventory => minor passive exposure
+                            {
+                                MinorPassiveExposure("P42_AllergyCause_InInventoryCaravanIngredient".Translate(item.Label, ingredient.label));
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Returns if two allergies are of the exact same type and subtype. Used to avoid generating duplicate allergies.
+        /// </summary>
+        public abstract bool IsDuplicateOf(Allergy otherAllergy);
+
         public string GetSeverityString()
         {
             if (Severity == AllergySeverity.Mild) return "P42_AllergySeverity_Mild".Translate();
@@ -436,6 +476,6 @@ namespace P42_Allergies
             Scribe_Values.Look(ref TicksUntilAllercureImpact, "ticksUntilAllercureImpact");
             ExposeExtraData();
         }
-        protected virtual void ExposeExtraData() { }
+        protected abstract void ExposeExtraData();
     }
 }

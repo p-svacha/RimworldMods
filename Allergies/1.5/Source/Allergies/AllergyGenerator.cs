@@ -17,6 +17,9 @@ namespace P42_Allergies
             { AllergyTypeId.FoodType, 1f },
             { AllergyTypeId.Ingredient, 1f },
             { AllergyTypeId.Drug, 1f },
+            { AllergyTypeId.Medicine, 1f },
+            { AllergyTypeId.TextileType, 1f },
+            { AllergyTypeId.Textile, 1f },
             { AllergyTypeId.Animal, 1f },
         };
 
@@ -39,6 +42,13 @@ namespace P42_Allergies
             { FoodType.Kibble, 0.4f },
             { FoodType.Liquor, 0.6f },
             { FoodType.ProcessedMeals, 0.8f },
+        };
+
+        private static Dictionary<TextileType, float> TextileTypeCommonalities = new Dictionary<TextileType, float>()
+        {
+            { TextileType.Leather, 1f },
+            { TextileType.Wool, 0.9f },
+            { TextileType.Fabric, 1.1f },
         };
 
         #endregion
@@ -108,21 +118,39 @@ namespace P42_Allergies
             switch(type)
             {
                 case AllergyTypeId.FoodType:
-                    FoodTypeAllergy allergy_foodType = new FoodTypeAllergy();
-                    allergy_foodType.FoodType = GetWeightedRandomElement(FoodTypeCommonalities);
-                    return allergy_foodType;
+                    FoodTypeAllergy foodTypeAllergy = new FoodTypeAllergy();
+                    foodTypeAllergy.FoodType = GetWeightedRandomElement(FoodTypeCommonalities);
+                    return foodTypeAllergy;
 
                 case AllergyTypeId.Ingredient:
-                    IngredientAllergy allergy_ingredient = new IngredientAllergy();
-                    allergy_ingredient.Ingredient = AllergyUtility.GetRandomIngredient();
-                    return allergy_ingredient;
+                    IngredientAllergy ingredientAllergy = new IngredientAllergy();
+                    ingredientAllergy.Ingredient = AllergyUtility.GetRandomIngredient();
+                    return ingredientAllergy;
 
                 case AllergyTypeId.Drug:
-                    DrugAllergy allergy_drug = new DrugAllergy();
-                    allergy_drug.Drug = AllergyUtility.GetRandomDrug();
-                    return allergy_drug;
+                    DrugAllergy drugAllergy = new DrugAllergy();
+                    drugAllergy.Drug = AllergyUtility.GetRandomDrug();
+                    return drugAllergy;
 
-                case AllergyTypeId.Animal: return new AnimalAllergy();
+                case AllergyTypeId.Medicine:
+                    MedicineAllergy medicineAllergy = new MedicineAllergy();
+                    medicineAllergy.MedicineType = AllergyUtility.GetRandomMedicine();
+                    return medicineAllergy;
+
+                case AllergyTypeId.TextileType:
+                    TextileTypeAllergy textileTypeAllergy = new TextileTypeAllergy();
+                    textileTypeAllergy.TextileType = GetWeightedRandomElement(TextileTypeCommonalities);
+                    return textileTypeAllergy;
+
+                case AllergyTypeId.Textile:
+                    TextileAllergy textileAllergy = new TextileAllergy();
+                    textileAllergy.Textile = AllergyUtility.GetRandomTextile();
+                    return textileAllergy;
+
+                case AllergyTypeId.Animal:
+                    AnimalAllergy animalAllergy = new AnimalAllergy();
+                    animalAllergy.Animal = AllergyUtility.GetRandomAnimal();
+                    return animalAllergy;
             }
             throw new Exception();
         }

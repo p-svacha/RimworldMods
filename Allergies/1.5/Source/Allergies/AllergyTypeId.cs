@@ -12,6 +12,7 @@ namespace P42_Allergies
         Ingredient,
         Drug,
         Medicine,
+        TextileType,
         Textile,
         Animal,
         Pollen,

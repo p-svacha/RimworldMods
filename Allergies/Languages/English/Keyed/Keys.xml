@@ -7,9 +7,12 @@
     <P42_AllergySeverity_Severe>severe</P42_AllergySeverity_Severe>
     <P42_AllergySeverity_Extreme>extreme</P42_AllergySeverity_Extreme>
 
-    <!-- Allergic reaction causess -->
+    <!-- Allergic reaction causes -->
     <P42_AllergyCause_Ingested>ingesting {0}</P42_AllergyCause_Ingested>
-    <P42_AllergyCause_IngestedIngredient>ingesting {0} (with {1} as an ingredient)</P42_AllergyCause_IngestedIngredient>
+    <P42_AllergyCause_IngestedIngredient>ingesting {0} (with {1} as an ingredient)
+    <P42_AllergyCause_Tended>getting tended with {0}</P42_AllergyCause_Tended>
+
+    </P42_AllergyCause_IngestedIngredient>
     <P42_AllergyCause_BeingNearby>being nearby {0}</P42_AllergyCause_BeingNearby>
     <P42_AllergyCause_BeingNearbyIngredient>being nearby {0} (with {1} as an ingredient)</P42_AllergyCause_BeingNearbyIngredient>
     <P42_AllergyCause_InSameRoom>being in the same room as {0}</P42_AllergyCause_InSameRoom>
@@ -48,6 +51,16 @@
 
     <P42_AllergyFoodType_ProcessedMeals>processed meal</P42_AllergyFoodType_ProcessedMeals>
     <P42_AllergyFoodType_ProcessedMealsPlural>processed meals</P42_AllergyFoodType_ProcessedMealsPlural>
+
+    <!-- Textile types -->
+    <P42_AllergyTextileType_Leather>leather</P42_AllergyTextileType_Leather>
+    <P42_AllergyTextileType_LeatherPlural>leather</P42_AllergyTextileType_LeatherPlural>
+
+    <P42_AllergyTextileType_Wool>wool</P42_AllergyTextileType_Wool>
+    <P42_AllergyTextileType_WoolPlural>wool</P42_AllergyTextileType_WoolPlural>
+
+    <P42_AllergyTextileType_Fabric>fabric</P42_AllergyTextileType_Fabric>
+    <P42_AllergyTextileType_FabricPlural>fabric</P42_AllergyTextileType_FabricPlural>
 
     <!-- Messages -->
     <P42_Message_AllergyHealedNaturally>{0}'s allergy has naturally gone away.</P42_Message_AllergyHealedNaturally>

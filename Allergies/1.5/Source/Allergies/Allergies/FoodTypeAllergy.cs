@@ -25,21 +25,12 @@ namespace P42_Allergies
     {
         public FoodType FoodType;
 
-        public override void Tick()
+        protected override void DoPassiveExposureChecks()
         {
-            base.Tick();
-
-            if(Pawn.IsHashIntervalTick(ExposureCheckInterval))
-            {
-                // PIE-checks
-                DoPieCheck(GetIdentifier());
-            }
+            DoPieCheck(GetIdentifier());
         }
 
-        public override bool IsDuplicateOf(Allergy otherAllergy)
-        {
-            return (otherAllergy is FoodTypeAllergy otherFoodTypeAllergy && otherFoodTypeAllergy.FoodType == FoodType);
-        }
+
 
         /// <summary>
         /// Checks if a thing has all the included food type flags, none of the excluded food type flags, any of the provided cat defs and includes the defNameContains
@@ -86,7 +77,7 @@ namespace P42_Allergies
                 case FoodType.Liquor: return IsLiquor;
                 case FoodType.ProcessedMeals: return IsProcessedMeal;
             }
-            throw new Exception("Type " + FoodType.ToString() + " not handled.");
+            return def => false;
         }
 
         private bool IsProduce(ThingDef item)
@@ -128,12 +119,10 @@ namespace P42_Allergies
 
 
 
-        protected override void ExposeExtraData()
+        public override bool IsDuplicateOf(Allergy otherAllergy)
         {
-            base.ExposeExtraData();
-            Scribe_Values.Look(ref FoodType, "foodType");
+            return (otherAllergy is FoodTypeAllergy otherFoodTypeAllergy && otherFoodTypeAllergy.FoodType == FoodType);
         }
-
         public override string TypeLabel
         {
             get
@@ -153,7 +142,6 @@ namespace P42_Allergies
                 }
             }
         }
-
         public override string TypeLabelPlural
         {
             get
@@ -172,6 +160,10 @@ namespace P42_Allergies
                     default: return "???";
                 }
             }
+        }
+        protected override void ExposeExtraData()
+        {
+            Scribe_Values.Look(ref FoodType, "foodType");
         }
     }
 

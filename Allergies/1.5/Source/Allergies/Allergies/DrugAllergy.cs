@@ -11,15 +11,9 @@ namespace P42_Allergies
     {
         public ThingDef Drug;
 
-        public override void Tick()
+        protected override void DoPassiveExposureChecks()
         {
-            base.Tick();
-
-            if (Pawn.IsHashIntervalTick(ExposureCheckInterval))
-            {
-                // PIE-checks
-                DoPieCheck(IsDrug);
-            }
+            DoPieCheck(IsDrug);
         }
 
         public bool IsDrug(ThingDef thing) => thing == Drug;
@@ -30,5 +24,9 @@ namespace P42_Allergies
         }
         public override string TypeLabel => Drug.label;
         public override string TypeLabelPlural => Drug.label;
+        protected override void ExposeExtraData()
+        {
+            Scribe_Values.Look(ref Drug, "drug");
+        }
     }
 }

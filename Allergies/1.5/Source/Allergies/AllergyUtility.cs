@@ -46,5 +46,38 @@ namespace P42_Allergies
             if (!def.IsDrug) return false;
             return true;
         }
+
+        public static ThingDef GetRandomMedicine()
+        {
+            List<ThingDef> candidates = DefDatabase<ThingDef>.AllDefsListForReading.Where(x => IsMedicine(x)).ToList();
+            return candidates.RandomElement();
+        }
+        private static bool IsMedicine(ThingDef def)
+        {
+            if (def.thingCategories.Contains(ThingCategoryDefOf.Medicine)) return false;
+            return true;
+        }
+
+        public static ThingDef GetRandomTextile()
+        {
+            List<ThingDef> candidates = DefDatabase<ThingDef>.AllDefsListForReading.Where(x => IsTextile(x)).ToList();
+            return candidates.RandomElement();
+        }
+        private static bool IsTextile(ThingDef def)
+        {
+            if (def.thingCategories.Contains(ThingCategoryDefOf.Textiles)) return false;
+            return true;
+        }
+
+        public static PawnKindDef GetRandomAnimal()
+        {
+            List<PawnKindDef> candidates = DefDatabase<PawnKindDef>.AllDefsListForReading.Where(x => IsAnimal(x)).ToList();
+            return candidates.RandomElement();
+        }
+        private static bool IsAnimal(PawnKindDef def)
+        {
+            if (def.race.thingCategories.Contains(ThingCategoryDefOf.Animals)) return false;
+            return true;
+        }
     }
 }

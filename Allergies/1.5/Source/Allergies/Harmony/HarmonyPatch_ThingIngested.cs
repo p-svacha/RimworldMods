@@ -10,7 +10,7 @@ using Verse;
 namespace P42_Allergies
 {
     [HarmonyPatch(typeof(Thing), "Ingested")]
-    public class HarmonyPatch_ThingIngested
+    public static class HarmonyPatch_ThingIngested
     {
         [HarmonyPostfix]
         public static void Postfix(Thing __instance, Pawn ingester, float nutritionWanted)
@@ -38,12 +38,10 @@ namespace P42_Allergies
                 {
                     if (drugAllergy.IsDrug(__instance.def)) // ingested drug => strong or extreme exposure event
                     {
-                        float buildUpValue;
+                        string cause = "P42_AllergyCause_Ingested".Translate(__instance.Label);
 
-                        if (Rand.Chance(0.5f)) buildUpValue = Allergy.ExtremeExposureEventIncrease;
-                        else buildUpValue = Allergy.StrongExposureEventIncrease;
-
-                        allergy.IncreaseAllergenBuildup(buildUpValue, "P42_AllergyCause_Ingested".Translate(__instance.Label));
+                        if (Rand.Chance(0.5f)) allergy.ExtremeExposureEvent(cause);
+                        else allergy.StrongExposureEvent(cause);
                     }
                 }
             }
@@ -53,8 +51,7 @@ namespace P42_Allergies
         {
             if (identifier(thing.def)) // ingested item => extreme exposure event
             {
-                float buildup = Allergy.ExtremeExposureEventIncrease;
-                allergy.IncreaseAllergenBuildup(buildup, "P42_AllergyCause_Ingested".Translate(thing.Label));
+                allergy.ExtremeExposureEvent("P42_AllergyCause_Ingested".Translate(thing.Label));
                 return;
             }
 
@@ -64,8 +61,7 @@ namespace P42_Allergies
                 {
                     if (identifier(ingredient)) // ingested something with item as ingredient => strong exposure event
                     {
-                        float buildup = Allergy.StrongExposureEventIncrease;
-                        allergy.IncreaseAllergenBuildup(buildup, "P42_AllergyCause_IngestedIngredient".Translate(thing.Label, ingredient.label));
+                        allergy.StrongExposureEvent("P42_AllergyCause_IngestedIngredient".Translate(thing.Label, ingredient.label));
                     }
                 }
             }
