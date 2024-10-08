@@ -23,6 +23,9 @@ namespace P42_Allergies
             { AllergyTypeId.Animal, 1f },
             { AllergyTypeId.Plant, 1f },
             { AllergyTypeId.Pollen, 1f },
+            { AllergyTypeId.Sunlight, 1f },
+            { AllergyTypeId.Dust, 1f },
+            { AllergyTypeId.Water, 1f },
         };
 
         private static Dictionary<AllergySeverity, float> AllergySeverityCommonness = new Dictionary<AllergySeverity, float>()
@@ -170,6 +173,10 @@ namespace P42_Allergies
                     PollenAllergy pollenAllergy = new PollenAllergy();
                     pollenAllergy.PollenType = GetWeightedRandomElement(PollenTypeCommonness);
                     return pollenAllergy;
+
+                case AllergyTypeId.Sunlight: return new SunlightAllergy();
+                case AllergyTypeId.Dust: return new DustAllergy();
+                case AllergyTypeId.Water: return new WaterAllergy();
 
             }
             throw new Exception();

@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
+    <!-- Allergy types-->
+    <P42_AllergyType_Sunlight>sunlight</P42_AllergyType_Sunlight>
+    <P42_AllergyType_Dust>dust</P42_AllergyType_Dust>
+    <P42_AllergyType_Water>water</P42_AllergyType_Water>
+
+    <P42_AllergyFoodType_Produce>produce</P42_AllergyFoodType_Produce>
+    <P42_AllergyFoodType_Seed>seed</P42_AllergyFoodType_Seed>
+    <P42_AllergyFoodType_Meat>meat</P42_AllergyFoodType_Meat>
+    <P42_AllergyFoodType_Milk>milk</P42_AllergyFoodType_Milk>
+    <P42_AllergyFoodType_Egg>egg</P42_AllergyFoodType_Egg>
+    <P42_AllergyFoodType_Fungus>fungus</P42_AllergyFoodType_Fungus>
+    <P42_AllergyFoodType_Kibble>kibble</P42_AllergyFoodType_Kibble>
+    <P42_AllergyFoodType_Liquor>liquor</P42_AllergyFoodType_Liquor>
+    <P42_AllergyFoodType_ProcessedMeals>processed meal</P42_AllergyFoodType_ProcessedMeals>
+
+    <P42_AllergyTextileType_Leather>leather</P42_AllergyTextileType_Leather>
+    <P42_AllergyTextileType_Wool>wool</P42_AllergyTextileType_Wool>
+    <P42_AllergyTextileType_Fabric>fabric</P42_AllergyTextileType_Fabric>
+
+    <P42_AllergyPollenType_Flower>flower pollen</P42_AllergyPollenType_Flower>
+    <P42_AllergyPollenType_Tree>tree pollen</P42_AllergyPollenType_Tree>
+    <P42_AllergyPollenType_Grass>grass pollen</P42_AllergyPollenType_Grass>
+
     <!-- Allergy severities -->
     <P42_AllergySeverity_Mild>mild</P42_AllergySeverity_Mild>
     <P42_AllergySeverity_Moderate>moderate</P42_AllergySeverity_Moderate>
@@ -12,38 +35,22 @@
     <P42_AllergyCause_IngestedIngredient>ingesting {0} (made out of {1})</P42_AllergyCause_IngestedIngredient>
     <P42_AllergyCause_Tended>getting tended with {0}</P42_AllergyCause_Tended>
     <P42_AllergyCause_Wearing>wearing {0}</P42_AllergyCause_Wearing>
+    <P42_AllergyCause_Sunlight>exposed to {0} sunlight</P42_AllergyCause_Sunlight>
+    <P42_AllergyCause_Dust>in a {0} room</P42_AllergyCause_Dust>
+    <P42_AllergyCause_Rain>exposed to rain</P42_AllergyCause_Rain>
+    <P42_AllergyCause_Fog>exposed to fog</P42_AllergyCause_Fog>
+    <P42_AllergyCause_WalkOn>walking on {0}</P42_AllergyCause_WalkOn>
 
-    <P42_AllergyCause_BeingNearby>being nearby {0}</P42_AllergyCause_BeingNearby>
-    <P42_AllergyCause_BeingNearbyIngredient>being nearby {0} (made out of {1})</P42_AllergyCause_BeingNearbyIngredient>
-    <P42_AllergyCause_InSameRoom>being in the same room as {0}</P42_AllergyCause_InSameRoom>
-    <P42_AllergyCause_InSameRoomIngredient>being in the same room as {0} (made out of {1})</P42_AllergyCause_InSameRoomIngredient>
+    <P42_AllergyCause_BeingNearby>nearby {0}</P42_AllergyCause_BeingNearby>
+    <P42_AllergyCause_BeingNearbyIngredient>nearby {0} (made out of {1})</P42_AllergyCause_BeingNearbyIngredient>
+    <P42_AllergyCause_InSameRoom>in the same room as {0}</P42_AllergyCause_InSameRoom>
+    <P42_AllergyCause_InSameRoomIngredient>in the same room as {0} (made out of {1})</P42_AllergyCause_InSameRoomIngredient>
     <P42_AllergyCause_Holding>holding {0}</P42_AllergyCause_Holding>
     <P42_AllergyCause_HoldingIngredient>holding {0} (made out of {1})</P42_AllergyCause_HoldingIngredient>
     <P42_AllergyCause_InInventory>having {0} in inventory</P42_AllergyCause_InInventory>
     <P42_AllergyCause_InInventoryIngredient>having {0} (made out of {1}) in inventory</P42_AllergyCause_InInventoryIngredient>
     <P42_AllergyCause_InInventoryCaravan>traveling in a caravan with {0}</P42_AllergyCause_InInventoryCaravan>
     <P42_AllergyCause_InInventoryCaravanIngredient>traveling in a caravan with {0} (made out of {1})</P42_AllergyCause_InInventoryCaravanIngredient>
-
-    <!-- Food types -->
-    <P42_AllergyFoodType_Produce>produce</P42_AllergyFoodType_Produce>
-    <P42_AllergyFoodType_Seed>seed</P42_AllergyFoodType_Seed>
-    <P42_AllergyFoodType_Meat>meat</P42_AllergyFoodType_Meat>
-    <P42_AllergyFoodType_Milk>milk</P42_AllergyFoodType_Milk>
-    <P42_AllergyFoodType_Egg>egg</P42_AllergyFoodType_Egg>
-    <P42_AllergyFoodType_Fungus>fungus</P42_AllergyFoodType_Fungus>
-    <P42_AllergyFoodType_Kibble>kibble</P42_AllergyFoodType_Kibble>
-    <P42_AllergyFoodType_Liquor>liquor</P42_AllergyFoodType_Liquor>
-    <P42_AllergyFoodType_ProcessedMeals>processed meal</P42_AllergyFoodType_ProcessedMeals>
-
-    <!-- Textile types -->
-    <P42_AllergyTextileType_Leather>leather</P42_AllergyTextileType_Leather>
-    <P42_AllergyTextileType_Wool>wool</P42_AllergyTextileType_Wool>
-    <P42_AllergyTextileType_Fabric>fabric</P42_AllergyTextileType_Fabric>
-
-    <!-- Pollen types -->
-    <P42_AllergyPollenType_Flower>flower pollen</P42_AllergyPollenType_Flower>
-    <P42_AllergyPollenType_Tree>tree pollen</P42_AllergyPollenType_Tree>
-    <P42_AllergyPollenType_Grass>grass pollen</P42_AllergyPollenType_Grass>
 
     <!-- Messages -->
     <P42_Message_AllergyHealedNaturally>{0}'s allergy has naturally gone away.</P42_Message_AllergyHealedNaturally>

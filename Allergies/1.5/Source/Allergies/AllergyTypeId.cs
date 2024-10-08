@@ -17,13 +17,14 @@ namespace P42_Allergies
         Animal,
         Plant,
         Pollen,
+        Sunlight,
         Dust,
-        Sun,
         Water,
         Temperature,
-        Smoke,
         SpecificItem,
-        Alcohol,
-        Xenotype
+        Xenotype,
+        Wood,
+        Stone,
+        Metal
     }
 }

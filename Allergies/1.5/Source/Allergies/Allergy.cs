@@ -270,30 +270,35 @@ namespace P42_Allergies
                 // Create a letter to notify the player of the newly discovered allergy
                 if (Pawn.IsColonistPlayerControlled)
                 {
-                    string letterLabel = "P42_LetterLabel_NewAllergyDiscovered".Translate();
-                    string letterTextStart = "";
-
-                    if (Severity == AllergySeverity.Mild)
-                        letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Mild".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
-                    if (Severity == AllergySeverity.Moderate)
-                        letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Moderate".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
-                    if (Severity == AllergySeverity.Severe)
-                        letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Severe".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
-                    if (Severity == AllergySeverity.Extreme)
-                        letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Extreme".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
-
-                    string letterTextEnd = "\n\n"+"P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.NameShortColored, Pawn.ProSubj(), GetSeverityString(), FullAllergyName, Pawn.ProObj());
-
-                    string letterText = letterTextStart + letterTextEnd;
-                    Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NegativeEvent, Pawn);
+                    SendAllergyDiscoveredLetter(translatedCause);
                 }
             }
+        }
+
+        private void SendAllergyDiscoveredLetter(string translatedCause)
+        {
+            string letterLabel = "P42_LetterLabel_NewAllergyDiscovered".Translate();
+            string letterTextStart = "";
+
+            if (Severity == AllergySeverity.Mild)
+                letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Mild".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
+            if (Severity == AllergySeverity.Moderate)
+                letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Moderate".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
+            if (Severity == AllergySeverity.Severe)
+                letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Severe".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
+            if (Severity == AllergySeverity.Extreme)
+                letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Extreme".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
+
+            string letterTextEnd = "\n\n" + "P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.NameShortColored, Pawn.ProSubj(), GetSeverityString(), TypeLabel, Pawn.ProObj());
+
+            string letterText = letterTextStart + letterTextEnd;
+            Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NegativeEvent, Pawn);
         }
 
         /// <summary>
         /// Executes the PIE (Passive Item Exposure) check for a certain item and increases allergen buildup accordingly.
         /// </summary>
-        protected void DoPieCheck(Func<ThingDef, bool> IsAllergenic, bool checkApparel = true, bool checkProductionIngredients = true)
+        protected void DoPieCheck(Func<ThingDef, bool> IsAllergenic, bool checkApparel = true, bool checkInventory = true)
         {
             // Get the current info of the pawn
             Map map = Pawn.Map;
@@ -343,7 +348,7 @@ namespace P42_Allergies
             }
 
             // Inventory
-            if (Pawn.inventory?.innerContainer != null && Pawn.inventory.innerContainer.Count > 0)
+            if (checkInventory && Pawn.inventory?.innerContainer != null && Pawn.inventory.innerContainer.Count > 0)
             {
                 foreach (Thing item in Pawn.inventory.GetDirectlyHeldThings())
                 {
@@ -357,16 +362,19 @@ namespace P42_Allergies
 
 
             // Caravan inventory
-            Caravan caravan = Pawn.GetCaravan();
-            if (caravan != null)
+            if (checkInventory)
             {
-                foreach (Thing item in caravan.AllThings)
+                Caravan caravan = Pawn.GetCaravan();
+                if (caravan != null)
                 {
-                    CheckItemIfAllergenicAndApplyBuildup(item, IsAllergenic, "P42_AllergyCause_InInventoryCaravan",
-                        directExposure: ExposureType.MinorPassive,
-                        ingredientExposure: ExposureType.MinorPassive,
-                        stuffExposure: ExposureType.MinorPassive,
-                        productionIngredientExposure: ExposureType.MinorPassive);
+                    foreach (Thing item in caravan.AllThings)
+                    {
+                        CheckItemIfAllergenicAndApplyBuildup(item, IsAllergenic, "P42_AllergyCause_InInventoryCaravan",
+                            directExposure: ExposureType.MinorPassive,
+                            ingredientExposure: ExposureType.MinorPassive,
+                            stuffExposure: ExposureType.MinorPassive,
+                            productionIngredientExposure: ExposureType.MinorPassive);
+                    }
                 }
             }
 

@@ -44,12 +44,15 @@
     <Compile Include="AllergenBuildupStage.cs" />
     <Compile Include="Allergies\AnimalAllergy.cs" />
     <Compile Include="Allergies\DrugAllergy.cs" />
+    <Compile Include="Allergies\DustAllergy.cs" />
     <Compile Include="Allergies\IngredientAllergy.cs" />
     <Compile Include="Allergies\MedicineAllergy.cs" />
     <Compile Include="Allergies\PlantAllergy.cs" />
     <Compile Include="Allergies\PollenAllergy.cs" />
+    <Compile Include="Allergies\SunlightAllergy.cs" />
     <Compile Include="Allergies\TextileAllergy.cs" />
     <Compile Include="Allergies\TextileTypeAllergy.cs" />
+    <Compile Include="Allergies\WaterAllergy.cs" />
     <Compile Include="Allergy.cs" />
     <Compile Include="Allergies\FoodTypeAllergy.cs" />
     <Compile Include="AllergyGenerator.cs" />
