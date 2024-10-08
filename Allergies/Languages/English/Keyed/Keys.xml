@@ -9,58 +9,41 @@
 
     <!-- Allergic reaction causes -->
     <P42_AllergyCause_Ingested>ingesting {0}</P42_AllergyCause_Ingested>
-    <P42_AllergyCause_IngestedIngredient>ingesting {0} (with {1} as an ingredient)
+    <P42_AllergyCause_IngestedIngredient>ingesting {0} (made out of {1})</P42_AllergyCause_IngestedIngredient>
     <P42_AllergyCause_Tended>getting tended with {0}</P42_AllergyCause_Tended>
+    <P42_AllergyCause_Wearing>wearing {0}</P42_AllergyCause_Wearing>
 
-    </P42_AllergyCause_IngestedIngredient>
     <P42_AllergyCause_BeingNearby>being nearby {0}</P42_AllergyCause_BeingNearby>
-    <P42_AllergyCause_BeingNearbyIngredient>being nearby {0} (with {1} as an ingredient)</P42_AllergyCause_BeingNearbyIngredient>
+    <P42_AllergyCause_BeingNearbyIngredient>being nearby {0} (made out of {1})</P42_AllergyCause_BeingNearbyIngredient>
     <P42_AllergyCause_InSameRoom>being in the same room as {0}</P42_AllergyCause_InSameRoom>
-    <P42_AllergyCause_InSameRoomIngredient>being in the same room as {0} (with {1} as an ingredient)</P42_AllergyCause_InSameRoomIngredient>
+    <P42_AllergyCause_InSameRoomIngredient>being in the same room as {0} (made out of {1})</P42_AllergyCause_InSameRoomIngredient>
     <P42_AllergyCause_Holding>holding {0}</P42_AllergyCause_Holding>
-    <P42_AllergyCause_HoldingIngredient>holding {0} (with {1} as an ingredient)</P42_AllergyCause_HoldingIngredient>
-    <P42_AllergyCause_InInventory>holding {0} in {1} inventory</P42_AllergyCause_InInventory>
-    <P42_AllergyCause_InInventoryIngredient>holding {0} (with {2} as an ingredient) in {1} inventory</P42_AllergyCause_InInventoryIngredient>
+    <P42_AllergyCause_HoldingIngredient>holding {0} (made out of {1})</P42_AllergyCause_HoldingIngredient>
+    <P42_AllergyCause_InInventory>having {0} in inventory</P42_AllergyCause_InInventory>
+    <P42_AllergyCause_InInventoryIngredient>having {0} (made out of {1}) in inventory</P42_AllergyCause_InInventoryIngredient>
     <P42_AllergyCause_InInventoryCaravan>traveling in a caravan with {0}</P42_AllergyCause_InInventoryCaravan>
-    <P42_AllergyCause_InInventoryCaravanIngredient>traveling in a caravan with {0} (with {1} as an ingredient)</P42_AllergyCause_InInventoryCaravanIngredient>
+    <P42_AllergyCause_InInventoryCaravanIngredient>traveling in a caravan with {0} (made out of {1})</P42_AllergyCause_InInventoryCaravanIngredient>
 
     <!-- Food types -->
     <P42_AllergyFoodType_Produce>produce</P42_AllergyFoodType_Produce>
-    <P42_AllergyFoodType_ProducePlural>produce (fruits and vegetables)</P42_AllergyFoodType_ProducePlural>
-
     <P42_AllergyFoodType_Seed>seed</P42_AllergyFoodType_Seed>
-    <P42_AllergyFoodType_SeedPlural>seeds (i.e. rice)</P42_AllergyFoodType_SeedPlural>
-
     <P42_AllergyFoodType_Meat>meat</P42_AllergyFoodType_Meat>
-    <P42_AllergyFoodType_MeatPlural>meat</P42_AllergyFoodType_MeatPlural>
-
     <P42_AllergyFoodType_Milk>milk</P42_AllergyFoodType_Milk>
-    <P42_AllergyFoodType_MilkPlural>milk</P42_AllergyFoodType_MilkPlural>
-
     <P42_AllergyFoodType_Egg>egg</P42_AllergyFoodType_Egg>
-    <P42_AllergyFoodType_EggPlural>eggs</P42_AllergyFoodType_EggPlural>
-
     <P42_AllergyFoodType_Fungus>fungus</P42_AllergyFoodType_Fungus>
-    <P42_AllergyFoodType_FungusPlural>mushrooms</P42_AllergyFoodType_FungusPlural>
-
     <P42_AllergyFoodType_Kibble>kibble</P42_AllergyFoodType_Kibble>
-    <P42_AllergyFoodType_KibblePlural>kibble</P42_AllergyFoodType_KibblePlural>
-
     <P42_AllergyFoodType_Liquor>liquor</P42_AllergyFoodType_Liquor>
-    <P42_AllergyFoodType_LiquorPlural>liquor</P42_AllergyFoodType_LiquorPlural>
-
     <P42_AllergyFoodType_ProcessedMeals>processed meal</P42_AllergyFoodType_ProcessedMeals>
-    <P42_AllergyFoodType_ProcessedMealsPlural>processed meals</P42_AllergyFoodType_ProcessedMealsPlural>
 
     <!-- Textile types -->
     <P42_AllergyTextileType_Leather>leather</P42_AllergyTextileType_Leather>
-    <P42_AllergyTextileType_LeatherPlural>leather</P42_AllergyTextileType_LeatherPlural>
-
     <P42_AllergyTextileType_Wool>wool</P42_AllergyTextileType_Wool>
-    <P42_AllergyTextileType_WoolPlural>wool</P42_AllergyTextileType_WoolPlural>
-
     <P42_AllergyTextileType_Fabric>fabric</P42_AllergyTextileType_Fabric>
-    <P42_AllergyTextileType_FabricPlural>fabric</P42_AllergyTextileType_FabricPlural>
+
+    <!-- Pollen types -->
+    <P42_AllergyPollenType_Flower>flower pollen</P42_AllergyPollenType_Flower>
+    <P42_AllergyPollenType_Tree>tree pollen</P42_AllergyPollenType_Tree>
+    <P42_AllergyPollenType_Grass>grass pollen</P42_AllergyPollenType_Grass>
 
     <!-- Messages -->
     <P42_Message_AllergyHealedNaturally>{0}'s allergy has naturally gone away.</P42_Message_AllergyHealedNaturally>
@@ -76,5 +59,5 @@
     <P42_LetterTextStart_NewAllergyDiscovered_Moderate>When {0}, {1} had to sneeze repeatedly and {2} skin and eyes started to itch.</P42_LetterTextStart_NewAllergyDiscovered_Moderate>
     <P42_LetterTextStart_NewAllergyDiscovered_Severe>When {0}, {1} felt {2} throat tightening, had to sneeze violently, and {2} eyes started to burn.</P42_LetterTextStart_NewAllergyDiscovered_Severe>
     <P42_LetterTextStart_NewAllergyDiscovered_Extreme>When {0}, {1} started gasping for air, and {2} breathing became severely restricted, experiencing an intense anaphylactic shock.</P42_LetterTextStart_NewAllergyDiscovered_Extreme>
-    <P42_LetterTextEnd_AllergyDiscovered>{0} discovered that {1} has a {2} {3}.\n\nKeep {4} away from {5} or try to treat the allergy to avoid health complications.</P42_LetterTextEnd_AllergyDiscovered>
+    <P42_LetterTextEnd_AllergyDiscovered>{0} discovered that {1} has a {2} {3}.\n\nKeep {4} away from anything {3}-related or try to treat the allergy to avoid health complications.</P42_LetterTextEnd_AllergyDiscovered>
 </LanguageData>

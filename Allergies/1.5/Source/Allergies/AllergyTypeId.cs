@@ -15,6 +15,7 @@ namespace P42_Allergies
         TextileType,
         Textile,
         Animal,
+        Plant,
         Pollen,
         Dust,
         Sun,

@@ -10,9 +10,9 @@ namespace P42_Allergies
 {
     public static class AllergyGenerator
     {
-        #region Commonalities
+        #region Commonness tables
 
-        private static Dictionary<AllergyTypeId, float> AllergyTypeCommonalities = new Dictionary<AllergyTypeId, float>()
+        private static Dictionary<AllergyTypeId, float> AllergyTypeCommonness = new Dictionary<AllergyTypeId, float>()
         {
             { AllergyTypeId.FoodType, 1f },
             { AllergyTypeId.Ingredient, 1f },
@@ -21,9 +21,11 @@ namespace P42_Allergies
             { AllergyTypeId.TextileType, 1f },
             { AllergyTypeId.Textile, 1f },
             { AllergyTypeId.Animal, 1f },
+            { AllergyTypeId.Plant, 1f },
+            { AllergyTypeId.Pollen, 1f },
         };
 
-        private static Dictionary<AllergySeverity, float> AllergySeverityCommonalities = new Dictionary<AllergySeverity, float>()
+        private static Dictionary<AllergySeverity, float> AllergySeverityCommonness = new Dictionary<AllergySeverity, float>()
         {
             { AllergySeverity.Mild, 1f },
             { AllergySeverity.Moderate, 1f },
@@ -31,7 +33,7 @@ namespace P42_Allergies
             { AllergySeverity.Extreme, 0.05f },
         };
 
-        private static Dictionary<FoodType, float> FoodTypeCommonalities = new Dictionary<FoodType, float>()
+        private static Dictionary<FoodType, float> FoodTypeCommonness = new Dictionary<FoodType, float>()
         {
             { FoodType.Produce, 1.2f },
             { FoodType.Seed, 0.6f },
@@ -44,11 +46,18 @@ namespace P42_Allergies
             { FoodType.ProcessedMeals, 0.8f },
         };
 
-        private static Dictionary<TextileType, float> TextileTypeCommonalities = new Dictionary<TextileType, float>()
+        private static Dictionary<TextileType, float> TextileTypeCommonness = new Dictionary<TextileType, float>()
         {
             { TextileType.Leather, 1f },
             { TextileType.Wool, 0.9f },
             { TextileType.Fabric, 1.1f },
+        };
+
+        private static Dictionary<PollenType, float> PollenTypeCommonness = new Dictionary<PollenType, float>()
+        {
+            { PollenType.Flowers, 0.5f },
+            { PollenType.Trees, 1f },
+            { PollenType.Grass, 0.75f },
         };
 
         #endregion
@@ -89,7 +98,7 @@ namespace P42_Allergies
             allergyHediff.SetAllergy(newAllergy);
             newAllergy.OnInitOrLoad(allergyHediff);
             pawn.health.AddHediff(allergyHediff);
-            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Initialized a new allergy: {newAllergy.TypeLabel} with severity {newAllergy.Severity} on {pawn.Name}.");
+            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Initialized a new allergy: {newAllergy.TypeLabel} ({newAllergy.GetType()}) with severity {newAllergy.Severity} on {pawn.Name}.");
         }
 
         private static bool CanApplyAllergy(Pawn pawn, List<Hediff_Allergy> existingAllergies)
@@ -105,8 +114,8 @@ namespace P42_Allergies
 
         public static Allergy CreateRandomAllergy()
         {
-            AllergyTypeId chosenAllergyType = GetWeightedRandomElement(AllergyTypeCommonalities);
-            AllergySeverity chosenAllergySeverity = GetWeightedRandomElement(AllergySeverityCommonalities);
+            AllergyTypeId chosenAllergyType = GetWeightedRandomElement(AllergyTypeCommonness);
+            AllergySeverity chosenAllergySeverity = GetWeightedRandomElement(AllergySeverityCommonness);
 
             Allergy newAllergy = CreateAllergyByType(chosenAllergyType);
             newAllergy.OnNewAllergyCreated(chosenAllergySeverity);
@@ -119,7 +128,7 @@ namespace P42_Allergies
             {
                 case AllergyTypeId.FoodType:
                     FoodTypeAllergy foodTypeAllergy = new FoodTypeAllergy();
-                    foodTypeAllergy.FoodType = GetWeightedRandomElement(FoodTypeCommonalities);
+                    foodTypeAllergy.FoodType = GetWeightedRandomElement(FoodTypeCommonness);
                     return foodTypeAllergy;
 
                 case AllergyTypeId.Ingredient:
@@ -139,7 +148,7 @@ namespace P42_Allergies
 
                 case AllergyTypeId.TextileType:
                     TextileTypeAllergy textileTypeAllergy = new TextileTypeAllergy();
-                    textileTypeAllergy.TextileType = GetWeightedRandomElement(TextileTypeCommonalities);
+                    textileTypeAllergy.TextileType = GetWeightedRandomElement(TextileTypeCommonness);
                     return textileTypeAllergy;
 
                 case AllergyTypeId.Textile:
@@ -151,6 +160,17 @@ namespace P42_Allergies
                     AnimalAllergy animalAllergy = new AnimalAllergy();
                     animalAllergy.Animal = AllergyUtility.GetRandomAnimal();
                     return animalAllergy;
+
+                case AllergyTypeId.Plant:
+                    PlantAllergy plantAllergy = new PlantAllergy();
+                    plantAllergy.Plant = AllergyUtility.GetRandomGrowablePlant();
+                    return plantAllergy;
+
+                case AllergyTypeId.Pollen:
+                    PollenAllergy pollenAllergy = new PollenAllergy();
+                    pollenAllergy.PollenType = GetWeightedRandomElement(PollenTypeCommonness);
+                    return pollenAllergy;
+
             }
             throw new Exception();
         }

@@ -37,18 +37,19 @@ namespace P42_Allergies
 
         private bool IsWool(ThingDef def)
         {
-            return def.thingCategories.Contains(ThingCategoryDefOf.Wools);
+            return def.IsWool;
         }
         private bool IsLeather(ThingDef def)
         {
-            return def.thingCategories.Contains(ThingCategoryDefOf.Leathers);
+            return def.IsLeather;
         }
         private bool IsSynthetic(ThingDef def)
         {
+            if (def.thingCategories == null) return false;
+
             if (def.thingCategories.Contains(ThingCategoryDefOf.Wools)) return false;
             if (def.thingCategories.Contains(ThingCategoryDefOf.Leathers)) return false;
-
-            if(!def.stuffProps.categories.Contains(StuffCategoryDefOf.Fabric)) return false;
+            if(!def.thingCategories.Contains(ThingCategoryDefOf.Textiles)) return false;
 
             return true;
         }
@@ -66,19 +67,6 @@ namespace P42_Allergies
                     case TextileType.Leather: return "P42_AllergyTextileType_Leather".Translate();
                     case TextileType.Wool: return "P42_AllergyTextileType_Wool".Translate();
                     case TextileType.Fabric: return "P42_AllergyTextileType_Fabric".Translate();
-                    default: return "???";
-                }
-            }
-        }
-        public override string TypeLabelPlural
-        {
-            get
-            {
-                switch (TextileType)
-                {
-                    case TextileType.Leather: return "P42_AllergyTextileType_LeatherPlural".Translate();
-                    case TextileType.Wool: return "P42_AllergyTextileType_WoolPlural".Translate();
-                    case TextileType.Fabric: return "P42_AllergyTextileType_FabricPlural".Translate();
                     default: return "???";
                 }
             }

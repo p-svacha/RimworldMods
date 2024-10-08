@@ -16,7 +16,13 @@ namespace P42_Allergies
         {
             base.Tick();
 
-            if (Allergy == null) Allergy = AllergyGenerator.CreateRandomAllergy(); // failsafe if adding hediff in devmode
+            if (!AllergyUtility.CheckForAllergies(pawn)) return;
+
+            if (Allergy == null)
+            {
+                Allergy = AllergyGenerator.CreateRandomAllergy(); // failsafe if adding hediff in devmode
+                Allergy.OnInitOrLoad(this);
+            }
             Allergy.Tick();
         }
 

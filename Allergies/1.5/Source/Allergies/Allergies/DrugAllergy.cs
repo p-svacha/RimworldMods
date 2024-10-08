@@ -13,7 +13,7 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            DoPieCheck(IsDrug);
+            DoPieCheck(IsDrug, checkApparel: false);
         }
 
         public bool IsDrug(ThingDef thing) => thing == Drug;
@@ -23,7 +23,6 @@ namespace P42_Allergies
             return (otherAllergy is DrugAllergy drugAllergy && drugAllergy.Drug == Drug);
         }
         public override string TypeLabel => Drug.label;
-        public override string TypeLabelPlural => Drug.label;
         protected override void ExposeExtraData()
         {
             Scribe_Values.Look(ref Drug, "drug");

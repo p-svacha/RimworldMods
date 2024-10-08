@@ -23,7 +23,6 @@ namespace P42_Allergies
             return (otherAllergy is TextileAllergy otherTextileAllergy && otherTextileAllergy.Textile == Textile);
         }
         public override string TypeLabel => Textile.label;
-        public override string TypeLabelPlural => Textile.label;
         protected override void ExposeExtraData()
         {
             Scribe_Values.Look(ref Textile, "textile");

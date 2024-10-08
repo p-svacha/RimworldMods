@@ -15,6 +15,8 @@ namespace P42_Allergies
         [HarmonyPostfix]
         public static void Postfix(Pawn doctor, Pawn patient, Medicine medicine)
         {
+            if (!AllergyUtility.CheckForAllergies(patient)) return;
+
             List<Hediff_Allergy> allergies = AllergyUtility.GetPawnAllergies(patient);
             foreach (Hediff_Allergy allergyHediff in allergies)
             {
@@ -24,7 +26,7 @@ namespace P42_Allergies
                 {
                     if(medicineAllergy.IsMedicineType(medicine.def)) // getting tended with => extreme exposure event
                     {
-                        medicineAllergy.ExtremeExposureEvent("P42_AllergyCause_Tended".Translate(medicine.Label));
+                        medicineAllergy.IncreaseAllergenBuildup(ExposureType.ExtremeEvent, "P42_AllergyCause_Tended".Translate(medicine.LabelNoParenthesis));
                     }
                 }
             }

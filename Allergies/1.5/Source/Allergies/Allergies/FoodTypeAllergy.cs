@@ -27,7 +27,7 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            DoPieCheck(GetIdentifier());
+            DoPieCheck(GetIdentifier(), checkApparel: false);
         }
 
 
@@ -138,25 +138,6 @@ namespace P42_Allergies
                     case FoodType.Kibble: return "P42_AllergyFoodType_Kibble".Translate();
                     case FoodType.Liquor: return "P42_AllergyFoodType_Liquor".Translate();
                     case FoodType.ProcessedMeals: return "P42_AllergyFoodType_ProcessedMeals".Translate();
-                    default: return "???";
-                }
-            }
-        }
-        public override string TypeLabelPlural
-        {
-            get
-            {
-                switch (FoodType)
-                {
-                    case FoodType.Produce: return "P42_AllergyFoodType_ProducePlural".Translate();
-                    case FoodType.Seed: return "P42_AllergyFoodType_SeedPlural".Translate();
-                    case FoodType.Meat: return "P42_AllergyFoodType_MeatPlural".Translate();
-                    case FoodType.Milk: return "P42_AllergyFoodType_MilkPlural".Translate();
-                    case FoodType.Egg: return "P42_AllergyFoodType_EggPlural".Translate();
-                    case FoodType.Fungus: return "P42_AllergyFoodType_FungusPlural".Translate();
-                    case FoodType.Kibble: return "P42_AllergyFoodType_KibblePlural".Translate();
-                    case FoodType.Liquor: return "P42_AllergyFoodType_LiquorPlural".Translate();
-                    case FoodType.ProcessedMeals: return "P42_AllergyFoodType_ProcessedMealsPlural".Translate();
                     default: return "???";
                 }
             }

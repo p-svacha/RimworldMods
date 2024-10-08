@@ -14,6 +14,8 @@ namespace P42_Allergies
     {
         public static void Postfix(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
         {
+            if (!AllergyUtility.CheckForAllergies(pawn)) return;
+
             List<Hediff_Allergy> allergies = AllergyUtility.GetPawnAllergies(pawn);
             foreach (Hediff_Allergy allergyHediff in allergies)
             {
@@ -25,7 +27,7 @@ namespace P42_Allergies
                     {
                         if (medicineAllergy.IsMedicineType(ingredient.def)) // getting operated with => extreme exposure event
                         {
-                            medicineAllergy.ExtremeExposureEvent("P42_AllergyCause_Tended".Translate(ingredient.Label));
+                            medicineAllergy.IncreaseAllergenBuildup(ExposureType.ExtremeEvent, "P42_AllergyCause_Tended".Translate(ingredient.LabelNoParenthesis));
                             break;
                         }
                     }

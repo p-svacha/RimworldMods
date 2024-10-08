@@ -46,6 +46,10 @@
     <Compile Include="Allergies\DrugAllergy.cs" />
     <Compile Include="Allergies\IngredientAllergy.cs" />
     <Compile Include="Allergies\MedicineAllergy.cs" />
+    <Compile Include="Allergies\PlantAllergy.cs" />
+    <Compile Include="Allergies\PollenAllergy.cs" />
+    <Compile Include="Allergies\TextileAllergy.cs" />
+    <Compile Include="Allergies\TextileTypeAllergy.cs" />
     <Compile Include="Allergy.cs" />
     <Compile Include="Allergies\FoodTypeAllergy.cs" />
     <Compile Include="AllergyGenerator.cs" />
@@ -53,6 +57,7 @@
     <Compile Include="AllergyTypeId.cs" />
     <Compile Include="AllergyUtility.cs" />
     <Compile Include="CompUseEffect_AntishockInjector.cs" />
+    <Compile Include="ExposureType.cs" />
     <Compile Include="Harmony\HarmonyPatch_DoTend.cs" />
     <Compile Include="Harmony\HarmonyPatch_GenerateInitialHediffs.cs" />
     <Compile Include="Harmony\HarmonyPatch_RecipeWorker_ApplyOnPawn.cs" />

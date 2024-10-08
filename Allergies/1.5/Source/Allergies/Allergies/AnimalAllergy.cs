@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using RimWorld;
 
 namespace P42_Allergies
 {
@@ -11,19 +12,63 @@ namespace P42_Allergies
     {
         public PawnKindDef Animal;
 
-        protected override void DoPassiveExposureChecks()
+        private List<ThingDef> AnimalProducts;
+
+        protected override void OnInitOrLoad()
         {
-            DoPieCheck(IsAnimal);
+            base.OnInitOrLoad();
+
+            AnimalProducts = new List<ThingDef>();
+
+            // Meat
+            if (Animal.race.race.meatDef != null) AnimalProducts.Add(Animal.race.race.meatDef);
+
+            // Leather
+            if (Animal.race.race.leatherDef != null) AnimalProducts.Add(Animal.race.race.leatherDef);
+
+            // Wool
+            CompProperties_Shearable shearableComp = Animal.race.GetCompProperties<CompProperties_Shearable>();
+            if (shearableComp != null && shearableComp.woolDef != null) AnimalProducts.Add(shearableComp.woolDef);
+
+            // Egg
+            CompProperties_EggLayer eggLayerComp = Animal.race.GetCompProperties<CompProperties_EggLayer>();
+            if (eggLayerComp != null)
+            {
+                if (eggLayerComp.eggUnfertilizedDef != null) AnimalProducts.Add(eggLayerComp.eggUnfertilizedDef);
+                if (eggLayerComp.eggFertilizedDef != null) AnimalProducts.Add(eggLayerComp.eggFertilizedDef);
+            }
+
+            // Milk
+            CompProperties_Milkable milkableComp = Animal.race.GetCompProperties<CompProperties_Milkable>();
+            if (milkableComp != null && milkableComp.milkDef != null) AnimalProducts.Add(milkableComp.milkDef);
+
+            if(Prefs.DevMode)
+            {
+                string s = "";
+                foreach (ThingDef t in AnimalProducts) s += " " + t.label + ",";
+                s = s.TrimEnd(',');
+                Log.Message($"[Allergies Mod] Allergenic animal products for {Animal.label} are:{s}");
+            }
         }
 
-        public bool IsAnimal(ThingDef thing) => thing == Animal.race;
+        protected override void DoPassiveExposureChecks()
+        {
+            DoPieCheck(IsAllergenic);
+        }
+
+        public bool IsAllergenic(ThingDef thing)
+        {
+            if (thing == Animal.race) return true;
+            if (AnimalProducts.Contains(thing)) return true;
+
+            return false;
+        }
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {
             return (otherAllergy is AnimalAllergy animalAllergy && animalAllergy.Animal == Animal);
         }
         public override string TypeLabel => Animal.label;
-        public override string TypeLabelPlural => Animal.labelPlural;
         protected override void ExposeExtraData()
         {
             Scribe_Values.Look(ref Animal, "animal");

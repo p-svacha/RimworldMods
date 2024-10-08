@@ -13,7 +13,7 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            DoPieCheck(IsIngredient);
+            DoPieCheck(IsIngredient, checkApparel: false);
         }
 
         public bool IsIngredient(ThingDef thing) => thing == Ingredient;
@@ -23,7 +23,6 @@ namespace P42_Allergies
             return (otherAllergy is IngredientAllergy otherIngredientAllergy && otherIngredientAllergy.Ingredient == Ingredient);
         }
         public override string TypeLabel => Ingredient.label;
-        public override string TypeLabelPlural => Ingredient.label;
         protected override void ExposeExtraData()
         {
             Scribe_Values.Look(ref Ingredient, "ingredient");
