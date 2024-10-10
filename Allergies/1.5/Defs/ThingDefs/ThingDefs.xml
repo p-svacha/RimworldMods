@@ -3,7 +3,7 @@
     <ThingDef ParentName="MakeableDrugPillBase">
         <defName>P42_Allercure</defName>
         <label>allercure</label>
-        <description>A specialized drug used to temporarily suppress allergic sensitivity and reduce allergen buildup.
+        <description>A specialized drug used to temporarily suppress allergic sensitivity and to reduce allergen reactions.
             \n\nIf consumed regularly over a long period of time, it may reduce allergy severity or even heal allergies completely.
             \n\nAllercure can cause an addiction and in very rare cases it can cause an anaphylactic shock.</description>
         <descriptionHyperlinks>
@@ -37,7 +37,7 @@
                     <toleranceChemical>P42_Allercure</toleranceChemical>
                 </li>
 
-                <!-- Add allergen buildup reduction of 10% instantly -->
+                <!-- Reduce allergic reaction severity -->
                 <li Class="P42_Allergies.IngestionOutcomeDoer_OffsetAllergenBuildup">
                     <severity>0.1</severity>
                 </li>
@@ -82,7 +82,7 @@
         <defName>P42_AntishockInjector</defName>
         <label>antishock injector</label>
         <description>A potent emergency treatment that forcefully and violently regulates someones bodily functions.
-            \n\nThe injection will instantly heal the user from an anaphylactic shock and remove all allergen buildup, toxic buildup, food poisoning, heatstroke and hypothermia. It's unpleasant and induces a boosting and painful state for a while.
+            \n\nThe injection will instantly heal the user from an anaphylactic shock, temporary allergic reactions, toxic buildup, food poisoning, heatstroke and hypothermia. It's unpleasant and induces a boosting and painful state for a while.
             \n\nSide effects can include nausea and in very rare cases also chemical damage or heart attacks.</description>
         <graphicData>
             <texPath>Things/Item/Drug/AntishockInjector</texPath>

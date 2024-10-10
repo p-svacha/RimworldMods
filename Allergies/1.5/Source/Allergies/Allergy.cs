@@ -247,21 +247,26 @@ namespace P42_Allergies
 
             if (Prefs.DevMode) Log.Message($"[Allergies Mod] Increasing allergen buildup of {Pawn.Name} by {amount} (exposure type: {exposureType.ToString()}). Allergy severity: {GetSeverityString()}. Cause: {translatedCause}.");
 
+            // Create the exposure info log
+            AllergyExposureInfo info = new AllergyExposureInfo(translatedCause, Find.TickManager.TicksGame);
+
             // Try to get the allergen buildup hediff from the pawn's health
-            Hediff existingAllergenBuildup = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllergenBuildup"));
+            Hediff_AllergenBuildup existingAllergenBuildup = (Hediff_AllergenBuildup)Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllergenBuildup"));
 
             // If the hediff exists, increase its severity
             if (existingAllergenBuildup != null)
             {
                 if (existingAllergenBuildup.Severity + amount > 1) existingAllergenBuildup.Severity = 1;
                 else existingAllergenBuildup.Severity += amount;
+                existingAllergenBuildup.AddExposureInfo(info);
             }
             else
             {
                 // If the hediff is not present, add it to the pawn with the initial severity
-                Hediff newBuildup = HediffMaker.MakeHediff(HediffDef.Named("P42_AllergenBuildup"), Pawn);
+                Hediff_AllergenBuildup newBuildup = (Hediff_AllergenBuildup)HediffMaker.MakeHediff(HediffDef.Named("P42_AllergenBuildup"), Pawn);
                 newBuildup.Severity = amount;
                 Pawn.health.AddHediff(newBuildup);
+                newBuildup.AddExposureInfo(info);
             }
 
             // If the allergy has not been visible so far make it visible
@@ -279,8 +284,8 @@ namespace P42_Allergies
 
         private void SendAllergyDiscoveredLetter(string translatedCause)
         {
-            string letterLabel = "P42_LetterLabel_NewAllergyDiscovered".Translate();
-            string letterTextStart = "";
+            TaggedString letterLabel = "P42_LetterLabel_NewAllergyDiscovered".Translate();
+            TaggedString letterTextStart = "";
 
             if (Severity == AllergySeverity.Mild)
                 letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Mild".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
@@ -291,9 +296,10 @@ namespace P42_Allergies
             if (Severity == AllergySeverity.Extreme)
                 letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Extreme".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
 
-            string letterTextEnd = "\n\n" + "P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.NameShortColored, Pawn.ProSubj(), GetSeverityString(), TypeLabel, Pawn.ProObj());
+            TaggedString letterTextMiddle = "\n\n" + Pawn.NameShortColored + " " + "P42_LetterTextMiddle_AllergyDiscovered".Translate(Pawn.ProSubj(), GetSeverityString()) + " " + FullAllergyName.Colorize(new UnityEngine.Color(0.9f, 1f, 0.6f));
+            TaggedString letterTextEnd = "\n\n" + "P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.ProObj(), TypeLabel);
 
-            string letterText = letterTextStart + letterTextEnd;
+            TaggedString letterText = letterTextStart + letterTextMiddle + letterTextEnd;
             Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NegativeEvent, Pawn);
         }
 
@@ -343,7 +349,7 @@ namespace P42_Allergies
                                 ingredientExposure: ExposureType.MinorPassive,
                                 stuffExposure: ExposureType.MinorPassive,
                                 productionIngredientExposure: ExposureType.MinorPassive,
-                                butcherProductExposure: checkButcherProducts ? ExposureType.StrongEvent : ExposureType.None,
+                                butcherProductExposure: checkButcherProducts ? ExposureType.MinorPassive : ExposureType.None,
                                 plantExposure: checkPlants ? ExposureType.MinorPassive : ExposureType.None);
                         }
 
@@ -429,68 +435,73 @@ namespace P42_Allergies
         /// Checks an item, its stuff, ingredients and production ingredients for if they are allergenic and if yes, applies the buildup.
         /// Returns if allergenic buildup got increased in this check.
         /// </summary>
-        public bool CheckItemIfAllergenicAndApplyBuildup(Thing item, string causeKey, ExposureType directExposure, ExposureType ingredientExposure, ExposureType stuffExposure, ExposureType productionIngredientExposure, ExposureType butcherProductExposure, ExposureType plantExposure)
+        public bool CheckItemIfAllergenicAndApplyBuildup(Thing thing, string causeKey, ExposureType directExposure, ExposureType ingredientExposure, ExposureType stuffExposure, ExposureType productionIngredientExposure, ExposureType butcherProductExposure, ExposureType plantExposure)
         {
+            if (butcherProductExposure != ExposureType.None) Log.Message($"[Allergies Mod] butcherProductExposure is on for {thing.Label}");
+
             // Check if item itself is allergenic
-            if (directExposure != ExposureType.None && IsAllergenic(item.def))
+            if (directExposure != ExposureType.None && IsAllergenic(thing.def))
             {
-                IncreaseAllergenBuildup(directExposure, causeKey.Translate(item.LabelNoParenthesis));
+                IncreaseAllergenBuildup(directExposure, causeKey.Translate(thing.LabelNoParenthesis));
                 return true;
             }
 
             // Check if an ingredient (food) is allergenic
-            if (ingredientExposure != ExposureType.None && item.TryGetComp<CompIngredients>() != null)
+            if (ingredientExposure != ExposureType.None && thing.TryGetComp<CompIngredients>() != null)
             {
-                foreach (ThingDef ingredient in item.TryGetComp<CompIngredients>().ingredients)
+                foreach (ThingDef ingredient in thing.TryGetComp<CompIngredients>().ingredients)
                 {
                     if (IsAllergenic(ingredient))
                     {
-                        IncreaseAllergenBuildup(ingredientExposure, causeKey.Translate(item.LabelNoParenthesis + "(" + "P42_AllergyCause_Suffix_Ingredient".Translate(ingredient.label) +")"));
+                        IncreaseAllergenBuildup(ingredientExposure, causeKey.Translate(thing.LabelNoParenthesis + " (" + "P42_AllergyCause_Suffix_Ingredient".Translate(ingredient.label) +")"));
                         return true;
                     }
                 }
             }
 
             // Check if item stuff is allergenic
-            if (stuffExposure != ExposureType.None && item.Stuff != null && IsAllergenic(item.Stuff))
+            if (stuffExposure != ExposureType.None && thing.Stuff != null && IsAllergenic(thing.Stuff))
             {
-                IncreaseAllergenBuildup(stuffExposure, causeKey.Translate(item.LabelNoParenthesis));
+                IncreaseAllergenBuildup(stuffExposure, causeKey.Translate(thing.LabelNoParenthesis));
                 return true;
             }
 
             // Check if production ingredient is allergenic
             if (productionIngredientExposure != ExposureType.None)
             {
-                List<ThingDef> productionIngredients = AllergyUtility.GetProductionIngredients(item.def);
+                List<ThingDef> productionIngredients = AllergyUtility.GetProductionIngredients(thing.def);
                 foreach (ThingDef ingredient in productionIngredients)
                 {
                     if (IsAllergenic(ingredient))
                     {
-                        IncreaseAllergenBuildup(productionIngredientExposure, causeKey.Translate(item.LabelNoParenthesis + "(" + "P42_AllergyCause_Suffix_MadeOutOf".Translate(ingredient.label) + ")"));
+                        IncreaseAllergenBuildup(productionIngredientExposure, causeKey.Translate(thing.LabelNoParenthesis + " (" + "P42_AllergyCause_Suffix_MadeOutOf".Translate(ingredient.label) + ")"));
                         return true;
                     }
                 }
             }
 
+            if (butcherProductExposure != ExposureType.None) Log.Message($"[Allergies Mod] butcherProductExposure is on for {thing.Label} 2");
             // Check butcher products
-            if(butcherProductExposure != ExposureType.None && item.def.butcherProducts != null)
+            if (butcherProductExposure != ExposureType.None && thing.def.butcherProducts != null)
             {
-                foreach(ThingDefCountClass tdcc in item.def.butcherProducts)
+                if (butcherProductExposure != ExposureType.None) Log.Message($"[Allergies Mod] butcherProductExposure is on for {thing.Label} 3");
+                foreach (ThingDefCountClass tdcc in thing.def.butcherProducts)
                 {
-                    if(IsAllergenic(tdcc.thingDef))
+                    if (butcherProductExposure != ExposureType.None) Log.Message($"[Allergies Mod] butcherProductExposure is on for {tdcc.thingDef.label} 2");
+                    if (IsAllergenic(tdcc.thingDef))
                     {
-                        IncreaseAllergenBuildup(productionIngredientExposure, causeKey.Translate(item.LabelNoParenthesis + "(" + "P42_AllergyCause_Suffix_Yielding".Translate(tdcc.thingDef.label) + ")"));
+                        IncreaseAllergenBuildup(butcherProductExposure, causeKey.Translate(thing.LabelNoParenthesis));
                         return true;
                     }
                 }
             }
 
             // Check harvest yield
-            if(plantExposure != ExposureType.None && item.def.plant != null && item.def.plant.harvestedThingDef != null)
+            if(plantExposure != ExposureType.None && thing.def.plant != null && thing.def.plant.harvestedThingDef != null)
             {
-                if (IsAllergenic(item.def.plant.harvestedThingDef))
+                if (IsAllergenic(thing.def.plant.harvestedThingDef))
                 {
-                    IncreaseAllergenBuildup(productionIngredientExposure, causeKey.Translate(item.LabelNoParenthesis + "(" + "P42_AllergyCause_Suffix_Yielding".Translate(item.def.plant.harvestedThingDef.label) + ")"));
+                    IncreaseAllergenBuildup(plantExposure, causeKey.Translate(thing.LabelNoParenthesis));
                     return true;
                 }
             }

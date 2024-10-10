@@ -27,6 +27,9 @@ namespace P42_Allergies
         private int DontCheckFullSeverityFor = 0;
         private const int StopCheckingFullSeverityFor = 1000;
 
+        private const int IncreaseCausesLogLimit = 3;
+        private List<AllergyExposureInfo> LastIncreaseCauses = new List<AllergyExposureInfo>();
+
         private Dictionary<string, float> SkinRashBodyPartTable = new Dictionary<string, float>()
         {
             { "Head", 1f },
@@ -174,10 +177,46 @@ namespace P42_Allergies
             else existingHediff.Severity = Math.Max(existingHediff.Severity, severity);
         }
 
+        public void AddExposureInfo(AllergyExposureInfo info)
+        {
+            AllergyExposureInfo existingInfo = LastIncreaseCauses.FirstOrDefault(x => x.Cause == info.Cause);
+            if (existingInfo != null)
+            {
+                existingInfo.Amount++;
+                existingInfo.Tick = info.Tick;
+            }
+            else
+            {
+                LastIncreaseCauses.Add(info);
+                if (LastIncreaseCauses.Count > IncreaseCausesLogLimit) LastIncreaseCauses.RemoveAt(0);
+            }
+        }
+
+        public override string Description
+        {
+            get
+            {
+                if (LastIncreaseCauses == null || LastIncreaseCauses.Count == 0) return def.description;
+                else
+                {
+                    string s = "";
+                    foreach(AllergyExposureInfo info in LastIncreaseCauses)
+                    {
+                        string amount = info.Amount == 1 ? "" : " x" + info.Amount;
+                        int ticksAgo = Find.TickManager.TicksGame - info.Tick;
+                        string timeAgo = GenDate.ToStringTicksToPeriod(ticksAgo);
+                        s += "\n   - " + info.Cause + amount +" (" + timeAgo + " ago)";
+                    }
+                    return def.description + "\n\nLast causes for increase:" + s;
+                }
+            }
+        }
+
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Deep.Look(ref DontCheckFullSeverityFor, "dontCheckFullSeverityFor");
+            Scribe_Collections.Look(ref LastIncreaseCauses, "lastIncreaseCauses");
+            Scribe_Values.Look(ref DontCheckFullSeverityFor, "dontCheckFullSeverityFor");
         }
         public override string DebugString()
         {

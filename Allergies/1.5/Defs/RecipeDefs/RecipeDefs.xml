@@ -12,6 +12,9 @@
         <dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
         <surgeryOutcomeEffect IsNull="True" />
         <humanlikeOnly>true</humanlikeOnly>
+        <descriptionHyperlinks>
+            <ThingDef>P42_AntishockInjector</ThingDef>
+          </descriptionHyperlinks>
         <ingredients>
             <li>
                 <filter>

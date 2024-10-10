@@ -53,7 +53,7 @@ namespace P42_Allergies
         public override string TypeLabel => Xenotype.label;
         protected override void ExposeExtraData()
         {
-            Scribe_Values.Look(ref Xenotype, "xenotype");
+            Scribe_Defs.Look(ref Xenotype, "xenotype");
         }
     }
 }

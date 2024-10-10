@@ -7,9 +7,10 @@ using HarmonyLib;
 using RimWorld;
 using Verse;
 
+
 namespace P42_Allergies
 {
-    [HarmonyPatch(typeof(InteractionWorker), "Interact")]
+    [HarmonyPatch(typeof(InteractionWorker), "Interacted")]
     public static class HarmonyPatch_InteractionWorker_Interacted
     {
         [HarmonyPrefix]

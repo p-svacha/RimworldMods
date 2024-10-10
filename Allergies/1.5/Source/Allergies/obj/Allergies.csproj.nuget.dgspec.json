@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj": {}
+    "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj": {}
   },
   "projects": {
-    "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj": {
+    "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
+        "projectUniqueName": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
         "projectName": "Allergies",
-        "projectPath": "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
+        "projectPath": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
         "packagesPath": "C:\\Users\\test\\.nuget\\packages\\",
-        "outputPath": "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\obj\\",
+        "outputPath": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "configFilePaths": [

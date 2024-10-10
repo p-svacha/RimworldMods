@@ -25,7 +25,7 @@ namespace P42_Allergies
         public override string TypeLabel => Textile.label;
         protected override void ExposeExtraData()
         {
-            Scribe_Values.Look(ref Textile, "textile");
+            Scribe_Defs.Look(ref Textile, "textile");
         }
     }
 }

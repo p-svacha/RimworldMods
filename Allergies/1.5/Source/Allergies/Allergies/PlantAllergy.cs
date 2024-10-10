@@ -31,7 +31,7 @@ namespace P42_Allergies
         public override string TypeLabel => Plant.label;
         protected override void ExposeExtraData()
         {
-            Scribe_Values.Look(ref Plant, "plant");
+            Scribe_Defs.Look(ref Plant, "plant");
         }
     }
 }

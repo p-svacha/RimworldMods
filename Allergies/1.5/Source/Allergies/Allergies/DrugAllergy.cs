@@ -25,7 +25,7 @@ namespace P42_Allergies
         public override string TypeLabel => Drug.label;
         protected override void ExposeExtraData()
         {
-            Scribe_Values.Look(ref Drug, "drug");
+            Scribe_Defs.Look(ref Drug, "drug");
         }
     }
 }

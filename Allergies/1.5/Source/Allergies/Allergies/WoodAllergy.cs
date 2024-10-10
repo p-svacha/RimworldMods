@@ -25,7 +25,7 @@ namespace P42_Allergies
         public override string TypeLabel => WoodType.label;
         protected override void ExposeExtraData()
         {
-            Scribe_Values.Look(ref WoodType, "woodType");
+            Scribe_Defs.Look(ref WoodType, "woodType");
         }
     }
 }

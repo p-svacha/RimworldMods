@@ -25,7 +25,7 @@ namespace P42_Allergies
         public override string TypeLabel => MetalType.label;
         protected override void ExposeExtraData()
         {
-            Scribe_Values.Look(ref MetalType, "metalType");
+            Scribe_Defs.Look(ref MetalType, "metalType");
         }
     }
 }

@@ -180,7 +180,7 @@ namespace P42_Allergies
         {
             if (def.stuffProps == null) return false;
             if (def.stuffProps.categories == null) return false;
-            if (!def.stuffProps.categories.Contains(StuffCategoryDefOf.Stony)) return false;
+            if (!def.stuffProps.categories.Contains(stuffCategory)) return false;
 
             return true;
         }

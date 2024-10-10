@@ -13,7 +13,7 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyItemsForPassiveExposure(checkButcherProducts: true); // butcher ingredients for stone chunks
+            CheckNearbyItemsForPassiveExposure(checkApparel: false, checkButcherProducts: true); // butcher ingredients for stone chunks
         }
 
         public override bool IsAllergenic(ThingDef thingDef) => thingDef == StoneType;
@@ -25,7 +25,7 @@ namespace P42_Allergies
         public override string TypeLabel => StoneType.label;
         protected override void ExposeExtraData()
         {
-            Scribe_Values.Look(ref StoneType, "stoneType");
+            Scribe_Defs.Look(ref StoneType, "stoneType");
         }
     }
 }

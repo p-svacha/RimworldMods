@@ -25,11 +25,11 @@
 
   <HediffDef>
     <defName>P42_AllergenBuildup</defName>
-    <label>allergen buildup</label>
-    <description>The immune system is currently overloaded by exposure to allergens.
-      \nThe buildup of these substances can cause a range of uncomfortable symptoms, from mild irritation to life-threatening reactions.
-      \nWithout treatment or removal from the allergen source, the condition will continue to worsen, potentially leading to respiratory distress, or even anaphylactic shock.</description>
-    <defaultLabelColor>(1.0, 1.0, 0.6)</defaultLabelColor>
+    <label>allergic reactions</label>
+    <description>Allergic reactions due to exposure to allergens. The reactions will get better and disappear with time but continuous exposure to allergens will increase their severity.
+      \nAllergic reacions will lead to health conditions like skin rashes, pink eye or throat tightness.
+      \nAt higher levels they can also cause severe or permanent damage to the body such as asthma, chronic sinusitis or even anaphylactic shock, which can be lethal.</description>
+    <defaultLabelColor>(0.9, 1.0, 0.6)</defaultLabelColor>
     <initialSeverity>0.001</initialSeverity>
     <maxSeverity>1</maxSeverity>
     <alwaysShowSeverity>true</alwaysShowSeverity>
@@ -46,7 +46,7 @@
       </li>
       <li Class="P42_Allergies.AllergenBuildupStage">
         <label>initial</label>
-        <minSeverity>0.04</minSeverity>
+        <minSeverity>0.10</minSeverity>
         <statOffsets>
           <WorkSpeedGlobal>-0.05</WorkSpeedGlobal>
           <RestFallRateFactor>0.05</RestFallRateFactor>
@@ -54,7 +54,7 @@
       </li>
       <li Class="P42_Allergies.AllergenBuildupStage">
         <label>minor</label>
-        <minSeverity>0.2</minSeverity>
+        <minSeverity>0.25</minSeverity>
         <sneezingFitMtbDays>6</sneezingFitMtbDays>
         <skinRashMtbDays>8</skinRashMtbDays>
         <pinkEyeMtbDays>8</pinkEyeMtbDays>
