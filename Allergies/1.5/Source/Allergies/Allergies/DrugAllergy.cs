@@ -13,14 +13,14 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            DoPieCheck(IsDrug, checkApparel: false);
+            CheckNearbyItemsForPassiveExposure(checkApparel: false);
         }
 
-        public bool IsDrug(ThingDef thing) => thing == Drug;
+        public override bool IsAllergenic(ThingDef thingDef) => thingDef == Drug;
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {
-            return (otherAllergy is DrugAllergy drugAllergy && drugAllergy.Drug == Drug);
+            return (otherAllergy is DrugAllergy otherDrugAllergy && otherDrugAllergy.Drug == Drug);
         }
         public override string TypeLabel => Drug.label;
         protected override void ExposeExtraData()

@@ -7,25 +7,25 @@ using Verse;
 
 namespace P42_Allergies
 {
-    public class TextileAllergy : Allergy
+    public class WoodAllergy : Allergy
     {
-        public ThingDef Textile;
+        public ThingDef WoodType;
 
         protected override void DoPassiveExposureChecks()
         {
             CheckNearbyItemsForPassiveExposure(checkPlants: true);
         }
 
-        public override bool IsAllergenic(ThingDef thing) => thing == Textile;
+        public override bool IsAllergenic(ThingDef thingDef) => thingDef == WoodType;
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {
-            return (otherAllergy is TextileAllergy otherTextileAllergy && otherTextileAllergy.Textile == Textile);
+            return (otherAllergy is WoodAllergy otherWoodAllergy && otherWoodAllergy.WoodType == WoodType);
         }
-        public override string TypeLabel => Textile.label;
+        public override string TypeLabel => WoodType.label;
         protected override void ExposeExtraData()
         {
-            Scribe_Values.Look(ref Textile, "textile");
+            Scribe_Values.Look(ref WoodType, "woodType");
         }
     }
 }

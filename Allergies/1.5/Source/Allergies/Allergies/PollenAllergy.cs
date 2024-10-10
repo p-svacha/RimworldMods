@@ -20,18 +20,18 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            DoPieCheck(GetIdentifier());
+            CheckNearbyItemsForPassiveExposure(checkApparel: false, checkInventory: false);
         }
 
-        public Func<ThingDef, bool> GetIdentifier()
+        public override bool IsAllergenic(ThingDef thingDef)
         {
             switch (PollenType)
             {
-                case PollenType.Flowers: return IsFlower;
-                case PollenType.Trees: return IsTree;
-                case PollenType.Grass: return IsGrass;
+                case PollenType.Flowers: return IsFlower(thingDef);
+                case PollenType.Trees: return IsTree(thingDef);
+                case PollenType.Grass: return IsGrass(thingDef);
             }
-            return def => false;
+            return false;
         }
 
         private bool IsFlower(ThingDef def)

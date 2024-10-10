@@ -11,6 +11,8 @@ namespace P42_Allergies
 {
     public class SunlightAllergy : Allergy
     {
+        public override bool IsAllergenic(ThingDef thingDef) => false;
+
         protected override void DoPassiveExposureChecks()
         {
             ExposureType sunlightExposure = GetSunlightExposure(Pawn, out string seasonLabel);

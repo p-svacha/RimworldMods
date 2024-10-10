@@ -13,10 +13,10 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            DoPieCheck(IsIngredient, checkApparel: false);
+            CheckNearbyItemsForPassiveExposure(checkApparel: false, checkPlants: true);
         }
 
-        public bool IsIngredient(ThingDef thing) => thing == Ingredient;
+        public override bool IsAllergenic(ThingDef thing) => thing == Ingredient;
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {

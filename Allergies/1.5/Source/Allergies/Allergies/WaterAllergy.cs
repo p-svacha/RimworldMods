@@ -9,6 +9,8 @@ namespace P42_Allergies
 {
     public class WaterAllergy : Allergy
     {
+        public override bool IsAllergenic(ThingDef thingDef) => false;
+
         protected override void DoPassiveExposureChecks()
         {
             ExposureType waterExposure = GetWaterExposure(Pawn, out string translatedCause);

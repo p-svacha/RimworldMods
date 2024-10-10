@@ -158,17 +158,47 @@ namespace P42_Allergies
             return true;
         }
 
-        public static ThingDef GetRandomGrowablePlant()
+        public static ThingDef GetRandomPlant()
         {
-            List<ThingDef> candidates = DefDatabase<ThingDef>.AllDefsListForReading.Where(x => IsGrowablePlant(x)).ToList();
+            List<ThingDef> candidates = DefDatabase<ThingDef>.AllDefsListForReading.Where(x => IsPlant(x)).ToList();
             return candidates.RandomElement();
         }
-        private static bool IsGrowablePlant(ThingDef def)
+        private static bool IsPlant(ThingDef def)
         {
             if (def.plant == null) return false;
-            if (!def.plant.Sowable) return false;
 
             return true;
         }
+
+        public static XenotypeDef GetRandomXenotype()
+        {
+            List<XenotypeDef> candidates = DefDatabase<XenotypeDef>.AllDefsListForReading;
+            return candidates.RandomElement();
+        }
+
+        private static bool HasStuffProp(ThingDef def, StuffCategoryDef stuffCategory)
+        {
+            if (def.stuffProps == null) return false;
+            if (def.stuffProps.categories == null) return false;
+            if (!def.stuffProps.categories.Contains(StuffCategoryDefOf.Stony)) return false;
+
+            return true;
+        }
+        public static ThingDef GetRandomStone()
+        {
+            List<ThingDef> candidates = DefDatabase<ThingDef>.AllDefsListForReading.Where(x => HasStuffProp(x, StuffCategoryDefOf.Stony)).ToList();
+            return candidates.RandomElement();
+        }
+        public static ThingDef GetRandomWood()
+        {
+            List<ThingDef> candidates = DefDatabase<ThingDef>.AllDefsListForReading.Where(x => HasStuffProp(x, StuffCategoryDefOf.Woody)).ToList();
+            return candidates.RandomElement();
+        }
+        public static ThingDef GetRandomMetal()
+        {
+            List<ThingDef> candidates = DefDatabase<ThingDef>.AllDefsListForReading.Where(x => HasStuffProp(x, StuffCategoryDefOf.Metallic)).ToList();
+            return candidates.RandomElement();
+        }
+
     }
 }

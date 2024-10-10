@@ -17,18 +17,9 @@ namespace P42_Allergies
         {
             if (!AllergyUtility.CheckForAllergies(patient)) return;
 
-            List<Hediff_Allergy> allergies = AllergyUtility.GetPawnAllergies(patient);
-            foreach (Hediff_Allergy allergyHediff in allergies)
+            foreach (Hediff_Allergy allergyHediff in AllergyUtility.GetPawnAllergies(patient))
             {
-                Allergy allergy = allergyHediff.GetAllergy();
-
-                if(allergy is MedicineAllergy medicineAllergy)
-                {
-                    if(medicineAllergy.IsMedicineType(medicine.def)) // getting tended with => extreme exposure event
-                    {
-                        medicineAllergy.IncreaseAllergenBuildup(ExposureType.ExtremeEvent, "P42_AllergyCause_Tended".Translate(medicine.LabelNoParenthesis));
-                    }
-                }
+                allergyHediff.GetAllergy().OnTendedWith(medicine);
             }
         }
     }

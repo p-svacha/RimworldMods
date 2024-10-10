@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETFramework,Version=v4.7.2": {
-      "Krafs.Rimworld.Ref/1.5.4104": {
+      "Krafs.Rimworld.Ref/1.5.4243": {
         "type": "package",
         "compile": {
           "ref/net472/Assembly-CSharp-firstpass.dll": {},
@@ -103,7 +103,7 @@
       }
     },
     ".NETFramework,Version=v4.7.2/win": {
-      "Krafs.Rimworld.Ref/1.5.4104": {
+      "Krafs.Rimworld.Ref/1.5.4243": {
         "type": "package",
         "compile": {
           "ref/net472/Assembly-CSharp-firstpass.dll": {},
@@ -204,7 +204,7 @@
       }
     },
     ".NETFramework,Version=v4.7.2/win-x64": {
-      "Krafs.Rimworld.Ref/1.5.4104": {
+      "Krafs.Rimworld.Ref/1.5.4243": {
         "type": "package",
         "compile": {
           "ref/net472/Assembly-CSharp-firstpass.dll": {},
@@ -305,7 +305,7 @@
       }
     },
     ".NETFramework,Version=v4.7.2/win-x86": {
-      "Krafs.Rimworld.Ref/1.5.4104": {
+      "Krafs.Rimworld.Ref/1.5.4243": {
         "type": "package",
         "compile": {
           "ref/net472/Assembly-CSharp-firstpass.dll": {},
@@ -407,17 +407,17 @@
     }
   },
   "libraries": {
-    "Krafs.Rimworld.Ref/1.5.4104": {
-      "sha512": "/EQrSATOpDbBNtYDQJIT27FMNTuzL6fVuvyCxoqHWWdoINjljPna8s2/9wqD5AwDGiG9A8QN53zXnWTqUdy0Cw==",
+    "Krafs.Rimworld.Ref/1.5.4243": {
+      "sha512": "2poo9wWPms6B3XChUxhEW1/+7kvPL7ljHF63jGLniIX30lEfmCp1p5hdCjEYiczaXvTkFct1fOXERFBCNg2Enw==",
       "type": "package",
-      "path": "krafs.rimworld.ref/1.5.4104",
+      "path": "krafs.rimworld.ref/1.5.4243",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.md",
         "README.md",
         "icon.png",
-        "krafs.rimworld.ref.1.5.4104.nupkg.sha512",
+        "krafs.rimworld.ref.1.5.4243.nupkg.sha512",
         "krafs.rimworld.ref.nuspec",
         "ref/net472/Assembly-CSharp-firstpass.dll",
         "ref/net472/Assembly-CSharp.dll",
@@ -554,25 +554,25 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.7.2": [
-      "Krafs.Rimworld.Ref >= 1.5.4104",
+      "Krafs.Rimworld.Ref >= 1.5.4243",
       "Lib.Harmony >= 2.3.3"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\phili\\.nuget\\packages\\": {}
+    "C:\\Users\\test\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
+      "projectUniqueName": "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
       "projectName": "Allergies",
-      "projectPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
-      "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
-      "outputPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\obj\\",
+      "projectPath": "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
+      "packagesPath": "C:\\Users\\test\\.nuget\\packages\\",
+      "outputPath": "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
-        "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\test\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -593,7 +593,7 @@
         "dependencies": {
           "Krafs.Rimworld.Ref": {
             "target": "Package",
-            "version": "[1.5.4104, )"
+            "version": "[1.5.4243, )"
           },
           "Lib.Harmony": {
             "target": "Package",

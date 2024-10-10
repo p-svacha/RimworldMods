@@ -3,3 +3,8 @@ C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.5\Source
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.5\Source\Allergies\obj\Debug\Allergies.csproj.CopyComplete
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.5\Source\Allergies\obj\Debug\Allergies.dll
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.5\Source\Allergies\obj\Debug\Allergies.csprojAssemblyReference.cache
+D:\Workspace\Mods\RimworldMods\Allergies\1.5\Assemblies\Allergies.dll
+D:\Workspace\Mods\RimworldMods\Allergies\1.5\Source\Allergies\obj\Debug\Allergies.csprojAssemblyReference.cache
+D:\Workspace\Mods\RimworldMods\Allergies\1.5\Source\Allergies\obj\Debug\Allergies.csproj.CoreCompileInputs.cache
+D:\Workspace\Mods\RimworldMods\Allergies\1.5\Source\Allergies\obj\Debug\Allergies.csproj.CopyComplete
+D:\Workspace\Mods\RimworldMods\Allergies\1.5\Source\Allergies\obj\Debug\Allergies.dll

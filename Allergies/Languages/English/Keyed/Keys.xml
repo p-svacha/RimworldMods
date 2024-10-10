@@ -24,25 +24,42 @@
     <P42_AllergyPollenType_Tree>tree pollen</P42_AllergyPollenType_Tree>
     <P42_AllergyPollenType_Grass>grass pollen</P42_AllergyPollenType_Grass>
 
+    <P42_AllergyTemperatureType_Heat>heat</P42_AllergyTemperatureType_Heat>
+    <P42_AllergyTemperatureType_Cold>cold</P42_AllergyTemperatureType_Cold>
+
     <!-- Allergy severities -->
     <P42_AllergySeverity_Mild>mild</P42_AllergySeverity_Mild>
     <P42_AllergySeverity_Moderate>moderate</P42_AllergySeverity_Moderate>
     <P42_AllergySeverity_Severe>severe</P42_AllergySeverity_Severe>
     <P42_AllergySeverity_Extreme>extreme</P42_AllergySeverity_Extreme>
 
+    <!-- Exposure intenstities -->
+    <P42_AllergyExposure_Minor>minor</P42_AllergyExposure_Minor>
+    <P42_AllergyExposure_Major>major</P42_AllergyExposure_Major>
+    <P42_AllergyExposure_Extreme>extreme</P42_AllergyExposure_Extreme>
+
     <!-- Allergic reaction causes -->
     <P42_AllergyCause_Ingested>ingesting {0}</P42_AllergyCause_Ingested>
     <P42_AllergyCause_IngestedIngredient>ingesting {0} (made out of {1})</P42_AllergyCause_IngestedIngredient>
     <P42_AllergyCause_Tended>getting tended with {0}</P42_AllergyCause_Tended>
+    <P42_AllergyCause_TendedIngredient>getting tended with {0} (made out of (1))</P42_AllergyCause_Tended>
+    <P42_AllergyCause_RecipeApplied>getting {0} applied on</P42_AllergyCause_RecipeApplied>
+    <P42_AllergyCause_RecipeAppliedIngredient>getting {0} (made out of (1)) applied on</P42_AllergyCause_RecipeAppliedIngredient>
+
+    <P42_AllergyCause_DamagedBy>damaged by {0}</P42_AllergyCause_DamagedBy>
+    <P42_AllergyCause_InteractedWith>interacted with {0}</P42_AllergyCause_InteractedWith>
+
     <P42_AllergyCause_Wearing>wearing {0}</P42_AllergyCause_Wearing>
     <P42_AllergyCause_Sunlight>exposed to {0} sunlight</P42_AllergyCause_Sunlight>
+    <P42_AllergyCause_Heat>exposed to {0} heat</P42_AllergyCause_Heat>
+    <P42_AllergyCause_Cold>exposed to {0} cold</P42_AllergyCause_Cold>
     <P42_AllergyCause_Dust>in a {0} room</P42_AllergyCause_Dust>
     <P42_AllergyCause_Rain>exposed to rain</P42_AllergyCause_Rain>
     <P42_AllergyCause_Fog>exposed to fog</P42_AllergyCause_Fog>
     <P42_AllergyCause_WalkOn>walking on {0}</P42_AllergyCause_WalkOn>
 
-    <P42_AllergyCause_BeingNearby>nearby {0}</P42_AllergyCause_BeingNearby>
-    <P42_AllergyCause_BeingNearbyIngredient>nearby {0} (made out of {1})</P42_AllergyCause_BeingNearbyIngredient>
+    <P42_AllergyCause_BeingNearby>being close to {0}</P42_AllergyCause_BeingNearby>
+    <P42_AllergyCause_BeingNearbyIngredient>being close to {0} (made out of {1})</P42_AllergyCause_BeingNearbyIngredient>
     <P42_AllergyCause_InSameRoom>in the same room as {0}</P42_AllergyCause_InSameRoom>
     <P42_AllergyCause_InSameRoomIngredient>in the same room as {0} (made out of {1})</P42_AllergyCause_InSameRoomIngredient>
     <P42_AllergyCause_Holding>holding {0}</P42_AllergyCause_Holding>
@@ -51,6 +68,10 @@
     <P42_AllergyCause_InInventoryIngredient>having {0} (made out of {1}) in inventory</P42_AllergyCause_InInventoryIngredient>
     <P42_AllergyCause_InInventoryCaravan>traveling in a caravan with {0}</P42_AllergyCause_InInventoryCaravan>
     <P42_AllergyCause_InInventoryCaravanIngredient>traveling in a caravan with {0} (made out of {1})</P42_AllergyCause_InInventoryCaravanIngredient>
+
+    <P42_AllergyCause_Suffix_Ingredient>with {0} as ingredient</P42_AllergyCause_Suffix_MadeOutOf>
+    <P42_AllergyCause_Suffix_MadeOutOf>made out of {0}</P42_AllergyCause_Suffix_MadeOutOf>
+    <P42_AllergyCause_Suffix_Yielding>yielding {0}</P42_AllergyCause_Suffix_Yielding>
 
     <!-- Messages -->
     <P42_Message_AllergyHealedNaturally>{0}'s allergy has naturally gone away.</P42_Message_AllergyHealedNaturally>

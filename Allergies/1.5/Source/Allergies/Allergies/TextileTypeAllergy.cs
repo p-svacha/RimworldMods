@@ -21,18 +21,18 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            DoPieCheck(GetIdentifier());
+            CheckNearbyItemsForPassiveExposure(checkPlants: true);
         }
 
-        public Func<ThingDef, bool> GetIdentifier()
+        public override bool IsAllergenic(ThingDef thingDef)
         {
             switch (TextileType)
             {
-                case TextileType.Wool: return IsWool;
-                case TextileType.Leather: return IsLeather;
-                case TextileType.Fabric: return IsSynthetic;
+                case TextileType.Wool: return IsWool(thingDef);
+                case TextileType.Leather: return IsLeather(thingDef);
+                case TextileType.Fabric: return IsSynthetic(thingDef);
             }
-            return def => false;
+            return false;
         }
 
         private bool IsWool(ThingDef def)

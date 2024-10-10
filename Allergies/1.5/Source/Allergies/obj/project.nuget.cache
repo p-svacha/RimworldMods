@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "MpM2WaT+jJ9ifH3QxqgGowYx/77HZQLqawTcSy07nOnbD5efrAeSKt+Y4qc431+FsG6eqei2ft6FZs2Evk5VnA==",
+  "dgSpecHash": "5Rj/SD+oKtF7Tj3jiHoQUNY5s4j0s7iXDw3rZenlb8F6QCtmBc7MdGxtaDzUrdSTBaQnW2YuEgPcRAAnlZbjeA==",
   "success": true,
-  "projectFilePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
+  "projectFilePath": "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\phili\\.nuget\\packages\\krafs.rimworld.ref\\1.5.4104\\krafs.rimworld.ref.1.5.4104.nupkg.sha512",
-    "C:\\Users\\phili\\.nuget\\packages\\lib.harmony\\2.3.3\\lib.harmony.2.3.3.nupkg.sha512"
+    "C:\\Users\\test\\.nuget\\packages\\krafs.rimworld.ref\\1.5.4243\\krafs.rimworld.ref.1.5.4243.nupkg.sha512",
+    "C:\\Users\\test\\.nuget\\packages\\lib.harmony\\2.3.3\\lib.harmony.2.3.3.nupkg.sha512"
   ],
   "logs": []
 }

@@ -27,10 +27,8 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            DoPieCheck(GetIdentifier(), checkApparel: false);
+            CheckNearbyItemsForPassiveExposure(checkApparel: false, checkPlants: true);
         }
-
-
 
         /// <summary>
         /// Checks if a thing has all the included food type flags, none of the excluded food type flags, any of the provided cat defs and includes the defNameContains
@@ -63,21 +61,21 @@ namespace P42_Allergies
             return true;
         }
 
-        public Func<ThingDef, bool> GetIdentifier()
+        public override bool IsAllergenic(ThingDef def)
         {
             switch(FoodType)
             {
-                case FoodType.Produce: return IsProduce;
-                case FoodType.Seed: return IsSeed;
-                case FoodType.Meat: return IsMeat;
-                case FoodType.Milk: return IsMilk;
-                case FoodType.Egg: return IsEgg;
-                case FoodType.Fungus: return IsFungus;
-                case FoodType.Kibble: return IsKibble;
-                case FoodType.Liquor: return IsLiquor;
-                case FoodType.ProcessedMeals: return IsProcessedMeal;
+                case FoodType.Produce: return IsProduce(def);
+                case FoodType.Seed: return IsSeed(def);
+                case FoodType.Meat: return IsMeat(def);
+                case FoodType.Milk: return IsMilk(def);
+                case FoodType.Egg: return IsEgg(def);
+                case FoodType.Fungus: return IsFungus(def);
+                case FoodType.Kibble: return IsKibble(def);
+                case FoodType.Liquor: return IsLiquor(def);
+                case FoodType.ProcessedMeals: return IsProcessedMeal(def);
             }
-            return def => false;
+            return false;
         }
 
         private bool IsProduce(ThingDef item)

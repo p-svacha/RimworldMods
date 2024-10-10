@@ -16,8 +16,6 @@ namespace P42_Allergies
 
         protected override void OnInitOrLoad()
         {
-            base.OnInitOrLoad();
-
             AnimalProducts = new List<ThingDef>();
 
             // Meat
@@ -53,10 +51,22 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            DoPieCheck(IsAllergenic);
+            CheckNearbyItemsForPassiveExposure();
         }
 
-        public bool IsAllergenic(ThingDef thing)
+        public override void OnDamageTaken(DamageInfo dinfo)
+        {
+            if (dinfo.Instigator is Pawn pawn)
+            {
+                if (pawn.kindDef == Animal) IncreaseAllergenBuildup(ExposureType.ExtremeEvent, "P42_AllergyCause_DamagedBy".Translate(Animal.label));
+            }
+        }
+        public override void OnInteractedWith(Pawn pawn)
+        {
+            if (pawn.kindDef == Animal) IncreaseAllergenBuildup(ExposureType.MinorEvent, "P42_AllergyCause_InteractedWith".Translate(Animal.label));
+        }
+
+        public override bool IsAllergenic(ThingDef thing)
         {
             if (thing == Animal.race) return true;
             if (AnimalProducts.Contains(thing)) return true;

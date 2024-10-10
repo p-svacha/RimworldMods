@@ -43,16 +43,22 @@
   <ItemGroup>
     <Compile Include="AllergenBuildupStage.cs" />
     <Compile Include="Allergies\AnimalAllergy.cs" />
+    <Compile Include="Allergies\MetalAllergy.cs" />
+    <Compile Include="Allergies\WoodAllergy.cs" />
+    <Compile Include="Allergies\StoneAllergy.cs" />
     <Compile Include="Allergies\DrugAllergy.cs" />
     <Compile Include="Allergies\DustAllergy.cs" />
     <Compile Include="Allergies\IngredientAllergy.cs" />
     <Compile Include="Allergies\MedicineAllergy.cs" />
     <Compile Include="Allergies\PlantAllergy.cs" />
     <Compile Include="Allergies\PollenAllergy.cs" />
+    <Compile Include="Allergies\SpecificMiscItemAllergy.cs" />
     <Compile Include="Allergies\SunlightAllergy.cs" />
+    <Compile Include="Allergies\TemperatureAllergy.cs" />
     <Compile Include="Allergies\TextileAllergy.cs" />
     <Compile Include="Allergies\TextileTypeAllergy.cs" />
     <Compile Include="Allergies\WaterAllergy.cs" />
+    <Compile Include="Allergies\XenotypeAllergy.cs" />
     <Compile Include="Allergy.cs" />
     <Compile Include="Allergies\FoodTypeAllergy.cs" />
     <Compile Include="AllergyGenerator.cs" />
@@ -63,6 +69,8 @@
     <Compile Include="ExposureType.cs" />
     <Compile Include="Harmony\HarmonyPatch_DoTend.cs" />
     <Compile Include="Harmony\HarmonyPatch_GenerateInitialHediffs.cs" />
+    <Compile Include="Harmony\HarmonyPatch_InteractionWorker_Interacted.cs" />
+    <Compile Include="Harmony\HarmonyPatch_Pawn_PostApplyDamage.cs" />
     <Compile Include="Harmony\HarmonyPatch_RecipeWorker_ApplyOnPawn.cs" />
     <Compile Include="Harmony\HarmonyPatch_ThingIngested.cs" />
     <Compile Include="Hediff_AllergenBuildup.cs" />
@@ -77,7 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
-      <Version>1.5.4104</Version>
+      <Version>1.5.4243</Version>
     </PackageReference>
     <PackageReference Include="Lib.Harmony">
       <Version>2.3.3</Version>

@@ -1,21 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj": {}
+    "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj": {}
   },
   "projects": {
-    "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj": {
+    "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
+        "projectUniqueName": "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
         "projectName": "Allergies",
-        "projectPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
-        "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
-        "outputPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\obj\\",
+        "projectPath": "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
+        "packagesPath": "C:\\Users\\test\\.nuget\\packages\\",
+        "outputPath": "D:\\Workspace\\Mods\\RimworldMods\\Allergies\\1.5\\Source\\Allergies\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "configFilePaths": [
-          "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\test\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -36,7 +36,7 @@
           "dependencies": {
             "Krafs.Rimworld.Ref": {
               "target": "Package",
-              "version": "[1.5.4104, )"
+              "version": "[1.5.4243, )"
             },
             "Lib.Harmony": {
               "target": "Package",

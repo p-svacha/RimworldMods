@@ -21,7 +21,7 @@ namespace P42_Allergies
         Dust,
         Water,
         Temperature,
-        SpecificItem,
+        SpecificMiscItem,
         Xenotype,
         Wood,
         Stone,

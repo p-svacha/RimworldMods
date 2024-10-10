@@ -67,6 +67,8 @@ namespace P42_Allergies
             ResetTicksUntilAllercureSeverityChange();
         }
 
+        public abstract bool IsAllergenic(ThingDef thingDef);
+
         #region Development
 
         private void ResetTicksUntilNaturalSeverityChange()
@@ -298,7 +300,7 @@ namespace P42_Allergies
         /// <summary>
         /// Executes the PIE (Passive Item Exposure) check for a certain item and increases allergen buildup accordingly.
         /// </summary>
-        protected void DoPieCheck(Func<ThingDef, bool> IsAllergenic, bool checkApparel = true, bool checkInventory = true)
+        protected void CheckNearbyItemsForPassiveExposure(bool checkNearbyItems = true, bool checkApparel = true, bool checkInventory = true, bool checkButcherProducts = false, bool checkPlants = false)
         {
             // Get the current info of the pawn
             Map map = Pawn.Map;
@@ -313,11 +315,19 @@ namespace P42_Allergies
                     int searchRadius = 5;
                     foreach (Thing item in GenRadial.RadialDistinctThingsAround(pawnPosition, map, searchRadius, useCenter: true))
                     {
-                        CheckItemIfAllergenicAndApplyBuildup(item, IsAllergenic, "P42_AllergyCause_BeingNearby",
-                            directExposure: ExposureType.MinorPassive,
-                            ingredientExposure: ExposureType.MinorPassive,
-                            stuffExposure: ExposureType.MinorPassive,
-                            productionIngredientExposure: ExposureType.MinorPassive);
+                        if (checkNearbyItems)
+                        {
+                            CheckItemIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_BeingNearby",
+                                directExposure: ExposureType.MinorPassive,
+                                ingredientExposure: ExposureType.MinorPassive,
+                                stuffExposure: ExposureType.MinorPassive,
+                                productionIngredientExposure: ExposureType.MinorPassive,
+                                butcherProductExposure: checkButcherProducts ? ExposureType.MinorPassive : ExposureType.None,
+                                plantExposure: checkPlants ? ExposureType.MinorPassive : ExposureType.None);
+                        }
+
+                        // Check nearby pawns
+                        if (item is Pawn pawn) OnNearbyPawn(pawn);
                     }
                 }
 
@@ -326,25 +336,35 @@ namespace P42_Allergies
                 {
                     foreach (Thing item in room.ContainedAndAdjacentThings)
                     {
-                        CheckItemIfAllergenicAndApplyBuildup(item, IsAllergenic, "P42_AllergyCause_InSameRoom",
-                            directExposure: ExposureType.StrongPassive,
-                            ingredientExposure: ExposureType.MinorPassive,
-                            stuffExposure: ExposureType.MinorPassive,
-                            productionIngredientExposure: ExposureType.MinorPassive);
+                        if (checkNearbyItems)
+                        {
+                            CheckItemIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_InSameRoom",
+                                directExposure: ExposureType.StrongPassive,
+                                ingredientExposure: ExposureType.MinorPassive,
+                                stuffExposure: ExposureType.MinorPassive,
+                                productionIngredientExposure: ExposureType.MinorPassive,
+                                butcherProductExposure: checkButcherProducts ? ExposureType.StrongEvent : ExposureType.None,
+                                plantExposure: checkPlants ? ExposureType.MinorPassive : ExposureType.None);
+                        }
+
+                        // Check nearby pawns
+                        if (item is Pawn pawn) OnNearbyPawn(pawn);
                     }
                 }
             }
 
             // Holding item
-            if (Pawn.carryTracker.CarriedThing != null)
+            if (checkInventory && Pawn.carryTracker.CarriedThing != null)
             {
                 Thing carriedThing = Pawn.carryTracker.CarriedThing;
 
-                CheckItemIfAllergenicAndApplyBuildup(carriedThing, IsAllergenic, "P42_AllergyCause_Holding",
+                CheckItemIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_Holding",
                     directExposure: ExposureType.ExtremePassive,
                     ingredientExposure: ExposureType.StrongPassive,
                     stuffExposure: ExposureType.StrongPassive,
-                    productionIngredientExposure: ExposureType.MinorPassive);
+                    productionIngredientExposure: ExposureType.MinorPassive,
+                    butcherProductExposure: ExposureType.None,
+                    plantExposure: ExposureType.None);
             }
 
             // Inventory
@@ -352,11 +372,13 @@ namespace P42_Allergies
             {
                 foreach (Thing item in Pawn.inventory.GetDirectlyHeldThings())
                 {
-                    CheckItemIfAllergenicAndApplyBuildup(item, IsAllergenic, "P42_AllergyCause_InInventory",
+                    CheckItemIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_InInventory",
                         directExposure: ExposureType.ExtremePassive,
                         ingredientExposure: ExposureType.StrongPassive,
                         stuffExposure: ExposureType.StrongPassive,
-                        productionIngredientExposure: ExposureType.MinorPassive);
+                        productionIngredientExposure: ExposureType.MinorPassive,
+                        butcherProductExposure: ExposureType.None,
+                        plantExposure: ExposureType.None);
                 }
             }
 
@@ -369,11 +391,13 @@ namespace P42_Allergies
                 {
                     foreach (Thing item in caravan.AllThings)
                     {
-                        CheckItemIfAllergenicAndApplyBuildup(item, IsAllergenic, "P42_AllergyCause_InInventoryCaravan",
+                        CheckItemIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_InInventoryCaravan",
                             directExposure: ExposureType.MinorPassive,
                             ingredientExposure: ExposureType.MinorPassive,
                             stuffExposure: ExposureType.MinorPassive,
-                            productionIngredientExposure: ExposureType.MinorPassive);
+                            productionIngredientExposure: ExposureType.MinorPassive,
+                            butcherProductExposure: ExposureType.None,
+                            plantExposure: ExposureType.None);
                     }
                 }
             }
@@ -397,13 +421,16 @@ namespace P42_Allergies
         }
 
         /// <summary>
+        /// Gets called when nearby another pawn
+        /// </summary>
+        protected virtual void OnNearbyPawn(Pawn pawn) { }
+
+        /// <summary>
         /// Checks an item, its stuff, ingredients and production ingredients for if they are allergenic and if yes, applies the buildup.
         /// Returns if allergenic buildup got increased in this check.
         /// </summary>
-        public bool CheckItemIfAllergenicAndApplyBuildup(Thing item, Func<ThingDef, bool> IsAllergenic, string causeKey, ExposureType directExposure, ExposureType ingredientExposure, ExposureType stuffExposure, ExposureType productionIngredientExposure)
+        public bool CheckItemIfAllergenicAndApplyBuildup(Thing item, string causeKey, ExposureType directExposure, ExposureType ingredientExposure, ExposureType stuffExposure, ExposureType productionIngredientExposure, ExposureType butcherProductExposure, ExposureType plantExposure)
         {
-            string causeKeyIngredient = causeKey + "Ingredient";
-
             // Check if item itself is allergenic
             if (directExposure != ExposureType.None && IsAllergenic(item.def))
             {
@@ -418,7 +445,7 @@ namespace P42_Allergies
                 {
                     if (IsAllergenic(ingredient))
                     {
-                        IncreaseAllergenBuildup(ingredientExposure, causeKeyIngredient.Translate(item.LabelNoParenthesis, ingredient.label));
+                        IncreaseAllergenBuildup(ingredientExposure, causeKey.Translate(item.LabelNoParenthesis + "(" + "P42_AllergyCause_Suffix_Ingredient".Translate(ingredient.label) +")"));
                         return true;
                     }
                 }
@@ -427,7 +454,7 @@ namespace P42_Allergies
             // Check if item stuff is allergenic
             if (stuffExposure != ExposureType.None && item.Stuff != null && IsAllergenic(item.Stuff))
             {
-                IncreaseAllergenBuildup(stuffExposure, causeKeyIngredient.Translate(item.LabelNoParenthesis, item.Stuff.label));
+                IncreaseAllergenBuildup(stuffExposure, causeKey.Translate(item.LabelNoParenthesis));
                 return true;
             }
 
@@ -439,13 +466,70 @@ namespace P42_Allergies
                 {
                     if (IsAllergenic(ingredient))
                     {
-                        IncreaseAllergenBuildup(productionIngredientExposure, causeKeyIngredient.Translate(item.LabelNoParenthesis, ingredient.label));
+                        IncreaseAllergenBuildup(productionIngredientExposure, causeKey.Translate(item.LabelNoParenthesis + "(" + "P42_AllergyCause_Suffix_MadeOutOf".Translate(ingredient.label) + ")"));
                         return true;
                     }
                 }
             }
 
+            // Check butcher products
+            if(butcherProductExposure != ExposureType.None && item.def.butcherProducts != null)
+            {
+                foreach(ThingDefCountClass tdcc in item.def.butcherProducts)
+                {
+                    if(IsAllergenic(tdcc.thingDef))
+                    {
+                        IncreaseAllergenBuildup(productionIngredientExposure, causeKey.Translate(item.LabelNoParenthesis + "(" + "P42_AllergyCause_Suffix_Yielding".Translate(tdcc.thingDef.label) + ")"));
+                        return true;
+                    }
+                }
+            }
+
+            // Check harvest yield
+            if(plantExposure != ExposureType.None && item.def.plant != null && item.def.plant.harvestedThingDef != null)
+            {
+                if (IsAllergenic(item.def.plant.harvestedThingDef))
+                {
+                    IncreaseAllergenBuildup(productionIngredientExposure, causeKey.Translate(item.LabelNoParenthesis + "(" + "P42_AllergyCause_Suffix_Yielding".Translate(item.def.plant.harvestedThingDef.label) + ")"));
+                    return true;
+                }
+            }
+
             return false;
+        }
+
+        // Harmony patches
+        public virtual void OnDamageTaken(DamageInfo dinfo) { }
+        public virtual void OnInteractedWith(Pawn pawn) { }
+        public void OnThingIngested(Thing thing)
+        {
+            CheckItemIfAllergenicAndApplyBuildup(thing, "P42_AllergyCause_Ingested",
+                directExposure: ExposureType.ExtremeEvent,
+                ingredientExposure: ExposureType.StrongEvent,
+                stuffExposure: ExposureType.StrongEvent,
+                productionIngredientExposure: ExposureType.StrongEvent,
+                butcherProductExposure: ExposureType.None,
+                plantExposure: ExposureType.None);
+        }
+        public void OnTendedWith(Thing medicine)
+        {
+            CheckItemIfAllergenicAndApplyBuildup(medicine, "P42_AllergyCause_Tended",
+                directExposure: ExposureType.ExtremeEvent,
+                ingredientExposure: ExposureType.StrongEvent,
+                stuffExposure: ExposureType.StrongEvent,
+                productionIngredientExposure: ExposureType.StrongEvent,
+                butcherProductExposure: ExposureType.None,
+                plantExposure: ExposureType.None);
+        }
+        public void OnRecipeApplied(Thing recipeIngredient)
+        {
+            CheckItemIfAllergenicAndApplyBuildup(recipeIngredient, "P42_AllergyCause_RecipeApplied",
+                directExposure: ExposureType.ExtremeEvent,
+                ingredientExposure: ExposureType.StrongEvent,
+                stuffExposure: ExposureType.StrongEvent,
+                productionIngredientExposure: ExposureType.StrongEvent,
+                butcherProductExposure: ExposureType.None,
+                plantExposure: ExposureType.None);
         }
 
         #endregion
