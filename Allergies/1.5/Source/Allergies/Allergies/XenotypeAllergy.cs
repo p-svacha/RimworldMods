@@ -12,7 +12,7 @@ namespace P42_Allergies
     {
         public XenotypeDef Xenotype;
 
-        public override bool IsAllergenic(ThingDef thingDef) => false;
+        protected override bool IsAllergenic(ThingDef thingDef) => false;
 
         protected override void DoPassiveExposureChecks()
         {

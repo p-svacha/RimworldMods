@@ -19,7 +19,7 @@ namespace P42_Allergies
         public const int ColdThreshold_Strong = -12;
         public const int ColdThreshold_Extreme = -20;
 
-        public override bool IsAllergenic(ThingDef thingDef) => false;
+        protected override bool IsAllergenic(ThingDef thingDef) => false;
 
         protected override void DoPassiveExposureChecks()
         {

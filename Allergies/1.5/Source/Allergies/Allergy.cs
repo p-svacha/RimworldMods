@@ -11,6 +11,8 @@ namespace P42_Allergies
 {
     public abstract class Allergy : IExposable
     {
+        private const float AllergyBuildupDiscoverThreshold = 0.1f;
+
         private Dictionary<AllergySeverity, float> SeverityMultiplier = new Dictionary<AllergySeverity, float>()
         {
             { AllergySeverity.Mild, 0.5f },
@@ -67,7 +69,7 @@ namespace P42_Allergies
             ResetTicksUntilAllercureSeverityChange();
         }
 
-        public abstract bool IsAllergenic(ThingDef thingDef);
+        protected abstract bool IsAllergenic(ThingDef thingDef);
 
         #region Development
 
@@ -83,7 +85,7 @@ namespace P42_Allergies
         private void HealAllergyNaturally()
         {
             Pawn.health.RemoveHediff(AllergyHediff);
-            if (AllergyHediff.Visible && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergyHealedNaturally".Translate(Pawn.Name.ToStringShort), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -91,7 +93,7 @@ namespace P42_Allergies
         private void ReduceAllergySeverityNaturally()
         {
             Severity = (AllergySeverity)(((int)Severity) - 1);
-            if (AllergyHediff.Visible && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityReducedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -99,7 +101,7 @@ namespace P42_Allergies
         private void IncreaseAllergySeverityNaturally()
         {
             Severity = (AllergySeverity)(((int)Severity) + 1);
-            if (AllergyHediff.Visible && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.NegativeEvent);
             }
@@ -107,7 +109,7 @@ namespace P42_Allergies
         private void SetToExtremeSeverityNaturally()
         {
             Severity = AllergySeverity.Extreme;
-            if (AllergyHediff.Visible && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.NegativeEvent);
             }
@@ -116,7 +118,7 @@ namespace P42_Allergies
         private void HealAllergyWithAllercure()
         {
             Pawn.health.RemoveHediff(AllergyHediff);
-            if (AllergyHediff.Visible && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergyHealedAllercure".Translate(Pawn.Name.ToStringShort, Pawn.Possessive()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -124,7 +126,7 @@ namespace P42_Allergies
         private void ReduceAllergySeverityAllercure()
         {
             Severity = (AllergySeverity)(((int)Severity) - 1);
-            if (AllergyHediff.Visible && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityReducedAllercure".Translate(Pawn.Name.ToStringShort, Pawn.Possessive(), GetSeverityString()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -252,6 +254,7 @@ namespace P42_Allergies
 
             // Try to get the allergen buildup hediff from the pawn's health
             Hediff_AllergenBuildup existingAllergenBuildup = (Hediff_AllergenBuildup)Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllergenBuildup"));
+            float newSeverity;
 
             // If the hediff exists, increase its severity
             if (existingAllergenBuildup != null)
@@ -259,6 +262,7 @@ namespace P42_Allergies
                 if (existingAllergenBuildup.Severity + amount > 1) existingAllergenBuildup.Severity = 1;
                 else existingAllergenBuildup.Severity += amount;
                 existingAllergenBuildup.AddExposureInfo(info);
+                newSeverity = existingAllergenBuildup.Severity;
             }
             else
             {
@@ -267,12 +271,13 @@ namespace P42_Allergies
                 newBuildup.Severity = amount;
                 Pawn.health.AddHediff(newBuildup);
                 newBuildup.AddExposureInfo(info);
+                newSeverity = newBuildup.Severity;
             }
 
             // If the allergy has not been visible so far make it visible
-            if (!AllergyHediff.Visible)
+            if (!AllergyIsDiscovered && newSeverity >= AllergyBuildupDiscoverThreshold)
             {
-                AllergyHediff.Severity = 0.2f; // makes it visible
+                AllergyHediff.Severity = 0.2f; // makes the allergy hediff visible
 
                 // Create a letter to notify the player of the newly discovered allergy
                 if (Pawn.IsColonistPlayerControlled)
@@ -432,18 +437,27 @@ namespace P42_Allergies
         protected virtual void OnNearbyPawn(Pawn pawn) { }
 
         /// <summary>
-        /// Checks an item, its stuff, ingredients and production ingredients for if they are allergenic and if yes, applies the buildup.
-        /// Returns if allergenic buildup got increased in this check.
+        /// Checks if an item is allergenic and applies the corresponding allergen buildup.
         /// </summary>
-        public bool CheckItemIfAllergenicAndApplyBuildup(Thing thing, string causeKey, ExposureType directExposure, ExposureType ingredientExposure, ExposureType stuffExposure, ExposureType productionIngredientExposure, ExposureType butcherProductExposure, ExposureType plantExposure)
+        public void CheckItemIfAllergenicAndApplyBuildup(Thing thing, string causeKey, ExposureType directExposure, ExposureType ingredientExposure, ExposureType stuffExposure, ExposureType productionIngredientExposure, ExposureType butcherProductExposure, ExposureType plantExposure)
         {
-            if (butcherProductExposure != ExposureType.None) Log.Message($"[Allergies Mod] butcherProductExposure is on for {thing.Label}");
+            ExposureType exposure = GetAllergicExposureOfThing(thing, causeKey, out string translatedCause, directExposure, ingredientExposure, stuffExposure, productionIngredientExposure, butcherProductExposure, plantExposure);
+            if(exposure != ExposureType.None) IncreaseAllergenBuildup(exposure, translatedCause);
+        }
+
+        /// <summary>
+        /// Checks an item, its stuff, ingredients, production ingredients, butcher products and plant yield for if they are allergenic.
+        /// Returns the exposure severity and translated cause key based on what about the item is allergenic.
+        /// </summary>
+        public ExposureType GetAllergicExposureOfThing(Thing thing, string causeKey, out string translatedCause, ExposureType directExposure, ExposureType ingredientExposure, ExposureType stuffExposure, ExposureType productionIngredientExposure, ExposureType butcherProductExposure, ExposureType plantExposure)
+        {
+            translatedCause = "";
 
             // Check if item itself is allergenic
             if (directExposure != ExposureType.None && IsAllergenic(thing.def))
             {
-                IncreaseAllergenBuildup(directExposure, causeKey.Translate(thing.LabelNoParenthesis));
-                return true;
+                translatedCause = causeKey.Translate(thing.LabelNoParenthesis);
+                return directExposure;
             }
 
             // Check if an ingredient (food) is allergenic
@@ -453,8 +467,8 @@ namespace P42_Allergies
                 {
                     if (IsAllergenic(ingredient))
                     {
-                        IncreaseAllergenBuildup(ingredientExposure, causeKey.Translate(thing.LabelNoParenthesis + " (" + "P42_AllergyCause_Suffix_Ingredient".Translate(ingredient.label) +")"));
-                        return true;
+                        translatedCause = causeKey.Translate(thing.LabelNoParenthesis + " (" + "P42_AllergyCause_Suffix_Ingredient".Translate(ingredient.label) + ")");
+                        return ingredientExposure;
                     }
                 }
             }
@@ -462,8 +476,8 @@ namespace P42_Allergies
             // Check if item stuff is allergenic
             if (stuffExposure != ExposureType.None && thing.Stuff != null && IsAllergenic(thing.Stuff))
             {
-                IncreaseAllergenBuildup(stuffExposure, causeKey.Translate(thing.LabelNoParenthesis));
-                return true;
+                translatedCause = causeKey.Translate(thing.LabelNoParenthesis);
+                return stuffExposure;
             }
 
             // Check if production ingredient is allergenic
@@ -474,24 +488,21 @@ namespace P42_Allergies
                 {
                     if (IsAllergenic(ingredient))
                     {
-                        IncreaseAllergenBuildup(productionIngredientExposure, causeKey.Translate(thing.LabelNoParenthesis + " (" + "P42_AllergyCause_Suffix_MadeOutOf".Translate(ingredient.label) + ")"));
-                        return true;
+                        translatedCause = causeKey.Translate(thing.LabelNoParenthesis + " (" + "P42_AllergyCause_Suffix_MadeOutOf".Translate(ingredient.label) + ")");
+                        return productionIngredientExposure;
                     }
                 }
             }
 
-            if (butcherProductExposure != ExposureType.None) Log.Message($"[Allergies Mod] butcherProductExposure is on for {thing.Label} 2");
             // Check butcher products
             if (butcherProductExposure != ExposureType.None && thing.def.butcherProducts != null)
             {
-                if (butcherProductExposure != ExposureType.None) Log.Message($"[Allergies Mod] butcherProductExposure is on for {thing.Label} 3");
                 foreach (ThingDefCountClass tdcc in thing.def.butcherProducts)
                 {
-                    if (butcherProductExposure != ExposureType.None) Log.Message($"[Allergies Mod] butcherProductExposure is on for {tdcc.thingDef.label} 2");
                     if (IsAllergenic(tdcc.thingDef))
                     {
-                        IncreaseAllergenBuildup(butcherProductExposure, causeKey.Translate(thing.LabelNoParenthesis));
-                        return true;
+                        translatedCause = causeKey.Translate(thing.LabelNoParenthesis);
+                        return butcherProductExposure;
                     }
                 }
             }
@@ -501,12 +512,12 @@ namespace P42_Allergies
             {
                 if (IsAllergenic(thing.def.plant.harvestedThingDef))
                 {
-                    IncreaseAllergenBuildup(plantExposure, causeKey.Translate(thing.LabelNoParenthesis));
-                    return true;
+                    translatedCause = causeKey.Translate(thing.LabelNoParenthesis);
+                    return plantExposure;
                 }
             }
 
-            return false;
+            return ExposureType.None;
         }
 
         // Harmony patches
@@ -545,11 +556,14 @@ namespace P42_Allergies
 
         #endregion
 
+        #region Getters
+
         /// <summary>
         /// Returns if two allergies are of the exact same type and subtype. Used to avoid generating duplicate allergies.
         /// </summary>
         public abstract bool IsDuplicateOf(Allergy otherAllergy);
 
+        public bool AllergyIsDiscovered => AllergyHediff.Visible;
         public string GetSeverityString()
         {
             if (Severity == AllergySeverity.Mild) return "P42_AllergySeverity_Mild".Translate();
@@ -567,5 +581,7 @@ namespace P42_Allergies
             ExposeExtraData();
         }
         protected abstract void ExposeExtraData();
+
+        #endregion
     }
 }

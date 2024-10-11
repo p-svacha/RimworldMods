@@ -16,7 +16,7 @@ namespace P42_Allergies
             CheckNearbyItemsForPassiveExposure(checkApparel: false, checkPlants: true);
         }
 
-        public override bool IsAllergenic(ThingDef thing) => thing == Ingredient;
+        protected override bool IsAllergenic(ThingDef thing) => thing == Ingredient;
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {

@@ -3,8 +3,7 @@
     <StatDef>
         <defName>P42_AllergicSensitivity</defName>
         <label>allergic sensitivity</label>
-        <description>A multiplier on how prone this person is to develop allergies and how harsh
-            they react to allergens.</description>
+        <description>A multiplier on how prone this person is to develop allergies and how harsh they react to allergens.</description>
         <category>BasicsPawn</category>
         <defaultBaseValue>1</defaultBaseValue>
         <minValue>0</minValue>

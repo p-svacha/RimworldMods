@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
-    <!-- Allergy types-->
+    <!-- Allergy type labels -->
     <P42_AllergyType_Sunlight>sunlight</P42_AllergyType_Sunlight>
     <P42_AllergyType_Dust>dust</P42_AllergyType_Dust>
     <P42_AllergyType_Water>water</P42_AllergyType_Water>
@@ -38,7 +38,7 @@
     <P42_AllergyExposure_Major>major</P42_AllergyExposure_Major>
     <P42_AllergyExposure_Extreme>extreme</P42_AllergyExposure_Extreme>
 
-    <!-- Allergic reaction causes -->
+    <!-- Exposure causes -->
     <P42_AllergyCause_Ingested>ingesting {0}</P42_AllergyCause_Ingested>
     <P42_AllergyCause_Tended>getting tended with {0}</P42_AllergyCause_Tended>
     <P42_AllergyCause_RecipeApplied>getting {0} applied on</P42_AllergyCause_RecipeApplied>
@@ -84,4 +84,5 @@
     <!-- Alerts -->
     <P42_Alert_AllergicReactions>Allergic reactions</P42_Alert_AllergicReactions>
     <P42_Alert_AllergicReactionsDesc>These colonists are experiencing serious allergic reactions:\n\n{0}\n\nCheck their allergies and make sure to move them away from anything they are allergic to.\n\nExperiencing allergic reactions of this severity can lead to serious, permanent or even lethal conditions.</P42_Alert_AllergicReactionsDesc>
+
 </LanguageData>

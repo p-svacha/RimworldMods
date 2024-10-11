@@ -69,12 +69,25 @@ namespace P42_Allergies
                         Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("P42_AnaphylacticShock"), pawn);
                         newHediff.Severity = InitialAnaShockSeverityAtMaxSeverity;
                         pawn.health.AddHediff(newHediff);
+
+                        Send100PercentShockLetter();
                     }
                     DontCheckFullSeverityFor = StopCheckingFullSeverityFor;
                 }
             }
 
             if (DontCheckFullSeverityFor > 0) DontCheckFullSeverityFor--;
+        }
+
+        private void Send100PercentShockLetter()
+        {
+            // todo
+            ChoiceLetter let = LetterMaker.MakeLetter(label, text, textLetterDef, lookTargets, relatedFaction, quest, hyperlinkThingDefs);
+            Find.LetterStack.ReceiveLetter(let, debugInfo, delayTicks, playSound);
+
+            // or just
+
+            Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NegativeEvent, Pawn);
         }
 
         private void TryTriggerSneezingFit(AllergenBuildupStage stage)

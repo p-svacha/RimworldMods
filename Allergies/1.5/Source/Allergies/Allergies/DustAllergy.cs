@@ -10,7 +10,7 @@ namespace P42_Allergies
 {
     public class DustAllergy : Allergy
     {
-        public override bool IsAllergenic(ThingDef thingDef) => false;
+        protected override bool IsAllergenic(ThingDef thingDef) => false;
 
         protected override void DoPassiveExposureChecks()
         {

@@ -16,7 +16,7 @@ namespace P42_Allergies
             CheckNearbyItemsForPassiveExposure(checkPlants: true);
         }
 
-        public override bool IsAllergenic(ThingDef thingDef) => thingDef == WoodType;
+        protected override bool IsAllergenic(ThingDef thingDef) => thingDef == WoodType;
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {

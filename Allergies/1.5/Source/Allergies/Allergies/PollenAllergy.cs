@@ -23,7 +23,7 @@ namespace P42_Allergies
             CheckNearbyItemsForPassiveExposure(checkApparel: false, checkInventory: false);
         }
 
-        public override bool IsAllergenic(ThingDef thingDef)
+        protected override bool IsAllergenic(ThingDef thingDef)
         {
             switch (PollenType)
             {

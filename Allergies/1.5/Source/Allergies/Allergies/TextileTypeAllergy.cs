@@ -24,7 +24,7 @@ namespace P42_Allergies
             CheckNearbyItemsForPassiveExposure(checkPlants: true);
         }
 
-        public override bool IsAllergenic(ThingDef thingDef)
+        protected override bool IsAllergenic(ThingDef thingDef)
         {
             switch (TextileType)
             {

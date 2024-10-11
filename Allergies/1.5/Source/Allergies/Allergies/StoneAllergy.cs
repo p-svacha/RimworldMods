@@ -16,7 +16,7 @@ namespace P42_Allergies
             CheckNearbyItemsForPassiveExposure(checkApparel: false, checkButcherProducts: true); // butcher ingredients for stone chunks
         }
 
-        public override bool IsAllergenic(ThingDef thingDef) => thingDef == StoneType;
+        protected override bool IsAllergenic(ThingDef thingDef) => thingDef == StoneType;
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {
