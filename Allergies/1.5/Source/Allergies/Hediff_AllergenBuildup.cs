@@ -63,31 +63,12 @@ namespace P42_Allergies
             {
                 if (DontCheckFullSeverityFor == 0)
                 {
-                    Hediff existingHediff = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AnaphylacticShock"));
-                    if (existingHediff == null)
-                    {
-                        Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("P42_AnaphylacticShock"), pawn);
-                        newHediff.Severity = InitialAnaShockSeverityAtMaxSeverity;
-                        pawn.health.AddHediff(newHediff);
-
-                        Send100PercentShockLetter();
-                    }
+                    AllergyUtility.TriggerAnaphylacticShock(pawn, InitialAnaShockSeverityAtMaxSeverity, LabelCap);
                     DontCheckFullSeverityFor = StopCheckingFullSeverityFor;
                 }
             }
 
             if (DontCheckFullSeverityFor > 0) DontCheckFullSeverityFor--;
-        }
-
-        private void Send100PercentShockLetter()
-        {
-            // todo
-            ChoiceLetter let = LetterMaker.MakeLetter(label, text, textLetterDef, lookTargets, relatedFaction, quest, hyperlinkThingDefs);
-            Find.LetterStack.ReceiveLetter(let, debugInfo, delayTicks, playSound);
-
-            // or just
-
-            Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NegativeEvent, Pawn);
         }
 
         private void TryTriggerSneezingFit(AllergenBuildupStage stage)
@@ -126,12 +107,15 @@ namespace P42_Allergies
         private void ApplySkinRash()
         {
             string chosenBodyPartString = AllergyGenerator.GetWeightedRandomElement(SkinRashBodyPartTable);
-            BodyPartRecord bodyPart = pawn.health.hediffSet.GetBodyPartRecord(DefDatabase<BodyPartDef>.GetNamed(chosenBodyPartString));
+            BodyPartDef bodyPartDef = DefDatabase<BodyPartDef>.GetNamed(chosenBodyPartString);
+            List<BodyPartRecord> naturalBodyParts = pawn.health.hediffSet.GetNotMissingParts().Where(x => x.def == bodyPartDef
+                && !pawn.health.hediffSet.hediffs.Any(h => h.Part == x && !h.def.countsAsAddedPartOrImplant)).ToList();
+            BodyPartRecord bodyPart = naturalBodyParts.RandomElement();
+
+            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Trying to apply skin rash onto {bodyPart.Label}. There were {naturalBodyParts.Count} options.");
 
             Hediff_Injury rashInjury = (Hediff_Injury)HediffMaker.MakeHediff(DefDatabase<HediffDef>.GetNamed("P42_SkinRash"), pawn, bodyPart);
             rashInjury.Severity = Rand.Range(SkinRashMinSeverity, SkinRashMaxSeverity);
-            rashInjury.sourceLabel = "source?";
-            rashInjury.combatLogText = "clt";
             pawn.health.AddHediff(rashInjury);
         }
 
@@ -155,8 +139,6 @@ namespace P42_Allergies
             {
                 Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("P42_TightThroat"), pawn, bodyPart);
                 newHediff.Severity = severity;
-                newHediff.sourceLabel = "source?";
-                newHediff.combatLogText = "clt";
                 pawn.health.AddHediff(newHediff);
             }
             else existingHediff.Severity = Math.Max(existingHediff.Severity, severity);
@@ -176,15 +158,19 @@ namespace P42_Allergies
         private void ApplyPinkEye()
         {
             float severity = Rand.Range(PinkEyeMinSeverity, PinkEyeMaxSeverity);
-            BodyPartRecord bodyPart = pawn.health.hediffSet.GetBodyPartRecord(DefDatabase<BodyPartDef>.GetNamed("Eye"));
+
+            BodyPartDef eyeDef = DefDatabase<BodyPartDef>.GetNamed("Eye");
+            List<BodyPartRecord> naturalEyes = pawn.health.hediffSet.GetNotMissingParts().Where(x => x.def == eyeDef
+                && !pawn.health.hediffSet.hediffs.Any(h => h.Part == x && h.def.countsAsAddedPartOrImplant)).ToList();
+            BodyPartRecord bodyPart = naturalEyes.RandomElement();
+            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Trying to apply pink eye onto {bodyPart.Label}. There were {naturalEyes.Count} options.");
 
             Hediff existingHediff = pawn.health.hediffSet.hediffs.FirstOrDefault(x => x.Part == bodyPart && x.def == HediffDef.Named("P42_PinkEye"));
+            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Found pink eye on same body part.");
             if (existingHediff == null)
             {
                 Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("P42_PinkEye"), pawn, bodyPart);
                 newHediff.Severity = severity;
-                newHediff.sourceLabel = "source?";
-                newHediff.combatLogText = "clt";
                 pawn.health.AddHediff(newHediff);
             }
             else existingHediff.Severity = Math.Max(existingHediff.Severity, severity);

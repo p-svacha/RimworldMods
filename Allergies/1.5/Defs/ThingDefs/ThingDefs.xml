@@ -5,7 +5,7 @@
         <label>allercure</label>
         <description>A specialized drug used to temporarily suppress allergic sensitivity and to reduce allergen reactions.
             \n\nIf consumed regularly over a long period of time, it may reduce allergy severity or even heal allergies completely.
-            \n\nAllercure can cause an addiction and in very rare cases it can cause an anaphylactic shock.</description>
+            \n\nAllercure can cause an addiction and in very rare cases lead to an anaphylactic shock.</description>
         <descriptionHyperlinks>
             <HediffDef>P42_AllercureHigh</HediffDef>
             <HediffDef>P42_AllercureAddiction</HediffDef>
@@ -30,23 +30,16 @@
         <ingestible>
             <drugCategory>Medical</drugCategory>
             <outcomeDoers>
-                <!-- Add mood boost effect: "AllercureHigh" -->
                 <li Class="IngestionOutcomeDoer_GiveHediff">
                     <hediffDef>P42_AllercureHigh</hediffDef>
                     <severity>1.0</severity>
                     <toleranceChemical>P42_Allercure</toleranceChemical>
                 </li>
 
-                <!-- Reduce allergic reaction severity -->
-                <li Class="P42_Allergies.IngestionOutcomeDoer_OffsetAllergenBuildup">
-                    <severity>0.1</severity>
-                </li>
-
-                <!-- 1% chance to trigger Anaphylactic Shock -->
-                <li Class="IngestionOutcomeDoer_GiveHediff">
-                    <hediffDef>P42_AnaphylacticShock</hediffDef>
-                    <severity>0.4</severity>
-                    <chance>0.01</chance>
+                <li Class="P42_Allergies.IngestionOutcomeDoer_AllercureIngestion">
+                    <allergenBuildupSeverityReduction>0.1</allergenBuildupSeverityReduction>
+                    <anaphylacticShockSeverity>0.4</anaphylacticShockSeverity>
+                    <anaphylacticShockChance>0.01</anaphylacticShockChance>
                 </li>
             </outcomeDoers>
         </ingestible>
@@ -83,7 +76,7 @@
         <label>antishock injector</label>
         <description>A potent emergency treatment that forcefully and violently regulates someones bodily functions.
             \n\nThe injection will instantly heal the user from an anaphylactic shock, temporary allergic reactions, toxic buildup, food poisoning, heatstroke and hypothermia. It's unpleasant and induces a boosting and painful state for a while.
-            \n\nSide effects can include nausea and in very rare cases also chemical damage or heart attacks.</description>
+            \n\nSide effects can include nausea and in very rare cases also heart attacks.</description>
         <graphicData>
             <texPath>Things/Item/Drug/AntishockInjector</texPath>
             <graphicClass>Graphic_Single</graphicClass>

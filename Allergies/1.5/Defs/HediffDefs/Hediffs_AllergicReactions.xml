@@ -50,7 +50,8 @@
     <defName>P42_AnaphylacticShock</defName>
     <label>anaphylactic shock</label>
     <labelNoun>an anaphylactic shock</labelNoun>
-    <description>A severe and potentially fatal allergic reaction. It involves difficulty breathing, a rapid drop in blood pressure, and loss of consciousness. Immediate medical treatment is crucial to prevent death.</description>
+    <description>A severe and potentially life-threatening allergic reaction. It causes difficulty breathing, a rapid drop in blood pressure, and loss of consciousness. Immediate medical treatment is essential to prevent death.
+      \nThe condition can be cured instantly with an antishock injection or over time with adequate tending.</description>
     <hediffClass>P42_Allergies.Hediff_AnaphylacticShock</hediffClass>
     <defaultLabelColor>(1, 0.2, 0.2)</defaultLabelColor>
     <initialSeverity>0.4</initialSeverity>
@@ -70,6 +71,10 @@
             <capacity>Breathing</capacity>
             <offset>-0.30</offset>
           </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.15</offset>
+          </li>
         </capMods>
       </li>
       <li>
@@ -86,6 +91,10 @@
             <capacity>Breathing</capacity>
             <offset>-0.40</offset>
           </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.30</offset>
+          </li>
         </capMods>
       </li>
       <li>
@@ -99,7 +108,7 @@
     <defName>P42_TightThroat</defName>
     <label>tight throat</label>
     <labelNoun>a tight throat</labelNoun>
-    <description>A tight feeling in the throat.</description>
+    <description>A swelling in the throat caused by an allergic reaction.</description>
     <initialSeverity>0.4</initialSeverity>
     <maxSeverity>1</maxSeverity>
     <alwaysShowSeverity>false</alwaysShowSeverity>
@@ -121,7 +130,7 @@
   <HediffDef ParentName="DiseaseBase">
     <defName>P42_PinkEye</defName>
     <label>pink eye</label>
-    <description>The eye is swollen and irritated, making it itch and burn.</description>
+    <description>An irritated and swollen eye, making it itch and burn. Caused by an allergic reaction.</description>
     <initialSeverity>0.4</initialSeverity>
     <maxSeverity>1</maxSeverity>
     <alwaysShowSeverity>false</alwaysShowSeverity>

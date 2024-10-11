@@ -22,8 +22,7 @@
       </li>
       <li>
         <label>severe allergic reaction</label>
-        <description>This allergic reaction is unbearable. I'm in constant pain, and my breathing is
-          labored.</description>
+        <description>This allergic reaction is unbearable. I'm in constant pain, and my breathing is labored.</description>
         <baseMoodEffect>-10</baseMoodEffect>
       </li>
       <li>

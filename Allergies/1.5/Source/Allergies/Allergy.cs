@@ -13,21 +13,9 @@ namespace P42_Allergies
     {
         private const float AllergyBuildupDiscoverThreshold = 0.1f;
 
-        private Dictionary<AllergySeverity, float> SeverityMultiplier = new Dictionary<AllergySeverity, float>()
-        {
-            { AllergySeverity.Mild, 0.5f },
-            { AllergySeverity.Moderate, 1f },
-            { AllergySeverity.Severe, 2f },
-        };
-
-
-        protected Hediff_Allergy AllergyHediff;
-        protected Pawn Pawn => AllergyHediff.pawn;
-        public string FullAllergyName => TypeLabel + " allergy";
-        public string FullAllergyNameCap => TypeLabel.CapitalizeFirst() + " allergy";
-       
         protected const int AllercureHighCheckInterval = 1000;
 
+        // Development values
         private const int MinTicksUntilNaturalSeverityChange = 15 * 60000; // 15 days
         private const int MaxTicksUntilNaturalSeverityChange = 180 * 60000; // 180 days (3 years)
         private const float ExtremeNaturalSeverityChangeChance = 0.1f; // Chance that an allergy instantly goes to extreme / goes away
@@ -35,26 +23,37 @@ namespace P42_Allergies
         private const int MinTicksUntilAllercureImpact = 5 * 60000; // 5 days
         private const int MaxTicksUntilAllercureImpact = 60 * 60000; // 60 days (1 year)
         private const float AllercureInstantHealChance = 0.1f;
-        
-        public AllergySeverity Severity;
-        public int TicksUntilNaturalSeverityChange;
-        public int TicksUntilAllercureImpact;
 
         // Exposure values
+        private const float MildSeverityBuildupCap = 0.35f;
+        private const float ModerateSeverityBuildupCap = 0.70f;
+
         private const float MinorPassiveExposureIncreasePerHour = 0.05f;
         private const float StrongPassiveExposureIncreasePerHour = 0.12f;
         private const float ExtremePassiveExposureIncreasePerHour = 0.30f;
 
-        private const int TicksPerHour = 2500;
         private const int ExposureCheckInterval = 200;
 
-        private const float MinorPassiveExposureIncreasePerCheck = MinorPassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / TicksPerHour);
-        private const float StrongPassiveExposureIncreasePerCheck = StrongPassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / TicksPerHour);
-        private const float ExtremePassiveExposureIncreasePerCheck = ExtremePassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / TicksPerHour);
+        private const float MinorPassiveExposureIncreasePerCheck = MinorPassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / GenDate.TicksPerHour);
+        private const float StrongPassiveExposureIncreasePerCheck = StrongPassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / GenDate.TicksPerHour);
+        private const float ExtremePassiveExposureIncreasePerCheck = ExtremePassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / GenDate.TicksPerHour);
 
         private const float MinorExposureEventIncrease = 0.10f;
         private const float StrongExposureEventIncrease = 0.25f;
         private const float ExtremeExposureEventIncrease = 0.45f;
+
+        private Dictionary<AllergySeverity, float> SeverityMultiplier = new Dictionary<AllergySeverity, float>()
+        {
+            { AllergySeverity.Mild, 0.5f },
+            { AllergySeverity.Moderate, 1f },
+            { AllergySeverity.Severe, 2f },
+        };
+
+        protected Hediff_Allergy AllergyHediff;
+        
+        public AllergySeverity Severity;
+        public int TicksUntilNaturalSeverityChange;
+        public int TicksUntilAllercureImpact;
 
         public void OnInitOrLoad(Hediff_Allergy hediff)
         {
@@ -213,7 +212,7 @@ namespace P42_Allergies
             // Allergy-specific passive exposure checks
             if (Pawn.IsHashIntervalTick(ExposureCheckInterval))
             {
-                DoPassiveExposureChecks();
+                if (!IsBuildupAboveCap()) DoPassiveExposureChecks();
             }
         }
         protected abstract void DoPassiveExposureChecks();
@@ -255,11 +254,14 @@ namespace P42_Allergies
             // Try to get the allergen buildup hediff from the pawn's health
             Hediff_AllergenBuildup existingAllergenBuildup = (Hediff_AllergenBuildup)Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllergenBuildup"));
             float newSeverity;
+            float severityCap = GetBuildupCap();
 
             // If the hediff exists, increase its severity
             if (existingAllergenBuildup != null)
             {
-                if (existingAllergenBuildup.Severity + amount > 1) existingAllergenBuildup.Severity = 1;
+                if (existingAllergenBuildup.Severity >= severityCap) return;
+
+                if (existingAllergenBuildup.Severity + amount > severityCap) existingAllergenBuildup.Severity = severityCap;
                 else existingAllergenBuildup.Severity += amount;
                 existingAllergenBuildup.AddExposureInfo(info);
                 newSeverity = existingAllergenBuildup.Severity;
@@ -268,6 +270,7 @@ namespace P42_Allergies
             {
                 // If the hediff is not present, add it to the pawn with the initial severity
                 Hediff_AllergenBuildup newBuildup = (Hediff_AllergenBuildup)HediffMaker.MakeHediff(HediffDef.Named("P42_AllergenBuildup"), Pawn);
+                if (amount > severityCap) amount = severityCap;
                 newBuildup.Severity = amount;
                 Pawn.health.AddHediff(newBuildup);
                 newBuildup.AddExposureInfo(info);
@@ -287,6 +290,20 @@ namespace P42_Allergies
             }
         }
 
+        private bool IsBuildupAboveCap()
+        {
+            float buildupCap = GetBuildupCap();
+            Hediff_AllergenBuildup existingAllergenBuildup = (Hediff_AllergenBuildup)Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllergenBuildup"));
+            if (existingAllergenBuildup != null && existingAllergenBuildup.Severity > buildupCap) return true;
+            return false;
+        }
+        private float GetBuildupCap()
+        {
+            if (Severity == AllergySeverity.Mild) return MildSeverityBuildupCap;
+            if (Severity == AllergySeverity.Moderate) return ModerateSeverityBuildupCap;
+            return 1f;
+        }
+
         private void SendAllergyDiscoveredLetter(string translatedCause)
         {
             TaggedString letterLabel = "P42_LetterLabel_NewAllergyDiscovered".Translate();
@@ -301,7 +318,7 @@ namespace P42_Allergies
             if (Severity == AllergySeverity.Extreme)
                 letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Extreme".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
 
-            TaggedString letterTextMiddle = "\n\n" + Pawn.NameShortColored + " " + "P42_LetterTextMiddle_AllergyDiscovered".Translate(Pawn.ProSubj(), GetSeverityString()) + " " + FullAllergyName.Colorize(new UnityEngine.Color(0.9f, 1f, 0.6f));
+            TaggedString letterTextMiddle = "\n\n" + Pawn.NameShortColored + " " + "P42_LetterTextMiddle_AllergyDiscovered".Translate(Pawn.ProSubj()) + " " + (GetSeverityString() + " " + FullAllergyName).Colorize(new UnityEngine.Color(0.9f, 1f, 0.6f));
             TaggedString letterTextEnd = "\n\n" + "P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.ProObj(), TypeLabel);
 
             TaggedString letterText = letterTextStart + letterTextMiddle + letterTextEnd;
@@ -441,6 +458,7 @@ namespace P42_Allergies
         /// </summary>
         public void CheckItemIfAllergenicAndApplyBuildup(Thing thing, string causeKey, ExposureType directExposure, ExposureType ingredientExposure, ExposureType stuffExposure, ExposureType productionIngredientExposure, ExposureType butcherProductExposure, ExposureType plantExposure)
         {
+            if (thing == null) return;
             ExposureType exposure = GetAllergicExposureOfThing(thing, causeKey, out string translatedCause, directExposure, ingredientExposure, stuffExposure, productionIngredientExposure, butcherProductExposure, plantExposure);
             if(exposure != ExposureType.None) IncreaseAllergenBuildup(exposure, translatedCause);
         }
@@ -557,6 +575,10 @@ namespace P42_Allergies
         #endregion
 
         #region Getters
+
+        protected Pawn Pawn => AllergyHediff.pawn;
+        public string FullAllergyName => TypeLabel + " " + "P42_Allergy".Translate();
+        public string FullAllergyNameCap => TypeLabel.CapitalizeFirst() + " " + "P42_Allergy".Translate();
 
         /// <summary>
         /// Returns if two allergies are of the exact same type and subtype. Used to avoid generating duplicate allergies.

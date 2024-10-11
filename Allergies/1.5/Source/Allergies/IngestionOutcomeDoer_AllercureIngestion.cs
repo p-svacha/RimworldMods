@@ -8,10 +8,12 @@ using Verse;
 
 namespace P42_Allergies
 {
-    public class IngestionOutcomeDoer_OffsetAllergenBuildup : IngestionOutcomeDoer
+    public class IngestionOutcomeDoer_AllercureIngestion : IngestionOutcomeDoer
     {
-        // Amount to reduce the allergen buildup by
-        public float severity = 0.1f;
+        public float allergenBuildupSeverityReduction = 0.1f;
+
+        public float anaphylacticShockSeverity = 0.4f;
+        public float anaphylacticShockChance = 0.01f;
 
         // Implement the actual effect of the outcome doer
         protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested, int ingesetedCount)
@@ -22,8 +24,14 @@ namespace P42_Allergies
             Hediff allergenBuildup = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllergenBuildup"));
             if (allergenBuildup != null)
             {
-                allergenBuildup.Severity = Math.Max(0, allergenBuildup.Severity - severity);
+                allergenBuildup.Severity = Math.Max(0, allergenBuildup.Severity - allergenBuildupSeverityReduction);
                 MoteMaker.ThrowText(pawn.DrawPos, pawn.Map, "allergen buildup reduced", 6f);
+            }
+
+            // Chance to trigger anaphylactic shock
+            if(Rand.Chance(anaphylacticShockChance))
+            {
+                AllergyUtility.TriggerAnaphylacticShock(pawn, anaphylacticShockSeverity, ingested.LabelCap);
             }
         }
     }

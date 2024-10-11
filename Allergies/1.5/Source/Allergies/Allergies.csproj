@@ -80,7 +80,7 @@
     <Compile Include="Hediff_Allergy.cs" />
     <Compile Include="Harmony\ModInitializer.cs" />
     <Compile Include="Hediff_AnaphylacticShock.cs" />
-    <Compile Include="IngestionOutcomeDoer_OffsetAllergenBuildup.cs" />
+    <Compile Include="IngestionOutcomeDoer_AllercureIngestion.cs" />
     <Compile Include="JobDriver_SneezingFit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThoughtWorker_AllergenBuildupThought.cs" />

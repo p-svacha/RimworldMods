@@ -37,6 +37,19 @@ namespace P42_Allergies
             return pawn.GetStatValue(StatDef.Named("P42_AllergicSensitivity"));
         }
 
+        public static void TriggerAnaphylacticShock(Pawn pawn, float severity, string cause)
+        {
+            Hediff existingHediff = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AnaphylacticShock"));
+            if (existingHediff == null)
+            {
+                Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("P42_AnaphylacticShock"), pawn);
+                newHediff.Severity = severity;
+                pawn.health.AddHediff(newHediff);
+
+                Find.LetterStack.ReceiveLetter("LetterHealthComplicationsLabel".Translate(pawn.LabelShort, newHediff.LabelBaseCap, pawn.Named("PAWN")).CapitalizeFirst(), "LetterHealthComplications".Translate(pawn.LabelShortCap, newHediff.LabelBaseCap, cause, pawn.Named("PAWN")).CapitalizeFirst(), LetterDefOf.NegativeEvent, pawn);
+            }
+        }
+
         /// <summary>
         /// Returns all non-variable / non-replacable ingredients that are required to produce the given product.
         /// </summary>

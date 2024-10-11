@@ -15,7 +15,9 @@ namespace P42_Allergies
 		private const float NauseaMaxSeverity = 1f;
 
 		private const float HeartAttackChance = 0.02f;
-		private const float ChemicalDamageChance = 0.02f;
+
+		private const float RestNeedReduction = 0.15f;
+		private const float AllergenBuildupReduction = 0.60f;
 
 		public override void DoEffect(Pawn user)
 		{
@@ -24,27 +26,39 @@ namespace P42_Allergies
 			TryRemoveHediff(user, "Heatstroke");
 			TryRemoveHediff(user, "Hypothermia");
 			TryRemoveHediff(user, "ToxicBuildup");
-			TryRemoveHediff(user, "P42_AllergenBuildup");
 			TryRemoveHediff(user, "FoodPoisoning");
 			TryRemoveHediff(user, "P42_AnaphylacticShock");
+			TryReduceHediffSeverity(user, "P42_AllergenBuildup", AllergenBuildupReduction);
 
 			TryApplyNausea(user);
             TryApplyHeartAttack(user);
-			TryApplyChemicalDamage(user);
 
 			TryApplyAntishockInjectorHigh(user);
 
 			AddInjectionThought(user);
+
+			ReduceRestNeed(user);
 		}
 
 		private void TryRemoveHediff(Pawn pawn, string defName)
         {
 			Hediff existingHediff = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named(defName));
-			if(existingHediff != null)
-            {
-				HealthUtility.Cure(existingHediff);
-				MoteMaker.ThrowText(pawn.DrawPos, pawn.Map, $"{existingHediff.Label.CapitalizeFirst()} removed", 6f);
+			if (existingHediff != null) HealHediffWithMoteText(pawn, existingHediff);
+		}
+		private void TryReduceHediffSeverity(Pawn pawn, string defName, float amount)
+		{
+			Hediff existingHediff = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named(defName));
+			if (existingHediff != null)
+			{
+				if (existingHediff.Severity <= amount) HealHediffWithMoteText(pawn, existingHediff);
+				else existingHediff.Severity -= amount;
 			}
+		}
+
+		private void HealHediffWithMoteText(Pawn pawn, Hediff hediff)
+        {
+			HealthUtility.Cure(hediff);
+			MoteMaker.ThrowText(pawn.DrawPos, pawn.Map, $"{hediff.LabelBaseCap.CapitalizeFirst()} removed", 6f);
 		}
 
 		private void TryApplyNausea(Pawn pawn)
@@ -66,22 +80,16 @@ namespace P42_Allergies
         {
 			if (Rand.Chance(HeartAttackChance))
 			{
+				BodyPartRecord bodyPart = pawn.health.hediffSet.GetBodyPartRecord(DefDatabase<BodyPartDef>.GetNamed("Heart"));
 				Hediff existingHediff = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("HeartAttack"));
 
 				if (existingHediff == null)
 				{
-					Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("HeartAttack"), pawn);
+					Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("HeartAttack"), pawn, bodyPart);
 					pawn.health.AddHediff(newHediff);
-				}
-			}
-		}
 
-		private void TryApplyChemicalDamage(Pawn pawn)
-		{
-			if (Rand.Chance(ChemicalDamageChance))
-			{
-				Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("ChemicalDamage"), pawn);
-				pawn.health.AddHediff(newHediff);
+					Find.LetterStack.ReceiveLetter("LetterHealthComplicationsLabel".Translate(pawn.LabelShort, newHediff.LabelBaseCap, pawn.Named("PAWN")).CapitalizeFirst(), "LetterHealthComplications".Translate(pawn.LabelShortCap, newHediff.LabelBaseCap, parent.LabelNoParenthesisCap, pawn.Named("PAWN")).CapitalizeFirst(), LetterDefOf.NegativeEvent, pawn);
+				}
 			}
 		}
 
@@ -103,6 +111,14 @@ namespace P42_Allergies
 			{
 				ThoughtDef thought = DefDatabase<ThoughtDef>.GetNamed("P42_AntishockInjection");
 				pawn.needs.mood.thoughts.memories.TryGainMemory(thought);
+			}
+		}
+
+		private void ReduceRestNeed(Pawn pawn)
+        {
+			if (pawn.needs?.rest != null)
+			{
+				pawn.needs.rest.CurLevel += RestNeedReduction;
 			}
 		}
 	}

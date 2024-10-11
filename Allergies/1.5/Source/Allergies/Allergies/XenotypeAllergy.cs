@@ -23,7 +23,7 @@ namespace P42_Allergies
         {
             if (pawn.genes == null) return;
             if (pawn.genes.Xenotype.defName == Xenotype.defName)
-                IncreaseAllergenBuildup(ExposureType.MinorPassive, "P42_AllergyCause_BeingNearby".Translate(pawn.genes.xenotypeName));
+                IncreaseAllergenBuildup(ExposureType.MinorPassive, "P42_AllergyCause_BeingNearby".Translate(pawn.genes.Xenotype.label));
         }
 
         public override void OnDamageTaken(DamageInfo dinfo)
@@ -36,14 +36,14 @@ namespace P42_Allergies
             {
                 if (pawn.genes == null) return;
                 if (pawn.genes.Xenotype.defName == Xenotype.defName)
-                    IncreaseAllergenBuildup(ExposureType.StrongEvent, "P42_AllergyCause_DamagedBy".Translate(pawn.genes.xenotypeName));
+                    IncreaseAllergenBuildup(ExposureType.StrongEvent, "P42_AllergyCause_DamagedBy".Translate(pawn.genes.Xenotype.label));
             }
         }
         public override void OnInteractedWith(Pawn pawn)
         {
             if (pawn.genes == null) return;
             if (pawn.genes.Xenotype.defName == Xenotype.defName)
-                IncreaseAllergenBuildup(ExposureType.MinorEvent, "P42_AllergyCause_InteractedWith".Translate(pawn.genes.xenotypeName));
+                IncreaseAllergenBuildup(ExposureType.MinorEvent, "P42_AllergyCause_InteractedWith".Translate(pawn.genes.Xenotype.label));
         }
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
