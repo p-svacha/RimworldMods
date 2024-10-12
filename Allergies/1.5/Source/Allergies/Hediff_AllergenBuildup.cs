@@ -75,7 +75,7 @@ namespace P42_Allergies
         {
             if (stage.sneezingFitMtbDays > 0)
             {
-                if (Rand.MTBEventOccurs(0.1f, 60000f, ReactionCheckInterval)) // TODO: stage.sneezingFitMtbDays
+                if (Rand.MTBEventOccurs(0.05f, 60000f, ReactionCheckInterval)) // todo: stage.sneezingFitMtbDays
                 {
                     StartSneezingFit();
                 }
@@ -97,7 +97,7 @@ namespace P42_Allergies
         {
             if (stage.skinRashMtbDays > 0)
             {
-                if (Rand.MTBEventOccurs(0.1f, 60000f, ReactionCheckInterval)) // TODO: stage.skinRashMtbDays
+                if (Rand.MTBEventOccurs(stage.skinRashMtbDays, 60000f, ReactionCheckInterval))
                 {
                     ApplySkinRash();
                 }
@@ -123,7 +123,7 @@ namespace P42_Allergies
         {
             if (stage.throatTightnessMtbDays > 0)
             {
-                if (Rand.MTBEventOccurs(0.1f, 60000f, ReactionCheckInterval)) // TODO: stage.throatTightnessMtbDays
+                if (Rand.MTBEventOccurs(stage.throatTightnessMtbDays, 60000f, ReactionCheckInterval))
                 {
                     ApplyTightThroat();
                 }
@@ -149,7 +149,7 @@ namespace P42_Allergies
         {
             if (stage.pinkEyeMtbDays > 0)
             {
-                if (Rand.MTBEventOccurs(0.1f, 60000f, ReactionCheckInterval)) // TODO: stage.pinkEyeMtbDays
+                if (Rand.MTBEventOccurs(stage.pinkEyeMtbDays, 60000f, ReactionCheckInterval))
                 {
                     ApplyPinkEye();
                 }
@@ -206,7 +206,7 @@ namespace P42_Allergies
                         string timeAgo = GenDate.ToStringTicksToPeriod(ticksAgo);
                         s += "\n   - " + info.Cause + amount +" (" + timeAgo + " ago)";
                     }
-                    return def.description + "\n\nLast causes for increase:" + s;
+                    return def.description + "\n\n" + "P42_AllergyCause_Desc".Translate().CapitalizeFirst() + ":" + s;
                 }
             }
         }

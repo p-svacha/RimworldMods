@@ -41,6 +41,8 @@
     <P42_AllergyExposure_Extreme>extreme</P42_AllergyExposure_Extreme>
 
     <!-- Exposure causes -->
+    <P42_AllergyCause_Desc>last causes for increase</P42_AllergyCause_Desc>
+
     <P42_AllergyCause_Ingested>ingesting {0}</P42_AllergyCause_Ingested>
     <P42_AllergyCause_Tended>getting tended with {0}</P42_AllergyCause_Tended>
     <P42_AllergyCause_RecipeApplied>getting {0} applied on</P42_AllergyCause_RecipeApplied>

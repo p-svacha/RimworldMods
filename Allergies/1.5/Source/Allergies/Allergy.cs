@@ -42,6 +42,8 @@ namespace P42_Allergies
         private const float StrongExposureEventIncrease = 0.25f;
         private const float ExtremeExposureEventIncrease = 0.45f;
 
+        private const float SeverityIncreaseForRecordedTale = 0.2f;
+
         private Dictionary<AllergySeverity, float> SeverityMultiplier = new Dictionary<AllergySeverity, float>()
         {
             { AllergySeverity.Mild, 0.5f },
@@ -84,7 +86,7 @@ namespace P42_Allergies
         private void HealAllergyNaturally()
         {
             Pawn.health.RemoveHediff(AllergyHediff);
-            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergyHealedNaturally".Translate(Pawn.Name.ToStringShort), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -92,7 +94,7 @@ namespace P42_Allergies
         private void ReduceAllergySeverityNaturally()
         {
             Severity = (AllergySeverity)(((int)Severity) - 1);
-            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityReducedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -100,7 +102,7 @@ namespace P42_Allergies
         private void IncreaseAllergySeverityNaturally()
         {
             Severity = (AllergySeverity)(((int)Severity) + 1);
-            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.NegativeEvent);
             }
@@ -108,7 +110,7 @@ namespace P42_Allergies
         private void SetToExtremeSeverityNaturally()
         {
             Severity = AllergySeverity.Extreme;
-            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.NegativeEvent);
             }
@@ -117,7 +119,7 @@ namespace P42_Allergies
         private void HealAllergyWithAllercure()
         {
             Pawn.health.RemoveHediff(AllergyHediff);
-            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergyHealedAllercure".Translate(Pawn.Name.ToStringShort, Pawn.Possessive()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -125,7 +127,7 @@ namespace P42_Allergies
         private void ReduceAllergySeverityAllercure()
         {
             Severity = (AllergySeverity)(((int)Severity) - 1);
-            if (AllergyIsDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityReducedAllercure".Translate(Pawn.Name.ToStringShort, Pawn.Possessive(), GetSeverityString()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -275,10 +277,12 @@ namespace P42_Allergies
                 Pawn.health.AddHediff(newBuildup);
                 newBuildup.AddExposureInfo(info);
                 newSeverity = newBuildup.Severity;
+
+                
             }
 
             // If the allergy has not been visible so far make it visible
-            if (!AllergyIsDiscovered && newSeverity >= AllergyBuildupDiscoverThreshold)
+            if (!IsAllergyDiscovered && newSeverity >= AllergyBuildupDiscoverThreshold)
             {
                 AllergyHediff.Severity = 0.2f; // makes the allergy hediff visible
 
@@ -585,7 +589,7 @@ namespace P42_Allergies
         /// </summary>
         public abstract bool IsDuplicateOf(Allergy otherAllergy);
 
-        public bool AllergyIsDiscovered => AllergyHediff.Visible;
+        public bool IsAllergyDiscovered => AllergyHediff.Visible;
         public string GetSeverityString()
         {
             if (Severity == AllergySeverity.Mild) return "P42_AllergySeverity_Mild".Translate();

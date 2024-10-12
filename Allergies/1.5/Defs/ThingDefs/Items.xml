@@ -16,7 +16,7 @@
         <techLevel>Industrial</techLevel>
 
         <graphicData>
-            <texPath>Things/Item/Drug/Allercure</texPath>
+            <texPath>Things/Item/Drug/P42_Allercure</texPath>
             <graphicClass>Graphic_StackCount</graphicClass>
         </graphicData>
 
@@ -78,7 +78,7 @@
             \n\nThe injection will instantly heal the user from an anaphylactic shock, temporary allergic reactions, toxic buildup, food poisoning, heatstroke and hypothermia. It's unpleasant and induces a boosting and painful state for a while.
             \n\nSide effects can include nausea and in very rare cases also heart attacks.</description>
         <graphicData>
-            <texPath>Things/Item/Drug/AntishockInjector</texPath>
+            <texPath>Things/Item/Drug/P42_AntishockInjector</texPath>
             <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
 

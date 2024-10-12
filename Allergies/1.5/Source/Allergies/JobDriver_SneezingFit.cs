@@ -80,13 +80,13 @@ namespace P42_Allergies
 				if (ticksLeft <= 0)
 				{
 					ReadyForNextToil();
-					// TaleRecorder.RecordTale(TaleDefOf.Vomited, pawn);
+					TaleRecorder.RecordTale(DefDatabase<TaleDef>.GetNamed("P42_Tale_HadSneezingFit"), pawn);
 				}
 			};
 
 			toil.defaultCompleteMode = ToilCompleteMode.Never;
-			// toil.WithEffect(EffecterDefOf.Vomit, TargetIndex.A);
-			// toil.PlaySustainerOrSound(() => SoundDefOf.Vomit);
+			toil.WithEffect(DefDatabase<EffecterDef>.GetNamed("P42_Sneeze"), TargetIndex.A);
+			toil.PlaySustainerOrSound(() => SoundDef.Named("P42_Sneeze"));
 			yield return toil;
 		}
     }

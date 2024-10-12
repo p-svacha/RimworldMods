@@ -19,7 +19,7 @@ namespace P42_Allergies
 
 			foreach (Hediff_Allergy allergyHediff in AllergyUtility.GetPawnAllergies(eater))
 			{
-				if (!allergyHediff.GetAllergy().AllergyIsDiscovered) continue;
+				if (!allergyHediff.GetAllergy().IsAllergyDiscovered) continue;
 
 				ExposureType exposure = allergyHediff.GetAllergy().GetAllergicExposureOfThing(foodSource, "", out _,
 					directExposure: ExposureType.MinorEvent,

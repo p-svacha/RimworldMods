@@ -214,6 +214,7 @@
       <li Class="P42_Allergies.AllergenBuildupStage">
         <label>extreme</label>
         <minSeverity>0.80</minSeverity>
+        <tale>P42_Tale_StrongAllergicReactions</tale>
         <painOffset>0.25</painOffset>
         <vomitMtbDays>2</vomitMtbDays>
         <sneezingFitMtbDays>0.35</sneezingFitMtbDays>

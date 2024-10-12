@@ -38,6 +38,8 @@ namespace P42_Allergies
 			AddInjectionThought(user);
 
 			ReduceRestNeed(user);
+
+			TaleRecorder.RecordTale(DefDatabase<TaleDef>.GetNamed("P42_Tale_AntishockInjection"), user);
 		}
 
 		private void TryRemoveHediff(Pawn pawn, string defName)

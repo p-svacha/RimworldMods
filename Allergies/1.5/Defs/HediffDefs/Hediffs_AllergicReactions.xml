@@ -57,6 +57,7 @@
     <initialSeverity>0.4</initialSeverity>
     <lethalSeverity>1</lethalSeverity>
     <tendable>true</tendable>
+    <taleOnVisible>P42_Tale_AnaphylacticShock</taleOnVisible>
     <stages>
       <li>
         <label>painful</label>
