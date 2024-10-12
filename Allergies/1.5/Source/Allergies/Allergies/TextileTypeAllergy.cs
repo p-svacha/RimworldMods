@@ -24,25 +24,29 @@ namespace P42_Allergies
             CheckNearbyItemsForPassiveExposure(checkPlants: true);
         }
 
+        protected override void OnNearbyPawn(Pawn nearbyPawn)
+        {
+            if (TextileType == TextileType.Wool)
+            {
+                CompShearable compShearable = nearbyPawn.TryGetComp<CompShearable>();
+                if (compShearable != null && compShearable.Props.woolDef.IsWool)
+                {
+                    IncreaseAllergenBuildup(ExposureType.MinorPassive, "P42_AllergyCause_BeingNearby".Translate(nearbyPawn.Label));
+                }
+            }
+        }
+
         protected override bool IsAllergenic(ThingDef thingDef)
         {
             switch (TextileType)
             {
-                case TextileType.Wool: return IsWool(thingDef);
-                case TextileType.Leather: return IsLeather(thingDef);
+                case TextileType.Wool: return thingDef.IsWool;
+                case TextileType.Leather: return thingDef.IsLeather;
                 case TextileType.Fabric: return IsSynthetic(thingDef);
             }
             return false;
         }
 
-        private bool IsWool(ThingDef def)
-        {
-            return def.IsWool;
-        }
-        private bool IsLeather(ThingDef def)
-        {
-            return def.IsLeather;
-        }
         private bool IsSynthetic(ThingDef def)
         {
             if (def.thingCategories == null) return false;

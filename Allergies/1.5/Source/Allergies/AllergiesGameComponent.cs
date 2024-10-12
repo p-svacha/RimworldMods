@@ -30,7 +30,7 @@ namespace P42_Allergies
                 {
                     if(ShouldPawnGetNewAllergy(pawn))
                     {
-                        AllergyGenerator.GenerateAndApplyRandomAllergy(pawn);
+                        AllergyGenerator.GenerateAndApplyRandomAllergy(pawn, isVisible: false);
                     }
                 }
             }

@@ -4,7 +4,7 @@
     <defName>P42_SkinRash</defName>
     <label>skin rash</label>
     <labelNoun>a skin rash</labelNoun>
-    <description>A rash caused by an allergic reaction, making the affected skin red and irritated. It’s painful and unsightly.</description>
+    <description>A rash caused by an allergic reaction, making the affected skin red and irritated. It's painful and unsightly.</description>
     <hediffClass>Hediff_Injury</hediffClass>
     <tendable>true</tendable>
     <displayWound>true</displayWound>
@@ -51,7 +51,8 @@
     <label>anaphylactic shock</label>
     <labelNoun>an anaphylactic shock</labelNoun>
     <description>A severe and potentially life-threatening allergic reaction. It causes difficulty breathing, a rapid drop in blood pressure, and loss of consciousness. Immediate medical treatment is essential to prevent death.
-      \nThe condition can be cured instantly with an antishock injection or over time with adequate tending.</description>
+      \nThe condition can be cured instantly with an antishock injection or over time with adequate tending.
+      \nAn anaphylactic shock will further worsen if the exposure to allergens continues.</description>
     <hediffClass>P42_Allergies.Hediff_AnaphylacticShock</hediffClass>
     <defaultLabelColor>(1, 0.2, 0.2)</defaultLabelColor>
     <initialSeverity>0.4</initialSeverity>

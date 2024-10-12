@@ -80,11 +80,11 @@ namespace P42_Allergies
 
         #endregion
 
-        private static int MaxAllergiesPerPawn = 5;
+        private static int MaxAllergiesPerPawn = 6;
 
         #region Allergy generation
 
-        public static void GenerateAndApplyRandomAllergy(Pawn pawn)
+        public static void GenerateAndApplyRandomAllergy(Pawn pawn, bool isVisible)
         {
             // Get existing allergies
             List<Hediff_Allergy> existingAllergies = AllergyUtility.GetPawnAllergies(pawn);
@@ -105,18 +105,19 @@ namespace P42_Allergies
 
             if(tries == maxTries)
             {
-                if (Prefs.DevMode) Log.Message($"[Allergies Mod] Aborting allergy creation on {pawn.Name}.");
+                Logger.Log($"Aborting allergy creation on {pawn.Name}.");
                 return;
             }
-
 
             // Create new hediff
             Hediff_Allergy allergyHediff = (Hediff_Allergy)HediffMaker.MakeHediff(HediffDef.Named("P42_AllergyHediff"), pawn);
             allergyHediff.Severity = 0.05f;
             allergyHediff.SetAllergy(newAllergy);
             newAllergy.OnInitOrLoad(allergyHediff);
+            if (isVisible) newAllergy.MakeAllergyVisible();
+
             pawn.health.AddHediff(allergyHediff);
-            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Initialized a new allergy: {newAllergy.TypeLabel} ({newAllergy.GetType()}) with severity {newAllergy.Severity} on {pawn.Name}.");
+            Logger.Log($"Initialized a new allergy: {newAllergy.TypeLabel} ({newAllergy.GetType()}) with severity {newAllergy.Severity} on {pawn.Name}.");
         }
 
         private static bool CanApplyAllergy(Pawn pawn, List<Hediff_Allergy> existingAllergies)

@@ -51,7 +51,7 @@ namespace P42_Allergies
         public override string Label => Allergy.FullAllergyNameCap + " (" + Allergy.GetSeverityString() + ")";
         public override string DebugString()
         {
-            return base.DebugString() + "\nticks until severity change: " + Allergy.TicksUntilNaturalSeverityChange + "\nticks until allercure impact: " + Allergy.TicksUntilAllercureImpact;
+            return base.DebugString() + "\nticks until severity change: " + Allergy.TicksUntilNaturalSeverityChange + "\nticks until allercure impact: " + Allergy.TicksUntilAllercureImpact + "\nType: " + Allergy.GetType();
         }
     }
 }

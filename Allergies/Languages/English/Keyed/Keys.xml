@@ -51,6 +51,7 @@
     <P42_AllergyCause_InteractedWith>interacted with {0}</P42_AllergyCause_InteractedWith>
 
     <P42_AllergyCause_Wearing>wearing {0}</P42_AllergyCause_Wearing>
+    <P42_AllergyCause_NearbyWearing>a person nearby was wearing {0}</P42_AllergyCause_NearbyWearing>
     <P42_AllergyCause_Sunlight>exposed to {0} sunlight</P42_AllergyCause_Sunlight>
     <P42_AllergyCause_Heat>exposed to {0} heat</P42_AllergyCause_Heat>
     <P42_AllergyCause_Cold>exposed to {0} cold</P42_AllergyCause_Cold>
@@ -62,6 +63,9 @@
     <P42_AllergyCause_BeingNearby>being close to {0}</P42_AllergyCause_BeingNearby>
     <P42_AllergyCause_InSameRoom>in the same room as {0}</P42_AllergyCause_InSameRoom>
     <P42_AllergyCause_Holding>holding {0}</P42_AllergyCause_Holding>
+    <P42_AllergyCause_NearbyHolding>a person nearby was holding {0}</P42_AllergyCause_NearbyHolding>
+    <P42_AllergyCause_Equipped>having {0} equipped</P42_AllergyCause_Equipped>
+    <P42_AllergyCause_NearbyEquipped>a person nearby had {0} equipped</P42_AllergyCause_NearbyEquipped>
     <P42_AllergyCause_InInventory>having {0} in inventory</P42_AllergyCause_InInventory>
     <P42_AllergyCause_InInventoryCaravan>traveling in a caravan with {0}</P42_AllergyCause_InInventoryCaravan>
 

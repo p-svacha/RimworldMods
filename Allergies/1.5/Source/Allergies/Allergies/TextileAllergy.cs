@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,18 @@ namespace P42_Allergies
         protected override void DoPassiveExposureChecks()
         {
             CheckNearbyItemsForPassiveExposure(checkPlants: true);
+        }
+
+        protected override void OnNearbyPawn(Pawn nearbyPawn)
+        {
+            if(Textile.IsWool)
+            {
+                CompShearable compShearable = nearbyPawn.TryGetComp<CompShearable>();
+                if (compShearable != null && compShearable.Props.woolDef == Textile)
+                {
+                    IncreaseAllergenBuildup(ExposureType.MinorPassive, "P42_AllergyCause_BeingNearby".Translate(nearbyPawn.Label));
+                }
+            }
         }
 
         protected override bool IsAllergenic(ThingDef thing) => thing == Textile;

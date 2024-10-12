@@ -42,7 +42,7 @@ namespace P42_Allergies
         private const float StrongExposureEventIncrease = 0.25f;
         private const float ExtremeExposureEventIncrease = 0.45f;
 
-        private const float SeverityIncreaseForRecordedTale = 0.2f;
+        private const float AnaphylacticShockIncreaseFactor = 0.01f; // Each allergen buildup increase also icreases anaphylactic shock severity to a lesser extent (multiplied by this factor)
 
         private Dictionary<AllergySeverity, float> SeverityMultiplier = new Dictionary<AllergySeverity, float>()
         {
@@ -248,7 +248,16 @@ namespace P42_Allergies
                 if (amount > 1) amount = 1;
             }
 
-            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Increasing allergen buildup of {Pawn.Name} by {amount} (exposure type: {exposureType.ToString()}). Allergy severity: {GetSeverityString()}. Cause: {translatedCause}.");
+            Logger.Log($"Increasing allergen buildup of {Pawn.Name} by {amount} (exposure type: {exposureType.ToString()}). Allergy severity: {GetSeverityString()}. Cause: {translatedCause}.");
+
+            // Increase anaphylactic shock severity
+            Hediff anaphylacticShock = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AnaphylacticShock"));
+            if(anaphylacticShock != null)
+            {
+                float anaShockIncrease = (amount * AnaphylacticShockIncreaseFactor);
+                anaphylacticShock.Severity += anaShockIncrease;
+                Logger.Log($"Icreasing anaphylactic shock severity of {Pawn.Name} by {anaShockIncrease}.");
+            }
 
             // Create the exposure info log
             AllergyExposureInfo info = new AllergyExposureInfo(translatedCause, Find.TickManager.TicksGame);
@@ -284,7 +293,7 @@ namespace P42_Allergies
             // If the allergy has not been visible so far make it visible
             if (!IsAllergyDiscovered && newSeverity >= AllergyBuildupDiscoverThreshold)
             {
-                AllergyHediff.Severity = 0.2f; // makes the allergy hediff visible
+                MakeAllergyVisible();
 
                 // Create a letter to notify the player of the newly discovered allergy
                 if (Pawn.IsColonistPlayerControlled)
@@ -292,6 +301,11 @@ namespace P42_Allergies
                     SendAllergyDiscoveredLetter(translatedCause);
                 }
             }
+        }
+
+        public void MakeAllergyVisible()
+        {
+            AllergyHediff.Severity = 0.2f;
         }
 
         private bool IsBuildupAboveCap()
@@ -341,12 +355,14 @@ namespace P42_Allergies
 
             if (map != null)
             {
-                // Pawn inside
+                // Pawn outside
                 if (room == null || room.IsHuge)
                 {
                     int searchRadius = 5;
                     foreach (Thing item in GenRadial.RadialDistinctThingsAround(pawnPosition, map, searchRadius, useCenter: true))
                     {
+                        if (item == Pawn) continue;
+
                         if (checkNearbyItems)
                         {
                             CheckItemIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_BeingNearby",
@@ -359,15 +375,20 @@ namespace P42_Allergies
                         }
 
                         // Check nearby pawns
-                        if (item is Pawn pawn) OnNearbyPawn(pawn);
+                        if (item is Pawn nearbyPawn)
+                        {
+                            DoPassiveExposureCheckOnNearbyPawn(nearbyPawn, checkInventory, checkApparel);
+                        }
                     }
                 }
 
-                // Pawn outside
+                // Pawn inside
                 else
                 {
                     foreach (Thing item in room.ContainedAndAdjacentThings)
                     {
+                        if (item == Pawn) continue;
+
                         if (checkNearbyItems)
                         {
                             CheckItemIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_InSameRoom",
@@ -380,17 +401,34 @@ namespace P42_Allergies
                         }
 
                         // Check nearby pawns
-                        if (item is Pawn pawn) OnNearbyPawn(pawn);
+                        if (item is Pawn nearbyPawn)
+                        {
+                            DoPassiveExposureCheckOnNearbyPawn(nearbyPawn, checkInventory, checkApparel);
+                        }
                     }
                 }
             }
 
             // Holding item
-            if (checkInventory && Pawn.carryTracker.CarriedThing != null)
+            if (checkInventory && Pawn.carryTracker != null && Pawn.carryTracker.CarriedThing != null)
             {
                 Thing carriedThing = Pawn.carryTracker.CarriedThing;
 
                 CheckItemIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_Holding",
+                    directExposure: ExposureType.ExtremePassive,
+                    ingredientExposure: ExposureType.StrongPassive,
+                    stuffExposure: ExposureType.StrongPassive,
+                    productionIngredientExposure: ExposureType.MinorPassive,
+                    butcherProductExposure: ExposureType.None,
+                    plantExposure: ExposureType.None);
+            }
+
+            // Equipped item
+            if (checkInventory && Pawn.equipment != null && Pawn.equipment.Primary != null)
+            {
+                Thing carriedThing = Pawn.equipment.Primary;
+
+                CheckItemIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_Equipped",
                     directExposure: ExposureType.ExtremePassive,
                     ingredientExposure: ExposureType.StrongPassive,
                     stuffExposure: ExposureType.StrongPassive,
@@ -439,15 +477,61 @@ namespace P42_Allergies
             {
                 foreach (Apparel apparelItem in Pawn.apparel.WornApparel)
                 {
-                    if (apparelItem.Stuff != null)
-                    {
-                        if (IsAllergenic(apparelItem.Stuff))
-                        {
-                            // Wearing apparel made out of item => extreme passive exposure
-                            IncreaseAllergenBuildup(ExposureType.ExtremePassive, "P42_AllergyCause_Wearing".Translate(apparelItem.LabelNoParenthesis));
-                            break;
-                        }
-                    }
+                    CheckItemIfAllergenicAndApplyBuildup(apparelItem, "P42_AllergyCause_Wearing",
+                        directExposure: ExposureType.None,
+                        ingredientExposure: ExposureType.None,
+                        stuffExposure: ExposureType.MinorPassive,
+                        productionIngredientExposure: ExposureType.MinorPassive,
+                        butcherProductExposure: ExposureType.None,
+                        plantExposure: ExposureType.None);
+                }
+            }
+        }
+
+        private void DoPassiveExposureCheckOnNearbyPawn(Pawn nearbyPawn, bool checkInventory, bool checkApparel)
+        {
+            OnNearbyPawn(nearbyPawn); // allergy-specific logic
+
+            // Nearby pawn holding item
+            if (checkInventory && nearbyPawn.carryTracker != null && nearbyPawn.carryTracker.CarriedThing != null)
+            {
+                Thing carriedThing = nearbyPawn.carryTracker.CarriedThing;
+
+                CheckItemIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_NearbyHolding",
+                    directExposure: ExposureType.MinorPassive,
+                    ingredientExposure: ExposureType.MinorPassive,
+                    stuffExposure: ExposureType.MinorPassive,
+                    productionIngredientExposure: ExposureType.MinorPassive,
+                    butcherProductExposure: ExposureType.None,
+                    plantExposure: ExposureType.None);
+            }
+
+            // Nearby pawn equipped item
+            if (checkInventory && nearbyPawn.equipment != null && nearbyPawn.equipment.Primary != null)
+            {
+                Thing carriedThing = nearbyPawn.equipment.Primary;
+
+                CheckItemIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_NearbyEquipped",
+                    directExposure: ExposureType.ExtremePassive,
+                    ingredientExposure: ExposureType.StrongPassive,
+                    stuffExposure: ExposureType.StrongPassive,
+                    productionIngredientExposure: ExposureType.MinorPassive,
+                    butcherProductExposure: ExposureType.None,
+                    plantExposure: ExposureType.None);
+            }
+
+            // Nearby pawn apparel
+            if (checkApparel && nearbyPawn.apparel != null && nearbyPawn.apparel.WornApparel != null)
+            {
+                foreach (Apparel apparelItem in nearbyPawn.apparel.WornApparel)
+                {
+                    CheckItemIfAllergenicAndApplyBuildup(apparelItem, "P42_AllergyCause_NearbyWearing",
+                        directExposure: ExposureType.None,
+                        ingredientExposure: ExposureType.None,
+                        stuffExposure: ExposureType.MinorPassive,
+                        productionIngredientExposure: ExposureType.MinorPassive,
+                        butcherProductExposure: ExposureType.None,
+                        plantExposure: ExposureType.None);
                 }
             }
         }
@@ -455,7 +539,7 @@ namespace P42_Allergies
         /// <summary>
         /// Gets called when nearby another pawn
         /// </summary>
-        protected virtual void OnNearbyPawn(Pawn pawn) { }
+        protected virtual void OnNearbyPawn(Pawn nearbyPawn) { }
 
         /// <summary>
         /// Checks if an item is allergenic and applies the corresponding allergen buildup.

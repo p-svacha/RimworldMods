@@ -100,7 +100,7 @@ namespace P42_Allergies
         }
         private bool IsFungus(ThingDef item)
         {
-            return DoesThingDefConformCriteria(item, includedFlags: new[] { FoodTypeFlags.Fungus }, excludedFlags: new[] { FoodTypeFlags.VegetableOrFruit });
+            return item.IsIngestible && item.ingestible.foodType == FoodTypeFlags.Fungus;
         }
         private bool IsKibble(ThingDef item)
         {

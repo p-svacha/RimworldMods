@@ -12,15 +12,24 @@ namespace P42_Allergies
     [HarmonyPatch(typeof(PawnGenerator), "GenerateInitialHediffs")]
     public static class HarmonyPatch_GenerateInitialHediffs
     {
-        private const float BaseAllergyChance = 1f; // TODO: 0.1f
+        private const float BaseAllergyChance = 0.4f; // TODO: 0.15f
+        private const float ChanceThatAllergyIsVisible = 0.5f;
 
         [HarmonyPostfix]
         public static void Postfix(Pawn pawn, PawnGenerationRequest request)
         {
-            // Chance to add allergy
+            TryApplyAllergy(pawn);
+        }
+
+        private static void TryApplyAllergy(Pawn pawn)
+        {
             if (Rand.Chance(BaseAllergyChance))
             {
-                AllergyGenerator.GenerateAndApplyRandomAllergy(pawn);
+                bool isVisible = Rand.Chance(ChanceThatAllergyIsVisible);
+                AllergyGenerator.GenerateAndApplyRandomAllergy(pawn, isVisible);
+
+                // Add another one if unlucky
+                TryApplyAllergy(pawn);
             }
         }
     }
