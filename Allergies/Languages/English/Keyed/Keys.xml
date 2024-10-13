@@ -58,7 +58,6 @@
     <P42_AllergyCause_Dust>in a {0} room</P42_AllergyCause_Dust>
     <P42_AllergyCause_Rain>exposed to rain</P42_AllergyCause_Rain>
     <P42_AllergyCause_Fog>exposed to fog</P42_AllergyCause_Fog>
-    <P42_AllergyCause_WalkOn>walking on {0}</P42_AllergyCause_WalkOn>
 
     <P42_AllergyCause_BeingNearby>being close to {0}</P42_AllergyCause_BeingNearby>
     <P42_AllergyCause_InSameRoom>in the same room as {0}</P42_AllergyCause_InSameRoom>
@@ -87,7 +86,13 @@
     <P42_LetterTextStart_NewAllergyDiscovered_Severe>When {0}, {1} felt {2} throat tightening, had to sneeze violently, and {2} eyes started to burn.</P42_LetterTextStart_NewAllergyDiscovered_Severe>
     <P42_LetterTextStart_NewAllergyDiscovered_Extreme>When {0}, {1} started gasping for air, and {2} breathing became severely restricted, experiencing an intense anaphylactic shock.</P42_LetterTextStart_NewAllergyDiscovered_Extreme>
     <P42_LetterTextMiddle_AllergyDiscovered>discovered that {0} has a</P42_LetterTextMiddle_AllergyDiscovered>
-    <P42_LetterTextEnd_AllergyDiscovered>Keep {0} away from anything {1}-related or try to treat the allergy to avoid health complications.</P42_LetterTextEnd_AllergyDiscovered>
+    <P42_LetterTextEnd_AllergyDiscovered>Keep {0} away from {1} or try to treat the allergy to avoid health complications.</P42_LetterTextEnd_AllergyDiscovered>
+
+    <P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Related>{0} and any {0}-related things</P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Related>
+    <P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Animal>{0} and any products that are related to {0}</P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Animal>
+    <P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Food>any food containing {0}</P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Food>
+    <P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Dust>dirty rooms</P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Dust>
+    <P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Plant>{0} and its products</P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Plant>
 
     <!-- Alerts -->
     <P42_Alert_AllergicReactions>Allergic reactions</P42_Alert_AllergicReactions>

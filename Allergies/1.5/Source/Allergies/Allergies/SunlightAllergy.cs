@@ -11,6 +11,11 @@ namespace P42_Allergies
 {
     public class SunlightAllergy : Allergy
     {
+        protected override void OnInitOrLoad()
+        {
+            typeLabel = "P42_AllergyType_Sunlight".Translate();
+        }
+
         protected override bool IsAllergenic(ThingDef thingDef) => false;
 
         protected override void DoPassiveExposureChecks()
@@ -52,7 +57,9 @@ namespace P42_Allergies
         {
             return (otherAllergy is SunlightAllergy);
         }
-        public override string TypeLabel => "P42_AllergyType_Sunlight".Translate();
+        private string typeLabel;
+        public override string TypeLabel => typeLabel;
+        public override string KeepAwayFromText => typeLabel;
         protected override void ExposeExtraData() { }
     }
 }

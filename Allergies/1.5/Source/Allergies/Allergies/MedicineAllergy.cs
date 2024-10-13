@@ -13,7 +13,7 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyItemsForPassiveExposure(checkApparel: false, checkPlants: true);
+            CheckNearbyThingsForPassiveExposure(checkApparel: false, checkPlants: true);
         }
 
         protected override bool IsAllergenic(ThingDef thing) => thing == MedicineType;
@@ -23,6 +23,7 @@ namespace P42_Allergies
             return (otherAllergy is MedicineAllergy otherMedicineAllergy && otherMedicineAllergy.MedicineType == MedicineType);
         }
         public override string TypeLabel => MedicineType.label;
+        public override string KeepAwayFromText => MedicineType.label;
         protected override void ExposeExtraData()
         {
             Scribe_Defs.Look(ref MedicineType, "medicineType");

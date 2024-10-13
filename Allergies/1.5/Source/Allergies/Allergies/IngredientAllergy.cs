@@ -11,9 +11,14 @@ namespace P42_Allergies
     {
         public ThingDef Ingredient;
 
+        protected override void OnInitOrLoad()
+        {
+            keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Food".Translate(Ingredient.label);
+        }
+
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyItemsForPassiveExposure(checkApparel: false, checkPlants: true);
+            CheckNearbyThingsForPassiveExposure(checkApparel: false, checkPlants: true);
         }
 
         protected override bool IsAllergenic(ThingDef thing) => thing == Ingredient;
@@ -23,6 +28,8 @@ namespace P42_Allergies
             return (otherAllergy is IngredientAllergy otherIngredientAllergy && otherIngredientAllergy.Ingredient == Ingredient);
         }
         public override string TypeLabel => Ingredient.label;
+        private string keepAwayFromText;
+        public override string KeepAwayFromText => keepAwayFromText;
         protected override void ExposeExtraData()
         {
             Scribe_Defs.Look(ref Ingredient, "ingredient");

@@ -12,9 +12,15 @@ namespace P42_Allergies
     {
         public ThingDef Textile;
 
+        protected override void OnInitOrLoad()
+        {
+            keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Related".Translate(Textile.label);
+        }
+
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyItemsForPassiveExposure(checkPlants: true);
+            CheckNearbyThingsForPassiveExposure(checkPlants: true);
+            CheckNearbyFloorsForPassiveExposure();
         }
 
         protected override void OnNearbyPawn(Pawn nearbyPawn)
@@ -36,6 +42,8 @@ namespace P42_Allergies
             return (otherAllergy is TextileAllergy otherTextileAllergy && otherTextileAllergy.Textile == Textile);
         }
         public override string TypeLabel => Textile.label;
+        private string keepAwayFromText;
+        public override string KeepAwayFromText => keepAwayFromText;
         protected override void ExposeExtraData()
         {
             Scribe_Defs.Look(ref Textile, "textile");

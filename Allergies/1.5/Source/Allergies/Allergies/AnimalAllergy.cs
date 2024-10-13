@@ -16,6 +16,9 @@ namespace P42_Allergies
 
         protected override void OnInitOrLoad()
         {
+            Logger.Log($"singular: {Animal.label}, plural: {Animal.labelPlural}");
+            keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Animal".Translate(Animal.labelPlural.NullOrEmpty() ? Animal.label : Animal.labelPlural);
+
             AnimalProducts = new List<ThingDef>();
 
             // Meat
@@ -51,7 +54,7 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyItemsForPassiveExposure();
+            CheckNearbyThingsForPassiveExposure();
         }
 
         public override void OnDamageTaken(DamageInfo dinfo)
@@ -79,6 +82,8 @@ namespace P42_Allergies
             return (otherAllergy is AnimalAllergy animalAllergy && animalAllergy.Animal == Animal);
         }
         public override string TypeLabel => Animal.label;
+        private string keepAwayFromText;
+        public override string KeepAwayFromText => keepAwayFromText;
         protected override void ExposeExtraData()
         {
             Scribe_Defs.Look(ref Animal, "animal");

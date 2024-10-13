@@ -11,9 +11,15 @@ namespace P42_Allergies
     {
         public ThingDef WoodType;
 
+        protected override void OnInitOrLoad()
+        {
+            keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Related".Translate(WoodType.label);
+        }
+
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyItemsForPassiveExposure(checkPlants: true);
+            CheckNearbyThingsForPassiveExposure(checkPlants: true);
+            CheckNearbyFloorsForPassiveExposure();
         }
 
         protected override bool IsAllergenic(ThingDef thingDef) => thingDef == WoodType;
@@ -23,6 +29,8 @@ namespace P42_Allergies
             return (otherAllergy is WoodAllergy otherWoodAllergy && otherWoodAllergy.WoodType == WoodType);
         }
         public override string TypeLabel => WoodType.label;
+        private string keepAwayFromText;
+        public override string KeepAwayFromText => keepAwayFromText;
         protected override void ExposeExtraData()
         {
             Scribe_Defs.Look(ref WoodType, "woodType");

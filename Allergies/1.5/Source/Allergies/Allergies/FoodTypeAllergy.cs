@@ -25,9 +25,32 @@ namespace P42_Allergies
     {
         public FoodType FoodType;
 
+        protected override void OnInitOrLoad()
+        {
+            typeLabel = GetTypeLabel();
+            if (FoodType == FoodType.Liquor || FoodType == FoodType.ProcessedMeals || FoodType == FoodType.Kibble) keepAwayFromText = typeLabel;
+            else keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Food".Translate(typeLabel);
+        }
+        private string GetTypeLabel()
+        {
+            switch (FoodType)
+            {
+                case FoodType.Produce: return "P42_AllergyFoodType_Produce".Translate();
+                case FoodType.Seed: return "P42_AllergyFoodType_Seed".Translate();
+                case FoodType.Meat: return "P42_AllergyFoodType_Meat".Translate();
+                case FoodType.Milk: return "P42_AllergyFoodType_Milk".Translate();
+                case FoodType.Egg: return "P42_AllergyFoodType_Egg".Translate();
+                case FoodType.Fungus: return "P42_AllergyFoodType_Fungus".Translate();
+                case FoodType.Kibble: return "P42_AllergyFoodType_Kibble".Translate();
+                case FoodType.Liquor: return "P42_AllergyFoodType_Liquor".Translate();
+                case FoodType.ProcessedMeals: return "P42_AllergyFoodType_ProcessedMeals".Translate();
+                default: return "???";
+            }
+        }
+
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyItemsForPassiveExposure(checkApparel: false, checkPlants: true);
+            CheckNearbyThingsForPassiveExposure(checkApparel: false, checkPlants: true);
         }
 
         /// <summary>
@@ -121,25 +144,11 @@ namespace P42_Allergies
         {
             return (otherAllergy is FoodTypeAllergy otherFoodTypeAllergy && otherFoodTypeAllergy.FoodType == FoodType);
         }
-        public override string TypeLabel
-        {
-            get
-            {
-                switch (FoodType)
-                {
-                    case FoodType.Produce: return "P42_AllergyFoodType_Produce".Translate();
-                    case FoodType.Seed: return "P42_AllergyFoodType_Seed".Translate();
-                    case FoodType.Meat: return "P42_AllergyFoodType_Meat".Translate();
-                    case FoodType.Milk: return "P42_AllergyFoodType_Milk".Translate();
-                    case FoodType.Egg: return "P42_AllergyFoodType_Egg".Translate();
-                    case FoodType.Fungus: return "P42_AllergyFoodType_Fungus".Translate();
-                    case FoodType.Kibble: return "P42_AllergyFoodType_Kibble".Translate();
-                    case FoodType.Liquor: return "P42_AllergyFoodType_Liquor".Translate();
-                    case FoodType.ProcessedMeals: return "P42_AllergyFoodType_ProcessedMeals".Translate();
-                    default: return "???";
-                }
-            }
-        }
+
+        private string typeLabel;
+        public override string TypeLabel => typeLabel;
+        private string keepAwayFromText;
+        public override string KeepAwayFromText => keepAwayFromText;
         protected override void ExposeExtraData()
         {
             Scribe_Values.Look(ref FoodType, "foodType");

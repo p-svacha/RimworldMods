@@ -10,6 +10,12 @@ namespace P42_Allergies
 {
     public class DustAllergy : Allergy
     {
+        protected override void OnInitOrLoad()
+        {
+            typeLabel = "P42_AllergyType_Dust".Translate();
+            keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Dust".Translate();
+        }
+
         protected override bool IsAllergenic(ThingDef thingDef) => false;
 
         protected override void DoPassiveExposureChecks()
@@ -45,7 +51,11 @@ namespace P42_Allergies
         {
             return (otherAllergy is DustAllergy);
         }
-        public override string TypeLabel => "P42_AllergyType_Dust".Translate();
+        private string typeLabel;
+        public override string TypeLabel => typeLabel;
+        private string keepAwayFromText;
+        public override string KeepAwayFromText => keepAwayFromText;
+
         protected override void ExposeExtraData() { }
     }
 }

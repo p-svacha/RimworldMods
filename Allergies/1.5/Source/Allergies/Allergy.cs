@@ -25,6 +25,9 @@ namespace P42_Allergies
         private const float AllercureInstantHealChance = 0.1f;
 
         // Exposure values
+        private const int NearbyItemsSearchRadius = 5;
+        private const int NearbyFloorsSearchRadius = 3;
+
         private const float MildSeverityBuildupCap = 0.35f;
         private const float ModerateSeverityBuildupCap = 0.70f;
 
@@ -61,6 +64,10 @@ namespace P42_Allergies
         {
             AllergyHediff = hediff;
             OnInitOrLoad();
+
+            hediff.label = FullAllergyNameCap + " (" + GetSeverityString() + ")";
+            if(LanguageDatabase.activeLanguage?.folderName == "English")
+                hediff.description = hediff.def.Description.Replace("an allergen", TypeLabel).Replace("that allergen", KeepAwayFromText);
         }
         protected virtual void OnInitOrLoad() { }
         public void OnNewAllergyCreated(AllergySeverity severity)
@@ -337,16 +344,16 @@ namespace P42_Allergies
                 letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Extreme".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
 
             TaggedString letterTextMiddle = "\n\n" + Pawn.NameShortColored + " " + "P42_LetterTextMiddle_AllergyDiscovered".Translate(Pawn.ProSubj()) + " " + (GetSeverityString() + " " + FullAllergyName).Colorize(new UnityEngine.Color(0.9f, 1f, 0.6f));
-            TaggedString letterTextEnd = "\n\n" + "P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.ProObj(), TypeLabel);
+            TaggedString letterTextEnd = "\n\n" + "P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.ProObj(), KeepAwayFromText);
 
             TaggedString letterText = letterTextStart + letterTextMiddle + letterTextEnd;
             Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NegativeEvent, Pawn);
         }
 
         /// <summary>
-        /// Executes the PIE (Passive Item Exposure) check for a certain item and increases allergen buildup accordingly.
+        /// Checks all items nearby a pawn, in the same room, equipped, holding, inventory, caravan and apparel for exposure.
         /// </summary>
-        protected void CheckNearbyItemsForPassiveExposure(bool checkNearbyItems = true, bool checkApparel = true, bool checkInventory = true, bool checkButcherProducts = false, bool checkPlants = false)
+        protected void CheckNearbyThingsForPassiveExposure(bool checkNearbyItems = true, bool checkApparel = true, bool checkInventory = true, bool checkButcherProducts = false, bool checkPlants = false)
         {
             // Get the current info of the pawn
             Map map = Pawn.Map;
@@ -358,14 +365,13 @@ namespace P42_Allergies
                 // Pawn outside
                 if (room == null || room.IsHuge)
                 {
-                    int searchRadius = 5;
-                    foreach (Thing item in GenRadial.RadialDistinctThingsAround(pawnPosition, map, searchRadius, useCenter: true))
+                    foreach (Thing item in GenRadial.RadialDistinctThingsAround(pawnPosition, map, NearbyItemsSearchRadius, useCenter: true))
                     {
                         if (item == Pawn) continue;
 
                         if (checkNearbyItems)
                         {
-                            CheckItemIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_BeingNearby",
+                            CheckThingIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_BeingNearby",
                                 directExposure: ExposureType.MinorPassive,
                                 ingredientExposure: ExposureType.MinorPassive,
                                 stuffExposure: ExposureType.MinorPassive,
@@ -391,7 +397,7 @@ namespace P42_Allergies
 
                         if (checkNearbyItems)
                         {
-                            CheckItemIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_InSameRoom",
+                            CheckThingIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_InSameRoom",
                                 directExposure: ExposureType.StrongPassive,
                                 ingredientExposure: ExposureType.MinorPassive,
                                 stuffExposure: ExposureType.MinorPassive,
@@ -414,7 +420,7 @@ namespace P42_Allergies
             {
                 Thing carriedThing = Pawn.carryTracker.CarriedThing;
 
-                CheckItemIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_Holding",
+                CheckThingIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_Holding",
                     directExposure: ExposureType.ExtremePassive,
                     ingredientExposure: ExposureType.StrongPassive,
                     stuffExposure: ExposureType.StrongPassive,
@@ -428,7 +434,7 @@ namespace P42_Allergies
             {
                 Thing carriedThing = Pawn.equipment.Primary;
 
-                CheckItemIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_Equipped",
+                CheckThingIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_Equipped",
                     directExposure: ExposureType.ExtremePassive,
                     ingredientExposure: ExposureType.StrongPassive,
                     stuffExposure: ExposureType.StrongPassive,
@@ -442,7 +448,7 @@ namespace P42_Allergies
             {
                 foreach (Thing item in Pawn.inventory.GetDirectlyHeldThings())
                 {
-                    CheckItemIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_InInventory",
+                    CheckThingIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_InInventory",
                         directExposure: ExposureType.ExtremePassive,
                         ingredientExposure: ExposureType.StrongPassive,
                         stuffExposure: ExposureType.StrongPassive,
@@ -461,7 +467,7 @@ namespace P42_Allergies
                 {
                     foreach (Thing item in caravan.AllThings)
                     {
-                        CheckItemIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_InInventoryCaravan",
+                        CheckThingIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_InInventoryCaravan",
                             directExposure: ExposureType.MinorPassive,
                             ingredientExposure: ExposureType.MinorPassive,
                             stuffExposure: ExposureType.MinorPassive,
@@ -477,7 +483,7 @@ namespace P42_Allergies
             {
                 foreach (Apparel apparelItem in Pawn.apparel.WornApparel)
                 {
-                    CheckItemIfAllergenicAndApplyBuildup(apparelItem, "P42_AllergyCause_Wearing",
+                    CheckThingIfAllergenicAndApplyBuildup(apparelItem, "P42_AllergyCause_Wearing",
                         directExposure: ExposureType.None,
                         ingredientExposure: ExposureType.None,
                         stuffExposure: ExposureType.MinorPassive,
@@ -487,6 +493,36 @@ namespace P42_Allergies
                 }
             }
         }
+        protected void CheckNearbyFloorsForPassiveExposure()
+        {
+            Map map = Pawn.Map;
+            if (map == null) return;
+
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(Pawn.Position, NearbyFloorsSearchRadius, useCenter: true))
+            {
+                if (!cell.InBounds(map)) continue;
+                TerrainDef terrain = map.terrainGrid.TerrainAt(cell);
+                if (terrain == null) continue;
+
+                // General allergy-specific check
+                ExposureType directExposure = GetDirectExposureOfFloor(terrain);
+                if(directExposure != ExposureType.None) IncreaseAllergenBuildup(directExposure, "P42_AllergyCause_BeingNearby".Translate(terrain.label));
+
+                // Costlist (to make floor) check
+                if(terrain.costList != null)
+                {
+                    foreach(ThingDefCountClass tdcc in terrain.costList)
+                    {
+                        if (IsAllergenic(tdcc.thingDef))
+                        {
+                            IncreaseAllergenBuildup(ExposureType.StrongPassive, "P42_AllergyCause_BeingNearby".Translate(terrain.label));
+                        }
+                    }
+                }
+            }
+        }
+
+        protected virtual ExposureType GetDirectExposureOfFloor(TerrainDef def) { return ExposureType.None; }
 
         private void DoPassiveExposureCheckOnNearbyPawn(Pawn nearbyPawn, bool checkInventory, bool checkApparel)
         {
@@ -497,7 +533,7 @@ namespace P42_Allergies
             {
                 Thing carriedThing = nearbyPawn.carryTracker.CarriedThing;
 
-                CheckItemIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_NearbyHolding",
+                CheckThingIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_NearbyHolding",
                     directExposure: ExposureType.MinorPassive,
                     ingredientExposure: ExposureType.MinorPassive,
                     stuffExposure: ExposureType.MinorPassive,
@@ -511,7 +547,7 @@ namespace P42_Allergies
             {
                 Thing carriedThing = nearbyPawn.equipment.Primary;
 
-                CheckItemIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_NearbyEquipped",
+                CheckThingIfAllergenicAndApplyBuildup(carriedThing, "P42_AllergyCause_NearbyEquipped",
                     directExposure: ExposureType.ExtremePassive,
                     ingredientExposure: ExposureType.StrongPassive,
                     stuffExposure: ExposureType.StrongPassive,
@@ -525,7 +561,7 @@ namespace P42_Allergies
             {
                 foreach (Apparel apparelItem in nearbyPawn.apparel.WornApparel)
                 {
-                    CheckItemIfAllergenicAndApplyBuildup(apparelItem, "P42_AllergyCause_NearbyWearing",
+                    CheckThingIfAllergenicAndApplyBuildup(apparelItem, "P42_AllergyCause_NearbyWearing",
                         directExposure: ExposureType.None,
                         ingredientExposure: ExposureType.None,
                         stuffExposure: ExposureType.MinorPassive,
@@ -544,7 +580,7 @@ namespace P42_Allergies
         /// <summary>
         /// Checks if an item is allergenic and applies the corresponding allergen buildup.
         /// </summary>
-        public void CheckItemIfAllergenicAndApplyBuildup(Thing thing, string causeKey, ExposureType directExposure, ExposureType ingredientExposure, ExposureType stuffExposure, ExposureType productionIngredientExposure, ExposureType butcherProductExposure, ExposureType plantExposure)
+        public void CheckThingIfAllergenicAndApplyBuildup(Thing thing, string causeKey, ExposureType directExposure, ExposureType ingredientExposure, ExposureType stuffExposure, ExposureType productionIngredientExposure, ExposureType butcherProductExposure, ExposureType plantExposure)
         {
             if (thing == null) return;
             ExposureType exposure = GetAllergicExposureOfThing(thing, causeKey, out string translatedCause, directExposure, ingredientExposure, stuffExposure, productionIngredientExposure, butcherProductExposure, plantExposure);
@@ -631,7 +667,7 @@ namespace P42_Allergies
         public virtual void OnInteractedWith(Pawn pawn) { }
         public void OnThingIngested(Thing thing)
         {
-            CheckItemIfAllergenicAndApplyBuildup(thing, "P42_AllergyCause_Ingested",
+            CheckThingIfAllergenicAndApplyBuildup(thing, "P42_AllergyCause_Ingested",
                 directExposure: ExposureType.ExtremeEvent,
                 ingredientExposure: ExposureType.StrongEvent,
                 stuffExposure: ExposureType.StrongEvent,
@@ -641,7 +677,7 @@ namespace P42_Allergies
         }
         public void OnTendedWith(Thing medicine)
         {
-            CheckItemIfAllergenicAndApplyBuildup(medicine, "P42_AllergyCause_Tended",
+            CheckThingIfAllergenicAndApplyBuildup(medicine, "P42_AllergyCause_Tended",
                 directExposure: ExposureType.ExtremeEvent,
                 ingredientExposure: ExposureType.StrongEvent,
                 stuffExposure: ExposureType.StrongEvent,
@@ -651,7 +687,7 @@ namespace P42_Allergies
         }
         public void OnRecipeApplied(Thing recipeIngredient)
         {
-            CheckItemIfAllergenicAndApplyBuildup(recipeIngredient, "P42_AllergyCause_RecipeApplied",
+            CheckThingIfAllergenicAndApplyBuildup(recipeIngredient, "P42_AllergyCause_RecipeApplied",
                 directExposure: ExposureType.ExtremeEvent,
                 ingredientExposure: ExposureType.StrongEvent,
                 stuffExposure: ExposureType.StrongEvent,
@@ -682,6 +718,8 @@ namespace P42_Allergies
             if (Severity == AllergySeverity.Extreme) return "P42_AllergySeverity_Extreme".Translate();
             return "???";
         }
+
+        public abstract string KeepAwayFromText { get; }
         public abstract string TypeLabel { get; }
         public void ExposeData()
         {

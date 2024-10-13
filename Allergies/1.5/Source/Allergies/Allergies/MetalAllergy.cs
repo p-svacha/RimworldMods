@@ -11,9 +11,15 @@ namespace P42_Allergies
     {
         public ThingDef MetalType;
 
+        protected override void OnInitOrLoad()
+        {
+            keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Related".Translate(MetalType.label);
+        }
+
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyItemsForPassiveExposure();
+            CheckNearbyThingsForPassiveExposure();
+            CheckNearbyFloorsForPassiveExposure();
         }
 
         protected override bool IsAllergenic(ThingDef thingDef) => thingDef == MetalType;
@@ -23,6 +29,8 @@ namespace P42_Allergies
             return (otherAllergy is MetalAllergy otherMetalAllergy && otherMetalAllergy.MetalType == MetalType);
         }
         public override string TypeLabel => MetalType.label;
+        private string keepAwayFromText;
+        public override string KeepAwayFromText => keepAwayFromText;
         protected override void ExposeExtraData()
         {
             Scribe_Defs.Look(ref MetalType, "metalType");

@@ -11,9 +11,14 @@ namespace P42_Allergies
     {
         public ThingDef Plant;
 
+        protected override void OnInitOrLoad()
+        {
+            keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Plant".Translate(Plant.label);
+        }
+
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyItemsForPassiveExposure();
+            CheckNearbyThingsForPassiveExposure();
         }
 
         protected override bool IsAllergenic(ThingDef thing)
@@ -29,6 +34,8 @@ namespace P42_Allergies
             return (otherAllergy is PlantAllergy plantAllergy && plantAllergy.Plant == Plant);
         }
         public override string TypeLabel => Plant.label;
+        private string keepAwayFromText;
+        public override string KeepAwayFromText => keepAwayFromText;
         protected override void ExposeExtraData()
         {
             Scribe_Defs.Look(ref Plant, "plant");

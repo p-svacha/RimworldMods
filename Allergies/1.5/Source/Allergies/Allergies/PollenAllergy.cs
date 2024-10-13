@@ -18,9 +18,28 @@ namespace P42_Allergies
     {
         public PollenType PollenType;
 
+        private const string HayDefName = "Hay";
+
+        protected override void OnInitOrLoad()
+        {
+            typeLabel = GetTypeLabel();
+            keepAwayFromText = typeLabel;
+        }
+        private string GetTypeLabel()
+        {
+            switch (PollenType)
+            {
+                case PollenType.Flowers: return "P42_AllergyPollenType_Flower".Translate();
+                case PollenType.Trees: return "P42_AllergyPollenType_Tree".Translate();
+                case PollenType.Grass: return "P42_AllergyPollenType_Grass".Translate();
+                default: return "???";
+            }
+        }
+
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyItemsForPassiveExposure(checkApparel: false, checkInventory: false);
+            CheckNearbyThingsForPassiveExposure(checkApparel: false, checkInventory: false, checkPlants: PollenType == PollenType.Grass);
+            if (PollenType == PollenType.Grass) CheckNearbyFloorsForPassiveExposure();
         }
 
         protected override bool IsAllergenic(ThingDef thingDef)
@@ -44,26 +63,19 @@ namespace P42_Allergies
         }
         private bool IsGrass(ThingDef def)
         {
-            return def.plant != null && def.plant.purpose != RimWorld.PlantPurpose.Beauty && !def.selectable;
+            if (def.plant != null && def.plant.purpose != RimWorld.PlantPurpose.Beauty && !def.selectable) return true; // wild grass
+            if (def.defName == HayDefName) return true;
+            return false;
         }
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {
             return (otherAllergy is PollenAllergy otherPollenAllergy && otherPollenAllergy.PollenType == PollenType);
         }
-        public override string TypeLabel
-        {
-            get
-            {
-                switch (PollenType)
-                {
-                    case PollenType.Flowers: return "P42_AllergyPollenType_Flower".Translate();
-                    case PollenType.Trees: return "P42_AllergyPollenType_Tree".Translate();
-                    case PollenType.Grass: return "P42_AllergyPollenType_Grass".Translate();
-                    default: return "???";
-                }
-            }
-        }
+        private string typeLabel;
+        public override string TypeLabel => typeLabel;
+        private string keepAwayFromText;
+        public override string KeepAwayFromText => keepAwayFromText;
         protected override void ExposeExtraData()
         {
             Scribe_Values.Look(ref PollenType, "pollenType");

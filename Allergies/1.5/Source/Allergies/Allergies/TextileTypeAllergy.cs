@@ -19,9 +19,26 @@ namespace P42_Allergies
     {
         public TextileType TextileType;
 
+        protected override void OnInitOrLoad()
+        {
+            typeLabel = GetTypeLabel();
+            keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Related".Translate(typeLabel);
+        }
+        private string GetTypeLabel()
+        {
+            switch (TextileType)
+            {
+                case TextileType.Leather: return "P42_AllergyTextileType_Leather".Translate();
+                case TextileType.Wool: return "P42_AllergyTextileType_Wool".Translate();
+                case TextileType.Fabric: return "P42_AllergyTextileType_Fabric".Translate();
+                default: return "???";
+            }
+        }
+
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyItemsForPassiveExposure(checkPlants: true);
+            CheckNearbyThingsForPassiveExposure(checkPlants: true);
+            CheckNearbyFloorsForPassiveExposure();
         }
 
         protected override void OnNearbyPawn(Pawn nearbyPawn)
@@ -62,19 +79,10 @@ namespace P42_Allergies
         {
             return (otherAllergy is TextileTypeAllergy textileTypeAllergy && textileTypeAllergy.TextileType == TextileType);
         }
-        public override string TypeLabel
-        {
-            get
-            {
-                switch(TextileType)
-                {
-                    case TextileType.Leather: return "P42_AllergyTextileType_Leather".Translate();
-                    case TextileType.Wool: return "P42_AllergyTextileType_Wool".Translate();
-                    case TextileType.Fabric: return "P42_AllergyTextileType_Fabric".Translate();
-                    default: return "???";
-                }
-            }
-        }
+        private string typeLabel;
+        public override string TypeLabel => typeLabel;
+        private string keepAwayFromText;
+        public override string KeepAwayFromText => keepAwayFromText;
         protected override void ExposeExtraData()
         {
             Scribe_Values.Look(ref TextileType, "textileType");

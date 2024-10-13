@@ -25,9 +25,9 @@ namespace P42_Allergies
             { AllergyTypeId.Pollen, 1f },
             { AllergyTypeId.Sunlight, 1f },
             { AllergyTypeId.Dust, 1f },
-            { AllergyTypeId.Water, 1f },
+            { AllergyTypeId.Water, 100f },
             { AllergyTypeId.Temperature, 1f },
-            { AllergyTypeId.SpecificMiscItem, 1f },
+            { AllergyTypeId.SpecificMiscItem, 100f },
             { AllergyTypeId.Xenotype, 1f },
             { AllergyTypeId.Stone, 1f },
             { AllergyTypeId.Wood, 1f },
@@ -73,8 +73,8 @@ namespace P42_Allergies
         {
             { SpecificMiscItemId.Neutroamine, 1f },
             { SpecificMiscItemId.Chemfuel, 1f },
-            { SpecificMiscItemId.Smokeleaf, 1f },
-            { SpecificMiscItemId.PsychoidLeaves, 1f },
+            { SpecificMiscItemId.Smokeleaf, 100f },
+            { SpecificMiscItemId.PsychoidLeaves, 100f },
             { SpecificMiscItemId.Chocolate, 1f },
         };
 

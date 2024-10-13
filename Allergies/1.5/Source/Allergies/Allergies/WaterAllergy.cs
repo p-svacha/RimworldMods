@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,39 +10,31 @@ namespace P42_Allergies
 {
     public class WaterAllergy : Allergy
     {
-        protected override bool IsAllergenic(ThingDef thingDef) => false;
+        protected override void OnInitOrLoad()
+        {
+            typeLabel = "P42_AllergyType_Water".Translate();
+        }
+
+        protected override bool IsAllergenic(ThingDef thingDef) => thingDef == ThingDefOf.SteamGeyser;
 
         protected override void DoPassiveExposureChecks()
         {
-            ExposureType waterExposure = GetWaterExposure(Pawn, out string translatedCause);
-            if (waterExposure != ExposureType.None) IncreaseAllergenBuildup(waterExposure, translatedCause);
+            CheckNearbyThingsForPassiveExposure(checkInventory: false, checkApparel: false);
+            CheckNearbyFloorsForPassiveExposure();
+
+            if (IsPawnExposedToRain(Pawn))
+            {
+                IncreaseAllergenBuildup(ExposureType.ExtremePassive, "P42_AllergyCause_Rain".Translate());
+            }
+            if (IsPawnExposedToFog(Pawn))
+            {
+                IncreaseAllergenBuildup(ExposureType.MinorPassive, "P42_AllergyCause_Fog".Translate());
+            }
         }
 
-        private ExposureType GetWaterExposure(Pawn pawn, out string translatedCause)
+        protected override ExposureType GetDirectExposureOfFloor(TerrainDef def)
         {
-            translatedCause = "";
-
-            if(IsPawnExposedToRain(pawn))
-            {
-                translatedCause = "P42_AllergyCause_Rain".Translate();
-                return ExposureType.ExtremePassive;
-            }
-            if (IsPawnStandingOnWater(pawn, out string waterLabel))
-            {
-                translatedCause = "P42_AllergyCause_WalkOn".Translate(waterLabel);
-                return ExposureType.StrongPassive;
-            }
-            if (IsPawnExposedToFog(pawn))
-            {
-                translatedCause = "P42_AllergyCause_Fog".Translate();
-                return ExposureType.MinorPassive;
-            }
-            if(IsPawnStandingOnMarsh(pawn, out string marshLabel))
-            {
-                translatedCause = "P42_AllergyCause_WalkOn".Translate(marshLabel);
-                return ExposureType.StrongPassive;
-            }
-
+            if (def.IsWater || def.defName == "MarshyTerrain") return ExposureType.MinorPassive;
             return ExposureType.None;
         }
 
@@ -57,30 +50,14 @@ namespace P42_Allergies
             if (pawn.Map.weatherManager.curWeather == WeatherDef.Named("Fog") && !pawn.Position.Roofed(pawn.Map)) return true;
             return false;
         }
-        private bool IsPawnStandingOnWater(Pawn pawn, out string label)
-        {
-            label = "";
-            if (pawn.Map == null) return false;
-            TerrainDef terrain = pawn.Position.GetTerrain(pawn.Map);
-            if (terrain == null) return false;
-            label = terrain.label;
-            return terrain.IsWater;
-        }
-        private bool IsPawnStandingOnMarsh(Pawn pawn, out string label)
-        {
-            label = "";
-            if (pawn.Map == null) return false;
-            TerrainDef terrain = pawn.Position.GetTerrain(pawn.Map);
-            if (terrain == null) return false;
-            label = terrain.label;
-            return terrain.defName == "MarshyTerrain";
-        }
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {
             return (otherAllergy is WaterAllergy);
         }
-        public override string TypeLabel => "P42_AllergyType_Water".Translate();
+        private string typeLabel;
+        public override string TypeLabel => typeLabel;
+        public override string KeepAwayFromText => typeLabel;
         protected override void ExposeExtraData() { }
     }
 }

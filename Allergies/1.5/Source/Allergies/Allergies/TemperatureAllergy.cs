@@ -19,6 +19,12 @@ namespace P42_Allergies
         public const int ColdThreshold_Strong = -12;
         public const int ColdThreshold_Extreme = -20;
 
+        protected override void OnInitOrLoad()
+        {
+            if (IsHeatAllergy) typeLabel = "P42_AllergyTemperatureType_Heat".Translate();
+            else typeLabel = "P42_AllergyTemperatureType_Cold".Translate();
+        }
+
         protected override bool IsAllergenic(ThingDef thingDef) => false;
 
         protected override void DoPassiveExposureChecks()
@@ -85,14 +91,9 @@ namespace P42_Allergies
         {
             return (otherAllergy is TemperatureAllergy otherTemperatureAllergy && otherTemperatureAllergy.IsHeatAllergy == IsHeatAllergy);
         }
-        public override string TypeLabel
-        {
-            get
-            {
-                if (IsHeatAllergy) return "P42_AllergyTemperatureType_Heat".Translate();
-                else return "P42_AllergyTemperatureType_Cold".Translate();
-            }
-        }
+        private string typeLabel;
+        public override string TypeLabel => typeLabel;
+        public override string KeepAwayFromText => typeLabel;
         protected override void ExposeExtraData()
         {
             Scribe_Values.Look(ref IsHeatAllergy, "isHeatAllergy");
