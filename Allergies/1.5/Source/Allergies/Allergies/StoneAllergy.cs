@@ -13,19 +13,26 @@ namespace P42_Allergies
         public ThingDef StoneType;
 
         private List<string> AllergenicTerrains;
+        private List<ThingDef> AllergicMountainThings; // mountains made out of this stone, both rough and smoothed
 
         protected override void OnInitOrLoad()
         {
-            // Allergenic things
-            AllergenicTerrains = new List<string>();
-
             string baseStoneName = StoneType.defName.Replace("Blocks", ""); // Extract "Sandstone" from "BlocksSandstone"
+
+            // Allergenic terrain
+            AllergenicTerrains = new List<string>();
 
             AllergenicTerrains.Add($"{baseStoneName}_Rough");
             AllergenicTerrains.Add($"{baseStoneName}_RoughHewn");
             AllergenicTerrains.Add($"{baseStoneName}_Smooth");
 
-            Logger.Log(TerrainDefOf.Sandstone_Smooth.defName);
+            // Allergic things
+            AllergicMountainThings = new List<ThingDef>();
+
+            ThingDef mountainRock = DefDatabase<ThingDef>.GetNamedSilentFail($"{baseStoneName}");
+            if(mountainRock != null) AllergicMountainThings.Add(mountainRock);
+            ThingDef smoothedMountainRock = DefDatabase<ThingDef>.GetNamedSilentFail($"Smoothed{baseStoneName}");
+            if (smoothedMountainRock != null) AllergicMountainThings.Add(smoothedMountainRock);
 
             // Labels
             typeLabel = baseStoneName.UncapitalizeFirst();
@@ -33,7 +40,7 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyThingsForPassiveExposure(checkApparel: false, checkButcherProducts: true); // butcher ingredients for stone chunks
+            CheckNearbyThingsForPassiveExposure(checkApparel: false, checkButcherProducts: true, checkMineableThings: true); // butcher ingredients are for stone chunks
             CheckNearbyFloorsForPassiveExposure();
         }
         protected override ExposureType GetDirectExposureOfFloor(TerrainDef def)
@@ -42,7 +49,7 @@ namespace P42_Allergies
             return ExposureType.None;
         }
 
-        protected override bool IsAllergenic(ThingDef thingDef) => thingDef == StoneType;
+        protected override bool IsAllergenic(ThingDef thingDef) => thingDef == StoneType || AllergicMountainThings.Contains(thingDef);
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {

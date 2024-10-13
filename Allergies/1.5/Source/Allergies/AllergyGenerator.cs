@@ -17,7 +17,7 @@ namespace P42_Allergies
             { AllergyTypeId.FoodType, 1f },
             { AllergyTypeId.Ingredient, 1f },
             { AllergyTypeId.Drug, 1f },
-            { AllergyTypeId.Medicine, 1f },
+            { AllergyTypeId.Medicine, 100f },
             { AllergyTypeId.TextileType, 1f },
             { AllergyTypeId.Textile, 1f },
             { AllergyTypeId.Animal, 1f },
@@ -25,13 +25,13 @@ namespace P42_Allergies
             { AllergyTypeId.Pollen, 1f },
             { AllergyTypeId.Sunlight, 1f },
             { AllergyTypeId.Dust, 1f },
-            { AllergyTypeId.Water, 100f },
+            { AllergyTypeId.Water, 1f },
             { AllergyTypeId.Temperature, 1f },
-            { AllergyTypeId.SpecificMiscItem, 100f },
+            { AllergyTypeId.SpecificMiscItem, 1f },
             { AllergyTypeId.Xenotype, 1f },
-            { AllergyTypeId.Stone, 1f },
+            { AllergyTypeId.Stone, 100f },
             { AllergyTypeId.Wood, 1f },
-            { AllergyTypeId.Metal, 1f },
+            { AllergyTypeId.Metal, 100f },
         };
 
         private static Dictionary<AllergySeverity, float> AllergySeverityWeights = new Dictionary<AllergySeverity, float>()
@@ -53,6 +53,7 @@ namespace P42_Allergies
             { FoodType.Kibble, 0.4f },
             { FoodType.Liquor, 0.6f },
             { FoodType.ProcessedMeals, 0.8f },
+            { FoodType.Fish, 1.1f },
         };
 
         private static Dictionary<TextileType, float> TextileTypeWeights = new Dictionary<TextileType, float>()
@@ -73,8 +74,8 @@ namespace P42_Allergies
         {
             { SpecificMiscItemId.Neutroamine, 1f },
             { SpecificMiscItemId.Chemfuel, 1f },
-            { SpecificMiscItemId.Smokeleaf, 100f },
-            { SpecificMiscItemId.PsychoidLeaves, 100f },
+            { SpecificMiscItemId.Smokeleaf, 1f },
+            { SpecificMiscItemId.PsychoidLeaves, 1f },
             { SpecificMiscItemId.Chocolate, 1f },
         };
 
@@ -82,10 +83,36 @@ namespace P42_Allergies
 
         private static int MaxAllergiesPerPawn = 6;
 
+        #region Initialization
+
+        private static bool IsInitialized = false;
+
+        private static void Initialize()
+        {
+            if (IsInitialized) return;
+
+            if (!ModsConfig.BiotechActive)
+            {
+                AllergyTypeWeights.Remove(AllergyTypeId.Xenotype);
+                Logger.Log("Removing xenotype allergy");
+            }
+            if (!ModsConfig.IsActive("VanillaExpanded.VCEF"))
+            {
+                FoodTypeWeights.Remove(FoodType.Fish);
+                Logger.Log("Removing fish allergy");
+            }
+
+            IsInitialized = true;
+        }
+
+        #endregion
+
         #region Allergy generation
 
         public static void GenerateAndApplyRandomAllergy(Pawn pawn, bool isVisible)
         {
+            Initialize();
+
             // Get existing allergies
             List<Hediff_Allergy> existingAllergies = AllergyUtility.GetPawnAllergies(pawn);
 
@@ -101,7 +128,7 @@ namespace P42_Allergies
                 tries++;
                 newAllergy = CreateRandomAllergy();
             }
-            while (tries < maxTries && existingAllergies.Any(x => x.GetAllergy().IsDuplicateOf(newAllergy)));
+            while (tries < maxTries && !CanApplyAllergy(pawn, newAllergy, existingAllergies));
 
             if(tries == maxTries)
             {
@@ -120,6 +147,9 @@ namespace P42_Allergies
             Logger.Log($"Initialized a new allergy: {newAllergy.TypeLabel} ({newAllergy.GetType()}) with severity {newAllergy.Severity} on {pawn.Name}.");
         }
 
+        /// <summary>
+        /// Checks and returns if it is generally possible to apply a new allergy to a pawn.
+        /// </summary>
         private static bool CanApplyAllergy(Pawn pawn, List<Hediff_Allergy> existingAllergies)
         {
             if (pawn == null) return false;
@@ -131,8 +161,23 @@ namespace P42_Allergies
             return true;
         }
 
+        /// <summary>
+        /// Checks and returns if a specific allergy can be applied to a pawn.
+        /// </summary>
+        private static bool CanApplyAllergy(Pawn pawn, Allergy newAllergy, List<Hediff_Allergy> existingAllergies)
+        {
+            if (existingAllergies.Any(x => x.GetAllergy().IsDuplicateOf(newAllergy))) return false;
+
+            // Don't allow being allergic to own xenotype
+            if (newAllergy is XenotypeAllergy xenotypeAllergy && pawn.genes != null && pawn.genes.Xenotype != null && pawn.genes.Xenotype == xenotypeAllergy.Xenotype) return false;
+
+            return true;
+        }
+
         public static Allergy CreateRandomAllergy()
         {
+            Initialize();
+
             AllergyTypeId chosenAllergyType = GetWeightedRandomElement(AllergyTypeWeights);
             AllergySeverity chosenAllergySeverity = GetWeightedRandomElement(AllergySeverityWeights);
 

@@ -118,6 +118,7 @@ namespace P42_Allergies
             if (def.IsDrug) return false;
             if ((def.ingestible.foodType & FoodTypeFlags.Meal) != 0) return false;
             if (def.IsCorpse) return false;
+            if (def.IsEgg) return false;
             return true;
         }
 
@@ -179,6 +180,7 @@ namespace P42_Allergies
         private static bool IsPlant(ThingDef def)
         {
             if (def.plant == null) return false;
+            if (def.plant.isStump) return false;
 
             return true;
         }
@@ -186,6 +188,7 @@ namespace P42_Allergies
         public static XenotypeDef GetRandomXenotype()
         {
             List<XenotypeDef> candidates = DefDatabase<XenotypeDef>.AllDefsListForReading;
+            candidates.Remove(XenotypeDefOf.Baseliner);
             return candidates.RandomElement();
         }
 

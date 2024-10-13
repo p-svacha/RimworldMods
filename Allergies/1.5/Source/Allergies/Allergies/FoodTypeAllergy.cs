@@ -18,7 +18,8 @@ namespace P42_Allergies
         Fungus,
         Kibble,
         Liquor,
-        ProcessedMeals
+        ProcessedMeals,
+        Fish
     }
 
     public class FoodTypeAllergy : Allergy
@@ -44,6 +45,7 @@ namespace P42_Allergies
                 case FoodType.Kibble: return "P42_AllergyFoodType_Kibble".Translate();
                 case FoodType.Liquor: return "P42_AllergyFoodType_Liquor".Translate();
                 case FoodType.ProcessedMeals: return "P42_AllergyFoodType_ProcessedMeals".Translate();
+                case FoodType.Fish: return "P42_AllergyFoodType_Fish".Translate();
                 default: return "???";
             }
         }
@@ -97,6 +99,7 @@ namespace P42_Allergies
                 case FoodType.Kibble: return IsKibble(def);
                 case FoodType.Liquor: return IsLiquor(def);
                 case FoodType.ProcessedMeals: return IsProcessedMeal(def);
+                case FoodType.Fish: return IsFish(def);
             }
             return false;
         }
@@ -136,6 +139,10 @@ namespace P42_Allergies
         private bool IsProcessedMeal(ThingDef item)
         {
             return DoesThingDefConformCriteria(item, includedFlags: new[] { FoodTypeFlags.Meal });
+        }
+        private bool IsFish(ThingDef thing)
+        {
+            return thing.thingCategories != null && thing.thingCategories.Contains(ThingCategoryDef.Named("VCEF_RawFishCategory"));
         }
 
 

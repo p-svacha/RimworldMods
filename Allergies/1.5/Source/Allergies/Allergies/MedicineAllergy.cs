@@ -13,7 +13,7 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyThingsForPassiveExposure(checkApparel: false, checkPlants: true);
+            CheckNearbyThingsForPassiveExposure(checkApparel: false, checkProductionIngredients: false, checkPlants: true);
         }
 
         protected override bool IsAllergenic(ThingDef thing) => thing == MedicineType;

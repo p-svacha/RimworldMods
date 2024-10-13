@@ -27,7 +27,8 @@ namespace P42_Allergies
 					stuffExposure: ExposureType.None,
 					productionIngredientExposure: ExposureType.MinorEvent,
 					butcherProductExposure: ExposureType.MinorEvent,
-					plantExposure: ExposureType.None);
+					plantExposure: ExposureType.None,
+					mineableThingExposure: ExposureType.None);
 
 				bool isAllergic = exposure != ExposureType.None;
 

@@ -18,7 +18,7 @@ namespace P42_Allergies
 
         protected override void DoPassiveExposureChecks()
         {
-            CheckNearbyThingsForPassiveExposure();
+            CheckNearbyThingsForPassiveExposure(checkMineableThings: true);
             CheckNearbyFloorsForPassiveExposure();
         }
 

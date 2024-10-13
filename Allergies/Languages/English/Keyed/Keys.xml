@@ -17,6 +17,7 @@
     <P42_AllergyFoodType_Kibble>kibble</P42_AllergyFoodType_Kibble>
     <P42_AllergyFoodType_Liquor>liquor</P42_AllergyFoodType_Liquor>
     <P42_AllergyFoodType_ProcessedMeals>processed meal</P42_AllergyFoodType_ProcessedMeals>
+    <P42_AllergyFoodType_Fish>fish</P42_AllergyFoodType_Fish>
 
     <P42_AllergyTextileType_Leather>leather</P42_AllergyTextileType_Leather>
     <P42_AllergyTextileType_Wool>wool</P42_AllergyTextileType_Wool>
