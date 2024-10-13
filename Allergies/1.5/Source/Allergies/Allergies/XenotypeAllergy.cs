@@ -12,6 +12,11 @@ namespace P42_Allergies
     {
         public XenotypeDef Xenotype;
 
+        protected override void OnCreate()
+        {
+            Xenotype = Utils.GetRandomXenotype();
+        }
+
         protected override bool IsAllergenic(ThingDef thingDef) => false;
 
         protected override void DoPassiveExposureChecks()

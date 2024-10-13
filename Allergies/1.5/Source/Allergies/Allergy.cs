@@ -11,8 +11,9 @@ namespace P42_Allergies
 {
     public abstract class Allergy : IExposable
     {
-        private const float AllergyBuildupDiscoverThreshold = 0.1f;
+        public AllergyDef Def;
 
+        private const float AllergyBuildupDiscoverThreshold = 0.1f;
         protected const int AllercureHighCheckInterval = 1000;
 
         // Development values
@@ -28,26 +29,13 @@ namespace P42_Allergies
         private const int NearbyItemsSearchRadius = 5;
         private const int NearbyFloorsSearchRadius = 3;
 
-        private const float MildSeverityBuildupCap = 0.35f;
-        private const float ModerateSeverityBuildupCap = 0.70f;
-
-        private const float MinorPassiveExposureIncreasePerHour = 0.05f;
-        private const float StrongPassiveExposureIncreasePerHour = 0.12f;
-        private const float ExtremePassiveExposureIncreasePerHour = 0.30f;
-
         private const int ExposureCheckInterval = 200;
 
-        private const float MinorPassiveExposureIncreasePerCheck = MinorPassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / GenDate.TicksPerHour);
-        private const float StrongPassiveExposureIncreasePerCheck = StrongPassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / GenDate.TicksPerHour);
-        private const float ExtremePassiveExposureIncreasePerCheck = ExtremePassiveExposureIncreasePerHour * ((float)ExposureCheckInterval / GenDate.TicksPerHour);
-
-        private const float MinorExposureEventIncrease = 0.10f;
-        private const float StrongExposureEventIncrease = 0.25f;
-        private const float ExtremeExposureEventIncrease = 0.45f;
+        private float MinorPassiveExposureIncreasePerCheck;
+        private float StrongPassiveExposureIncreasePerCheck;
+        private float ExtremePassiveExposureIncreasePerCheck;
 
         private const float AnaphylacticShockIncreaseFactor = 0.1f; // Each allergen buildup increase also icreases anaphylactic shock severity to a lesser extent (multiplied by this factor)
-
-        private const float MaxExposureTriggersPerCheck = 3; // The same thing can only apply exposure this many times per check - used so someone with a steel allergy doesn't instantly collapse near a steel vein
 
         private Dictionary<AllergySeverity, float> SeverityMultiplier = new Dictionary<AllergySeverity, float>()
         {
@@ -71,17 +59,38 @@ namespace P42_Allergies
             AllergyHediff = hediff;
             OnInitOrLoad();
 
+            // Init label and description
             hediff.label = FullAllergyNameCap + " (" + GetSeverityString() + ")";
             if(LanguageDatabase.activeLanguage?.folderName == "English")
                 hediff.description = hediff.def.Description.Replace("an allergen", TypeLabel).Replace("that allergen", KeepAwayFromText);
+
+            // Calculate passive exposure values
+            MinorPassiveExposureIncreasePerCheck = Def.minorPassiveExposure_increasePerHour * ((float)ExposureCheckInterval / GenDate.TicksPerHour);
+            StrongPassiveExposureIncreasePerCheck = Def.strongPassiveExposure_increasePerHour * ((float)ExposureCheckInterval / GenDate.TicksPerHour);
+            ExtremePassiveExposureIncreasePerCheck = Def.extremePassiveExposure_increasePerHour * ((float)ExposureCheckInterval / GenDate.TicksPerHour);
         }
         protected virtual void OnInitOrLoad() { }
-        public void OnNewAllergyCreated(AllergySeverity severity)
+        public void OnNewAllergyCreated(AllergyDef def)
         {
-            Severity = severity;
+            Def = def;
+            SetSeverityOnCreation();
+            OnCreate();
+
             ResetTicksUntilNaturalSeverityChange();
             ResetTicksUntilAllercureSeverityChange();
         }
+
+        private void SetSeverityOnCreation()
+        {
+            Dictionary<AllergySeverity, float> weights = new Dictionary<AllergySeverity, float>();
+            weights.Add(AllergySeverity.Mild, Def.severityCommonness_mild);
+            weights.Add(AllergySeverity.Moderate, Def.severityCommonness_moderate);
+            weights.Add(AllergySeverity.Severe, Def.severityCommonness_severe);
+            weights.Add(AllergySeverity.Extreme, Def.severityCommonness_extreme);
+            Severity = Utils.GetWeightedRandomElement(weights);
+        }
+
+        protected virtual void OnCreate() { }
 
         protected abstract bool IsAllergenic(ThingDef thingDef);
 
@@ -158,7 +167,7 @@ namespace P42_Allergies
             {
                 // Define what kind of change should occur
                 float chanceForGoodOutcome = 0.5f;
-                float allergicSensitivity = AllergyUtility.GetAllergicSensitivity(Pawn);
+                float allergicSensitivity = Utils.GetAllergicSensitivity(Pawn);
                 if (allergicSensitivity == 0f) chanceForGoodOutcome = 1f;
                 else if (allergicSensitivity < 1f) chanceForGoodOutcome = 0.6f;
                 else if (allergicSensitivity > 1f) chanceForGoodOutcome = 0.4f;
@@ -252,9 +261,9 @@ namespace P42_Allergies
             if (exposureType == ExposureType.MinorPassive) baseAmount = MinorPassiveExposureIncreasePerCheck;
             else if (exposureType == ExposureType.StrongPassive) baseAmount = StrongPassiveExposureIncreasePerCheck;
             else if (exposureType == ExposureType.ExtremePassive) baseAmount = ExtremePassiveExposureIncreasePerCheck;
-            else if (exposureType == ExposureType.MinorEvent) baseAmount = MinorExposureEventIncrease;
-            else if (exposureType == ExposureType.StrongEvent) baseAmount = StrongExposureEventIncrease;
-            else if (exposureType == ExposureType.ExtremeEvent) baseAmount = ExtremeExposureEventIncrease;
+            else if (exposureType == ExposureType.MinorEvent) baseAmount = Def.minorExposureEvent_instantIncrease;
+            else if (exposureType == ExposureType.StrongEvent) baseAmount = Def.strongExposureEvent_instantIncrease;
+            else if (exposureType == ExposureType.ExtremeEvent) baseAmount = Def.extremeExposureEvent_instantIncrease;
             else return;
 
             float amount = baseAmount;
@@ -262,7 +271,7 @@ namespace P42_Allergies
             else
             {
                 amount *= SeverityMultiplier[Severity]; // Scale by allergy severity
-                amount *= AllergyUtility.GetAllergicSensitivity(Pawn); // Scale by allergic sensitivity stat
+                amount *= Utils.GetAllergicSensitivity(Pawn); // Scale by allergic sensitivity stat
                 if (amount <= 0) return;
                 if (amount > 1) amount = 1;
             }
@@ -336,8 +345,8 @@ namespace P42_Allergies
         }
         private float GetBuildupCap()
         {
-            if (Severity == AllergySeverity.Mild) return MildSeverityBuildupCap;
-            if (Severity == AllergySeverity.Moderate) return ModerateSeverityBuildupCap;
+            if (Severity == AllergySeverity.Mild) return Def.mildSeverityReactionsCap;
+            if (Severity == AllergySeverity.Moderate) return Def.moderateSeverityReactionsCap;
             return 1f;
         }
 
@@ -511,7 +520,7 @@ namespace P42_Allergies
                 // How many times has this specific terrain been checked already this check
                 if (NumChecksPerTerrain.ContainsKey(terrain)) NumChecksPerTerrain[terrain]++;
                 else NumChecksPerTerrain.Add(terrain, 1);
-                if (NumChecksPerTerrain[terrain] > MaxExposureTriggersPerCheck) continue;
+                if (NumChecksPerTerrain[terrain] > Def.maxPassiveExposureTriggersForSameThingPerCheck) continue;
 
                 // General allergy-specific check
                 ExposureType directExposure = GetDirectExposureOfFloor(terrain);
@@ -590,7 +599,7 @@ namespace P42_Allergies
             // How many times has this specific thing been checked already this check
             if (NumChecksPerThing.ContainsKey(thing.def)) NumChecksPerThing[thing.def]++;
             else NumChecksPerThing.Add(thing.def, 1);
-            if (NumChecksPerThing[thing.def] > MaxExposureTriggersPerCheck) return;
+            if (NumChecksPerThing[thing.def] > Def.maxPassiveExposureTriggersForSameThingPerCheck) return;
 
             // Get and apply exposure
             ExposureType exposure = GetAllergicExposureOfThing(thing, causeKey, out string translatedCause, directExposure, ingredientExposure, stuffExposure, productionIngredientExposure, butcherProductExposure, plantExposure, mineableThingExposure);
@@ -635,7 +644,7 @@ namespace P42_Allergies
             // Check if production ingredient is allergenic
             if (productionIngredientExposure != ExposureType.None)
             {
-                List<ThingDef> productionIngredients = AllergyUtility.GetProductionIngredients(thing.def);
+                List<ThingDef> productionIngredients = Utils.GetProductionIngredients(thing.def);
                 foreach (ThingDef ingredient in productionIngredients)
                 {
                     if (IsAllergenic(ingredient))
@@ -737,6 +746,7 @@ namespace P42_Allergies
         public abstract string TypeLabel { get; }
         public void ExposeData()
         {
+            Scribe_Defs.Look(ref Def, "allergyDef");
             Scribe_Values.Look(ref Severity, "allergySeverity");
             Scribe_Values.Look(ref TicksUntilNaturalSeverityChange, "ticksUntilNaturalSeverityChange");
             Scribe_Values.Look(ref TicksUntilAllercureImpact, "ticksUntilAllercureImpact");

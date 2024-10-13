@@ -11,6 +11,10 @@ namespace P42_Allergies
     {
         public ThingDef Drug;
 
+        protected override void OnCreate()
+        {
+            Drug = Utils.GetRandomDrug();
+        }
         protected override void DoPassiveExposureChecks()
         {
             CheckNearbyThingsForPassiveExposure(checkApparel: false, checkPlants: true);

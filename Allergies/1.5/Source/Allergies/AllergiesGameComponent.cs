@@ -39,7 +39,7 @@ namespace P42_Allergies
         private bool ShouldPawnGetNewAllergy(Pawn pawn)
         {
             float mtbDays;
-            float allergicSensitivity = AllergyUtility.GetAllergicSensitivity(pawn);
+            float allergicSensitivity = Utils.GetAllergicSensitivity(pawn);
             if (allergicSensitivity <= 0f) return false;
 
             if (HasAllergyProneTrait(pawn)) mtbDays = NewAllergyFromTraitMtbDays;

@@ -15,9 +15,9 @@ namespace P42_Allergies
         [HarmonyPostfix]
         public static void Postfix(Pawn doctor, Pawn patient, Medicine medicine)
         {
-            if (!AllergyUtility.CheckForAllergies(patient)) return;
+            if (!Utils.CheckForAllergies(patient)) return;
 
-            foreach (Hediff_Allergy allergyHediff in AllergyUtility.GetPawnAllergies(patient))
+            foreach (Hediff_Allergy allergyHediff in Utils.GetPawnAllergies(patient))
             {
                 allergyHediff.GetAllergy().OnTendedWith(medicine);
             }

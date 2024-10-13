@@ -19,7 +19,7 @@ namespace P42_Allergies
         {
             base.Tick();
 
-            if (!AllergyUtility.CheckForAllergies(pawn)) return;
+            if (!Utils.CheckForAllergies(pawn)) return;
 
             if (Allergy == null)
             {

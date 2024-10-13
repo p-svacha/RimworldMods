@@ -19,6 +19,11 @@ namespace P42_Allergies
         public const int ColdThreshold_Strong = -12;
         public const int ColdThreshold_Extreme = -20;
 
+        protected override void OnCreate()
+        {
+            IsHeatAllergy = Rand.Chance(0.5f);
+        }
+
         protected override void OnInitOrLoad()
         {
             if (IsHeatAllergy) typeLabel = "P42_AllergyTemperatureType_Heat".Translate();

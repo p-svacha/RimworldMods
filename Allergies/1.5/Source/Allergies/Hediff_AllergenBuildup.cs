@@ -63,7 +63,7 @@ namespace P42_Allergies
             {
                 if (DontCheckFullSeverityFor == 0)
                 {
-                    AllergyUtility.TriggerAnaphylacticShock(pawn, InitialAnaShockSeverityAtMaxSeverity, LabelCap);
+                    Utils.TriggerAnaphylacticShock(pawn, InitialAnaShockSeverityAtMaxSeverity, LabelCap);
                     DontCheckFullSeverityFor = StopCheckingFullSeverityFor;
                 }
             }
@@ -106,7 +106,7 @@ namespace P42_Allergies
 
         private void ApplySkinRash()
         {
-            string chosenBodyPartString = AllergyGenerator.GetWeightedRandomElement(SkinRashBodyPartTable);
+            string chosenBodyPartString = Utils.GetWeightedRandomElement(SkinRashBodyPartTable);
             BodyPartDef bodyPartDef = DefDatabase<BodyPartDef>.GetNamed(chosenBodyPartString);
             List<BodyPartRecord> naturalBodyParts = pawn.health.hediffSet.GetNotMissingParts().Where(x => x.def == bodyPartDef
                 && !pawn.health.hediffSet.hediffs.Any(h => h.Part == x && !h.def.countsAsAddedPartOrImplant)).ToList();

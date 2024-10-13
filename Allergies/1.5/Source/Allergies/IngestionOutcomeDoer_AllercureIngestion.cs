@@ -31,7 +31,7 @@ namespace P42_Allergies
             // Chance to trigger anaphylactic shock
             if(Rand.Chance(anaphylacticShockChance))
             {
-                AllergyUtility.TriggerAnaphylacticShock(pawn, anaphylacticShockSeverity, ingested.LabelCap);
+                Utils.TriggerAnaphylacticShock(pawn, anaphylacticShockSeverity, ingested.LabelCap);
             }
         }
     }

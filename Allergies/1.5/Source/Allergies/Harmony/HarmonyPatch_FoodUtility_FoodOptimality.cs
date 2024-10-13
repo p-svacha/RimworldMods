@@ -15,9 +15,9 @@ namespace P42_Allergies
 		[HarmonyPostfix]
 		public static void Postfix(Pawn eater, Thing foodSource, bool takingToInventory, ref float __result)
 		{
-			if (eater == null || !AllergyUtility.CheckForAllergies(eater)) return;
+			if (eater == null || !Utils.CheckForAllergies(eater)) return;
 
-			foreach (Hediff_Allergy allergyHediff in AllergyUtility.GetPawnAllergies(eater))
+			foreach (Hediff_Allergy allergyHediff in Utils.GetPawnAllergies(eater))
 			{
 				if (!allergyHediff.GetAllergy().IsAllergyDiscovered) continue;
 

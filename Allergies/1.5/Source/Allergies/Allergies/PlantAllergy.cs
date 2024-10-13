@@ -11,6 +11,11 @@ namespace P42_Allergies
     {
         public ThingDef Plant;
 
+        protected override void OnCreate()
+        {
+            Plant = Utils.GetRandomPlant();
+        }
+
         protected override void OnInitOrLoad()
         {
             keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Plant".Translate(Plant.label);

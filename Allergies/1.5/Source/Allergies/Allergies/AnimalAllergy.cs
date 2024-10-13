@@ -14,6 +14,11 @@ namespace P42_Allergies
 
         private List<ThingDef> AnimalProducts;
 
+        protected override void OnCreate()
+        {
+            Animal = Utils.GetRandomAnimal();
+        }
+
         protected override void OnInitOrLoad()
         {
             Logger.Log($"singular: {Animal.label}, plural: {Animal.labelPlural}");

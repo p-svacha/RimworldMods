@@ -21,17 +21,17 @@ namespace P42_Allergies
             letterDef = null;
             lookTargets = null;
 
-            if (AllergyUtility.CheckForAllergies(initiator))
+            if (Utils.CheckForAllergies(initiator))
             {
-                foreach (Hediff_Allergy allergyHediff in AllergyUtility.GetPawnAllergies(initiator))
+                foreach (Hediff_Allergy allergyHediff in Utils.GetPawnAllergies(initiator))
                 {
                     allergyHediff.GetAllergy().OnInteractedWith(recipient);
                 }
             }
 
-            if (AllergyUtility.CheckForAllergies(recipient))
+            if (Utils.CheckForAllergies(recipient))
             {
-                foreach (Hediff_Allergy allergyHediff in AllergyUtility.GetPawnAllergies(recipient))
+                foreach (Hediff_Allergy allergyHediff in Utils.GetPawnAllergies(recipient))
                 {
                     allergyHediff.GetAllergy().OnInteractedWith(initiator);
                 }

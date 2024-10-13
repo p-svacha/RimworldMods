@@ -15,9 +15,9 @@ namespace P42_Allergies
         [HarmonyPostfix]
         public static void Postfix(Thing __instance, Pawn ingester, float nutritionWanted)
         {
-            if (!AllergyUtility.CheckForAllergies(ingester)) return;
+            if (!Utils.CheckForAllergies(ingester)) return;
 
-            foreach (Hediff_Allergy allergyHediff in AllergyUtility.GetPawnAllergies(ingester))
+            foreach (Hediff_Allergy allergyHediff in Utils.GetPawnAllergies(ingester))
             {
                 allergyHediff.GetAllergy().OnThingIngested(__instance);
             }

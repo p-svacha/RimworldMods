@@ -11,6 +11,11 @@ namespace P42_Allergies
     {
         public ThingDef Ingredient;
 
+        protected override void OnCreate()
+        {
+            Ingredient = Utils.GetRandomIngredient();
+        }
+
         protected override void OnInitOrLoad()
         {
             keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Food".Translate(Ingredient.label);

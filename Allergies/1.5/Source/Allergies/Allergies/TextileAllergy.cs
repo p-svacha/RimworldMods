@@ -12,6 +12,11 @@ namespace P42_Allergies
     {
         public ThingDef Textile;
 
+        protected override void OnCreate()
+        {
+            Textile = Utils.GetRandomTextile();
+        }
+
         protected override void OnInitOrLoad()
         {
             keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Related".Translate(Textile.label);

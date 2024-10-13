@@ -22,6 +22,19 @@ namespace P42_Allergies
         public SpecificMiscItemId Type;
         private ThingDef AllergenicThing;
 
+        private static Dictionary<SpecificMiscItemId, float> SpecificMiscItemWeights = new Dictionary<SpecificMiscItemId, float>()
+        {
+            { SpecificMiscItemId.Neutroamine, 1f },
+            { SpecificMiscItemId.Chemfuel, 1f },
+            { SpecificMiscItemId.Smokeleaf, 1f },
+            { SpecificMiscItemId.PsychoidLeaves, 1f },
+            { SpecificMiscItemId.Chocolate, 1f },
+        };
+
+        protected override void OnCreate()
+        {
+            Type = Utils.GetWeightedRandomElement(SpecificMiscItemWeights);
+        }
         protected override void OnInitOrLoad()
         {
             // Set allergenic thing

@@ -14,9 +14,9 @@ namespace P42_Allergies
         [HarmonyPostfix]
         public static void Postfix(Pawn __instance, DamageInfo dinfo, float totalDamageDealt)
         {
-            if (!AllergyUtility.CheckForAllergies(__instance)) return;
+            if (!Utils.CheckForAllergies(__instance)) return;
 
-            foreach (Hediff_Allergy allergyHediff in AllergyUtility.GetPawnAllergies(__instance))
+            foreach (Hediff_Allergy allergyHediff in Utils.GetPawnAllergies(__instance))
             {
                 allergyHediff.GetAllergy().OnDamageTaken(dinfo);
             }

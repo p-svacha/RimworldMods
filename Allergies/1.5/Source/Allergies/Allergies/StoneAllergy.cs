@@ -15,6 +15,10 @@ namespace P42_Allergies
         private List<string> AllergenicTerrains;
         private List<ThingDef> AllergicMountainThings; // mountains made out of this stone, both rough and smoothed
 
+        protected override void OnCreate()
+        {
+            StoneType = Utils.GetRandomStone();
+        }
         protected override void OnInitOrLoad()
         {
             string baseStoneName = StoneType.defName.Replace("Blocks", ""); // Extract "Sandstone" from "BlocksSandstone"

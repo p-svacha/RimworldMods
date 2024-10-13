@@ -19,6 +19,17 @@ namespace P42_Allergies
     {
         public TextileType TextileType;
 
+        private static Dictionary<TextileType, float> TextileTypeWeights = new Dictionary<TextileType, float>()
+        {
+            { TextileType.Leather, 1f },
+            { TextileType.Wool, 0.9f },
+            { TextileType.Fabric, 1.1f },
+        };
+
+        protected override void OnCreate()
+        {
+            TextileType = Utils.GetWeightedRandomElement(TextileTypeWeights);
+        }
         protected override void OnInitOrLoad()
         {
             typeLabel = GetTypeLabel();

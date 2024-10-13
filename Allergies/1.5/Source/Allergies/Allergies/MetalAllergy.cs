@@ -11,6 +11,10 @@ namespace P42_Allergies
     {
         public ThingDef MetalType;
 
+        protected override void OnCreate()
+        {
+            MetalType = Utils.GetRandomMetal();
+        }
         protected override void OnInitOrLoad()
         {
             keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Related".Translate(MetalType.label);

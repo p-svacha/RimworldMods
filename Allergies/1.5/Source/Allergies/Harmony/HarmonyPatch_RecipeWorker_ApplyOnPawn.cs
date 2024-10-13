@@ -14,9 +14,9 @@ namespace P42_Allergies
     {
         public static void Postfix(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
         {
-            if (!AllergyUtility.CheckForAllergies(pawn)) return;
+            if (!Utils.CheckForAllergies(pawn)) return;
 
-            foreach (Hediff_Allergy allergyHediff in AllergyUtility.GetPawnAllergies(pawn))
+            foreach (Hediff_Allergy allergyHediff in Utils.GetPawnAllergies(pawn))
             {
                 foreach (Thing ingredient in ingredients)
                 {

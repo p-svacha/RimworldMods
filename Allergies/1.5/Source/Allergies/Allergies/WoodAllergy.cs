@@ -11,6 +11,10 @@ namespace P42_Allergies
     {
         public ThingDef WoodType;
 
+        protected override void OnCreate()
+        {
+            WoodType = Utils.GetRandomWood();
+        }
         protected override void OnInitOrLoad()
         {
             keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Related".Translate(WoodType.label);

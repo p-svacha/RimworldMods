@@ -24,7 +24,28 @@ namespace P42_Allergies
 
     public class FoodTypeAllergy : Allergy
     {
+        private static Dictionary<FoodType, float> FoodTypeWeights = new Dictionary<FoodType, float>()
+        {
+            { FoodType.Produce, 1.2f },
+            { FoodType.Seed, 0.6f },
+            { FoodType.Meat, 0.9f },
+            { FoodType.Milk, 1.5f },
+            { FoodType.Egg, 1.3f },
+            { FoodType.Fungus, 0.7f },
+            { FoodType.Kibble, 0.4f },
+            { FoodType.Liquor, 0.6f },
+            { FoodType.ProcessedMeals, 0.8f },
+            { FoodType.Fish, 1.1f },
+        };
+
         public FoodType FoodType;
+
+        protected override void OnCreate()
+        {
+            if (!ModsConfig.IsActive("VanillaExpanded.VCEF")) FoodTypeWeights.Remove(FoodType.Fish);
+
+            FoodType = Utils.GetWeightedRandomElement(FoodTypeWeights);
+        }
 
         protected override void OnInitOrLoad()
         {

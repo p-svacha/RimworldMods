@@ -62,10 +62,10 @@
     <Compile Include="Allergies\XenotypeAllergy.cs" />
     <Compile Include="Allergy.cs" />
     <Compile Include="Allergies\FoodTypeAllergy.cs" />
+    <Compile Include="AllergyDef.cs" />
     <Compile Include="AllergyExposureInfo.cs" />
     <Compile Include="AllergyGenerator.cs" />
     <Compile Include="AllergySeverity.cs" />
-    <Compile Include="AllergyTypeId.cs" />
     <Compile Include="AllergyUtility.cs" />
     <Compile Include="CompUseEffect_AntishockInjector.cs" />
     <Compile Include="ExposureType.cs" />

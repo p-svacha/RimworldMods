@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace P42_Allergies
 {
-    public static class AllergyUtility
+    public static class Utils
     {
         private static Dictionary<ThingDef, List<ThingDef>> CachedRecipeIngredients = new Dictionary<ThingDef, List<ThingDef>>();
 
@@ -216,5 +216,18 @@ namespace P42_Allergies
             return candidates.RandomElement();
         }
 
+        public static T GetWeightedRandomElement<T>(Dictionary<T, float> weightDictionary)
+        {
+            float probabilitySum = weightDictionary.Sum(x => x.Value);
+            float rng = UnityEngine.Random.Range(0, probabilitySum);
+            float tmpSum = 0;
+            foreach (KeyValuePair<T, float> kvp in weightDictionary)
+            {
+                tmpSum += kvp.Value;
+                if (rng < tmpSum) return kvp.Key;
+            }
+            Log.Error($"[Allergies Mod] ERROR in GetWeightedRandomElement<T>");
+            return weightDictionary.Keys.First();
+        }
     }
 }
