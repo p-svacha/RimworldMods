@@ -13,7 +13,7 @@ namespace P42_Allergies
 
         protected override void OnCreate()
         {
-            WoodType = Utils.GetRandomWood();
+            WoodType = AllergyGenerator.GetRandomWood();
         }
         protected override void OnInitOrLoad()
         {

@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 
 namespace P42_Allergies
@@ -11,7 +9,21 @@ namespace P42_Allergies
     public static class AllergyGenerator
     {
         private static Dictionary<AllergyDef, float> AllergyWeights = new Dictionary<AllergyDef, float>();
-                private static int MaxAllergiesPerPawn = 6;
+        private static int MaxAllergiesPerPawn = 6;
+
+        // Lists containing all valid allergy types for ThingDef allergies
+        private static List<ThingDef> FoodIngredients;
+        private static List<ThingDef> Drugs;
+        private static List<ThingDef> Medicines;
+        private static List<ThingDef> Textiles;
+        private static List<ThingDef> Plants;
+        private static List<ThingDef> Woods;
+        private static List<ThingDef> Stones;
+        private static List<ThingDef> Metals;
+
+        private static List<PawnKindDef> Animals;
+        private static List<XenotypeDef> Xenotypes;
+
 
         #region Initialization
 
@@ -36,6 +48,44 @@ namespace P42_Allergies
 
             // DLC checks
             if (!ModsConfig.BiotechActive) AllergyWeights.Remove(DefDatabase<AllergyDef>.GetNamed("Xenotype"));
+
+            // Initialize all valid allergy thingdef-subtype lists
+            FoodIngredients = new List<ThingDef>();
+            Drugs = new List<ThingDef>();
+            Medicines = new List<ThingDef>();
+            Textiles = new List<ThingDef>();
+            Plants = new List<ThingDef>();
+            Woods = new List<ThingDef>();
+            Stones = new List<ThingDef>();
+            Metals = new List<ThingDef>();
+
+            Animals = new List<PawnKindDef>();
+
+            foreach(ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
+            {
+                if (IsFoodIngredient(def)) FoodIngredients.Add(def);
+                if (IsDrug(def)) Drugs.Add(def);
+                if (IsMedicine(def)) Medicines.Add(def);
+                if (IsTextile(def)) Textiles.Add(def);
+                if (IsPlant(def)) Plants.Add(def);
+                if (HasStuffProp(def, StuffCategoryDefOf.Woody)) Woods.Add(def);
+                if (HasStuffProp(def, StuffCategoryDefOf.Stony)) Stones.Add(def);
+                if (HasStuffProp(def, StuffCategoryDefOf.Metallic)) Metals.Add(def);
+            }
+
+            foreach(PawnKindDef def in DefDatabase<PawnKindDef>.AllDefsListForReading)
+            {
+                if (IsAnimal(def)) Animals.Add(def);
+            }
+
+            if (ModsConfig.BiotechActive)
+            {
+                Xenotypes = new List<XenotypeDef>();
+                foreach(XenotypeDef def in DefDatabase<XenotypeDef>.AllDefsListForReading)
+                {
+                    if (def != XenotypeDefOf.Baseliner) Xenotypes.Add(def);
+                }
+            }
 
             IsInitialized = true;
         }
@@ -120,6 +170,83 @@ namespace P42_Allergies
             
             return newAllergy;
         }
+
+        #endregion
+
+        #region Lists for random Defs
+
+
+        public static ThingDef GetRandomIngredient() => FoodIngredients.RandomElement();
+        private static bool IsFoodIngredient(ThingDef def)
+        {
+            if (!def.IsIngestible) return false;
+            if (!def.ingestible.HumanEdible) return false;
+            if (def.IsDrug) return false;
+            if ((def.ingestible.foodType & FoodTypeFlags.Meal) != 0) return false;
+            if (def.IsCorpse) return false;
+            if (def.IsEgg) return false;
+            return true;
+        }
+
+        public static ThingDef GetRandomDrug() => Drugs.RandomElement();
+        private static bool IsDrug(ThingDef def)
+        {
+            if (!def.IsDrug) return false;
+            if (def.tradeTags.Contains("Serum")) return false;
+            return true;
+        }
+
+        public static ThingDef GetRandomMedicine() => Medicines.RandomElement();
+        private static bool IsMedicine(ThingDef def)
+        {
+            if (!def.IsMedicine) return false;
+            return true;
+        }
+
+        public static ThingDef GetRandomTextile() => Textiles.RandomElement();
+        private static bool IsTextile(ThingDef def)
+        {
+            if (def.thingCategories == null) return false;
+            if (!def.thingCategories.Contains(ThingCategoryDefOf.Textiles)) return false;
+            return true;
+        }
+
+
+
+        public static ThingDef GetRandomPlant() => Plants.RandomElement();
+        private static bool IsPlant(ThingDef def)
+        {
+            if (def.plant == null) return false;
+            if (def.plant.isStump) return false;
+
+            return true;
+        }
+
+        private static bool HasStuffProp(ThingDef def, StuffCategoryDef stuffCategory)
+        {
+            if (def.stuffProps == null) return false;
+            if (def.stuffProps.categories == null) return false;
+            if (!def.stuffProps.categories.Contains(stuffCategory)) return false;
+
+            return true;
+        }
+        public static ThingDef GetRandomStone()=> Stones.RandomElement();
+        public static ThingDef GetRandomWood() => Woods.RandomElement();
+        public static ThingDef GetRandomMetal() => Metals.RandomElement();
+
+
+        public static PawnKindDef GetRandomAnimal() => Animals.RandomElement();
+
+        private static bool IsAnimal(PawnKindDef def)
+        {
+            if (def.race == null) return false;
+            if (def.race.thingCategories == null) return false;
+            if (!def.race.thingCategories.Contains(ThingCategoryDefOf.Animals)) return false;
+            if (def.race.tradeTags.Contains("AnimalDryad")) return false; // exclude dryads
+
+            return true;
+        }
+        public static XenotypeDef GetRandomXenotype() => Xenotypes.RandomElement();
 
         #endregion
     }

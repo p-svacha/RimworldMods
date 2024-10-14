@@ -14,7 +14,7 @@ namespace P42_Allergies
 
         protected override void OnCreate()
         {
-            Textile = Utils.GetRandomTextile();
+            Textile = AllergyGenerator.GetRandomTextile();
         }
 
         protected override void OnInitOrLoad()

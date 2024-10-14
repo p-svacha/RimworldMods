@@ -13,7 +13,7 @@ namespace P42_Allergies
 
         protected override void OnCreate()
         {
-            MetalType = Utils.GetRandomMetal();
+            MetalType = AllergyGenerator.GetRandomMetal();
         }
         protected override void OnInitOrLoad()
         {

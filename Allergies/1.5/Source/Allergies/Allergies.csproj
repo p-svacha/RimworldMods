@@ -66,7 +66,7 @@
     <Compile Include="AllergyExposureInfo.cs" />
     <Compile Include="AllergyGenerator.cs" />
     <Compile Include="AllergySeverity.cs" />
-    <Compile Include="AllergyUtility.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="CompUseEffect_AntishockInjector.cs" />
     <Compile Include="ExposureType.cs" />
     <Compile Include="Harmony\HarmonyPatch_DoTend.cs" />

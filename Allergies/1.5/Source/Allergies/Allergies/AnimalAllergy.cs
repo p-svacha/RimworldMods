@@ -16,7 +16,7 @@ namespace P42_Allergies
 
         protected override void OnCreate()
         {
-            Animal = Utils.GetRandomAnimal();
+            Animal = AllergyGenerator.GetRandomAnimal();
         }
 
         protected override void OnInitOrLoad()

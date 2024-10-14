@@ -13,7 +13,7 @@ namespace P42_Allergies
 
         protected override void OnCreate()
         {
-            Drug = Utils.GetRandomDrug();
+            Drug = AllergyGenerator.GetRandomDrug();
         }
         protected override void DoPassiveExposureChecks()
         {

@@ -13,7 +13,7 @@ namespace P42_Allergies
 
         protected override void OnCreate()
         {
-            Plant = Utils.GetRandomPlant();
+            Plant = AllergyGenerator.GetRandomPlant();
         }
 
         protected override void OnInitOrLoad()

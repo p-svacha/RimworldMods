@@ -21,9 +21,9 @@ namespace P42_Allergies
 
         private static Dictionary<TextileType, float> TextileTypeWeights = new Dictionary<TextileType, float>()
         {
-            { TextileType.Leather, 1f },
-            { TextileType.Wool, 0.9f },
-            { TextileType.Fabric, 1.1f },
+            { TextileType.Leather, 1.1f },
+            { TextileType.Wool, 0.85f },
+            { TextileType.Fabric, 1f },
         };
 
         protected override void OnCreate()

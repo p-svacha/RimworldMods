@@ -13,7 +13,7 @@ namespace P42_Allergies
 
         protected override void OnCreate()
         {
-            Ingredient = Utils.GetRandomIngredient();
+            Ingredient = AllergyGenerator.GetRandomIngredient();
         }
 
         protected override void OnInitOrLoad()

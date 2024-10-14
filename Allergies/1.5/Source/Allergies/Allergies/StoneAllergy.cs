@@ -17,7 +17,7 @@ namespace P42_Allergies
 
         protected override void OnCreate()
         {
-            StoneType = Utils.GetRandomStone();
+            StoneType = AllergyGenerator.GetRandomStone();
         }
         protected override void OnInitOrLoad()
         {

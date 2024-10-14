@@ -13,7 +13,7 @@ namespace P42_Allergies
 
         protected override void OnCreate()
         {
-            MedicineType = Utils.GetRandomMedicine();
+            MedicineType = AllergyGenerator.GetRandomMedicine();
         }
         protected override void DoPassiveExposureChecks()
         {

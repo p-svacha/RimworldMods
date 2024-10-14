@@ -28,7 +28,7 @@ namespace P42_Allergies
             { SpecificMiscItemId.Chemfuel, 1f },
             { SpecificMiscItemId.Smokeleaf, 1f },
             { SpecificMiscItemId.PsychoidLeaves, 1f },
-            { SpecificMiscItemId.Chocolate, 1f },
+            { SpecificMiscItemId.Chocolate, 0.7f },
         };
 
         protected override void OnCreate()

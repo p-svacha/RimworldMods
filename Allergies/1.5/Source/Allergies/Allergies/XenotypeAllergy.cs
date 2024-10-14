@@ -14,7 +14,7 @@ namespace P42_Allergies
 
         protected override void OnCreate()
         {
-            Xenotype = Utils.GetRandomXenotype();
+            Xenotype = AllergyGenerator.GetRandomXenotype();
         }
 
         protected override bool IsAllergenic(ThingDef thingDef) => false;

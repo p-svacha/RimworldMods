@@ -22,8 +22,8 @@ namespace P42_Allergies
 
         private static Dictionary<PollenType, float> PollenTypeWeights = new Dictionary<PollenType, float>()
         {
-            { PollenType.Flowers, 0.5f },
-            { PollenType.Trees, 1f },
+            { PollenType.Flowers, 0.7f },
+            { PollenType.Trees, 0.8f },
             { PollenType.Grass, 0.75f },
         };
 
