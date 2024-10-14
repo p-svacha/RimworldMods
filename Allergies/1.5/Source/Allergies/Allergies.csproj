@@ -72,6 +72,7 @@
     <Compile Include="Harmony\HarmonyPatch_DoTend.cs" />
     <Compile Include="Harmony\HarmonyPatch_FoodUtility_FoodOptimality.cs" />
     <Compile Include="Harmony\HarmonyPatch_GenerateInitialHediffs.cs" />
+    <Compile Include="Harmony\HarmonyPatch_HediffGiverUtility_TryApply.cs" />
     <Compile Include="Harmony\HarmonyPatch_InteractionWorker_Interacted.cs" />
     <Compile Include="Harmony\HarmonyPatch_Pawn_PostApplyDamage.cs" />
     <Compile Include="Harmony\HarmonyPatch_RecipeWorker_ApplyOnPawn.cs" />

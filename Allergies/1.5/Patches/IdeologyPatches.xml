@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Ludeon.RimWorld.Ideology</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+
+                <!-- Bioscupltor regeneration cycle can heal allergies and chronic sinusitis -->
+                <li Class="PatchOperationAdd">
+                    <xpath>*/ThingDef[defName="BiosculpterPod"]/comps/li[key="bioregeneration"]/conditionsToPossiblyCure</xpath>
+                    <value>
+                        <li>P42_ChronicSinusitis</li>
+                        <li>P42_AllergyHediff</li>
+                    </value>
+                </li>
+
+            </operations>
+        </match>
+    </Operation>
+</Patch>

@@ -11,7 +11,7 @@ namespace P42_Allergies
 {
     public class JobDriver_SneezingFit : JobDriver
     {
-        private const int MinSneezeFitDuration = 150; // 150 ticks = 2.5 seconds
+        private const int MinSneezeFitDuration = 180; // 180 ticks = 3 seconds
         private const int MaxSneezeFitDuration = 600; // 600 ticks = 10 seconds
 
 		private const float SingleSneezeDuration = 150;
@@ -76,6 +76,7 @@ namespace P42_Allergies
 						need_Rest.CurLevel -= RestFallPerSneeze;
 					}
 				}
+
 				ticksLeft--;
 				if (ticksLeft <= 0)
 				{

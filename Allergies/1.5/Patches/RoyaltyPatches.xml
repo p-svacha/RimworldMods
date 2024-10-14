@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Ludeon.RimWorld.Royalty</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+
+                <!-- Immunoenhancer: -40% allergic sensitivity -->
+                <li Class="PatchOperationAdd">
+                    <xpath>*/HediffDef[defName="Immunoenhancer"]/stages/li/statOffsets</xpath>
+                    <value>
+                        <P42_AllergicSensitivity>-0.40</P42_AllergicSensitivity>
+                    </value>
+                </li>
+
+            </operations>
+        </match>
+    </Operation>
+</Patch>

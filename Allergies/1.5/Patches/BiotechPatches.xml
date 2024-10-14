@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Ludeon.RimWorld.Biotech</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+
+                <!-- Non-senescent: Cannot gain chronic sinusitis -->
+                <li Class="PatchOperationAdd">
+                    <xpath>*/GeneDef[defName = "DiseaseFree"]/hediffGiversCannotGive</xpath>
+                    <value>
+                        <li>P42_ChronicSinusitis</li>
+                    </value>
+                </li>
+
+                <!-- Perfect immunity gene: x0% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/GeneDef[defName = "PerfectImmunity"]/statFactors</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "PerfectImmunity"]/statFactors</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>0</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "PerfectImmunity"]</xpath>
+                        <value>
+                            <statFactors>
+                                <P42_AllergicSensitivity>0</P42_AllergicSensitivity>
+                            </statFactors>
+                        </value>
+                    </nomatch>
+                </li>
+
+                <!-- Weak immunity gene: -15% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/GeneDef[defName = "Immunity_Weak"]/statOffsets</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "Immunity_Weak"]/statOffsets</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>-0.15</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "Immunity_Weak"]</xpath>
+                        <value>
+                            <statOffsets>
+                                <P42_AllergicSensitivity>-0.15</P42_AllergicSensitivity>
+                            </statOffsets>
+                        </value>
+                    </nomatch>
+                </li>
+
+                <!-- Strong immunity gene: -15% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/GeneDef[defName = "Immunity_Strong"]/statOffsets</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "Immunity_Strong"]/statOffsets</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>-0.15</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "Immunity_Strong"]</xpath>
+                        <value>
+                            <statOffsets>
+                                <P42_AllergicSensitivity>-0.15</P42_AllergicSensitivity>
+                            </statOffsets>
+                        </value>
+                    </nomatch>
+                </li>
+
+                <!-- Super immunity gene: -30% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/GeneDef[defName = "Immunity_SuperStrong"]/statOffsets</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "Immunity_SuperStrong"]/statOffsets</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>-0.30</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "Immunity_SuperStrong"]</xpath>
+                        <value>
+                            <statOffsets>
+                                <P42_AllergicSensitivity>-0.30</P42_AllergicSensitivity>
+                            </statOffsets>
+                        </value>
+                    </nomatch>
+                </li>
+
+                <!-- Tox immunity gene: -10% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/GeneDef[defName = "ToxResist_Total"]/statOffsets</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "ToxResist_Total"]/statOffsets</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>-0.10</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "ToxResist_Total"]</xpath>
+                        <value>
+                            <statOffsets>
+                                <P42_AllergicSensitivity>-0.10</P42_AllergicSensitivity>
+                            </statOffsets>
+                        </value>
+                    </nomatch>
+                </li>
+
+                <!-- Inbred gene: +20% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/GeneDef[defName = "Inbred"]/statOffsets</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "Inbred"]/statOffsets</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>+0.20</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/GeneDef[defName = "Inbred"]</xpath>
+                        <value>
+                            <statOffsets>
+                                <P42_AllergicSensitivity>+0.20</P42_AllergicSensitivity>
+                            </statOffsets>
+                        </value>
+                    </nomatch>
+                </li>
+
+            </operations>
+        </match>
+    </Operation>
+</Patch>

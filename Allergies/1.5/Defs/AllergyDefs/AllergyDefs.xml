@@ -118,7 +118,7 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Wood</defName>
         <allergyClass>P42_Allergies.WoodAllergy</allergyClass>
-        <commonness>1.5</commonness>
+        <commonness>100</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
