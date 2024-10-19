@@ -9,7 +9,7 @@ namespace P42_Allergies
     public static class AllergyGenerator
     {
         private static Dictionary<AllergyDef, float> AllergyWeights = new Dictionary<AllergyDef, float>();
-        private static int MaxAllergiesPerPawn = 6;
+        public static int MaxAllergiesPerPawn = 5;
 
         // Lists containing all valid allergy types for ThingDef allergies
         private static List<ThingDef> FoodIngredients;
@@ -34,20 +34,7 @@ namespace P42_Allergies
             if (IsInitialized) return;
 
             // Add all allergy defs
-            AllergyWeights.Clear();
-            foreach(AllergyDef def in DefDatabase<AllergyDef>.AllDefs)
-            {
-                if(def.requiredMods != null && def.requiredMods.Any(x => !ModsConfig.IsActive(x)))
-                {
-                    Logger.Log($"Removing {def.defName} from allergy pool because a required mod is missing");
-                    continue;
-                }
-
-                AllergyWeights.Add(def, def.commonness);
-            }
-
-            // DLC checks
-            if (!ModsConfig.BiotechActive) AllergyWeights.Remove(DefDatabase<AllergyDef>.GetNamed("Xenotype"));
+            RecreateAllergyWeightsTable();
 
             // Initialize all valid allergy thingdef-subtype lists
             FoodIngredients = new List<ThingDef>();
@@ -88,6 +75,28 @@ namespace P42_Allergies
             }
 
             IsInitialized = true;
+        }
+
+        public static void RecreateAllergyWeightsTable()
+        {
+            AllergyWeights.Clear();
+            foreach (AllergyDef def in DefDatabase<AllergyDef>.AllDefs)
+            {
+                if (def.requiredMods != null && def.requiredMods.Any(x => !ModsConfig.IsActive(x)))
+                {
+                    Logger.Log($"Removing {def.defName} from allergy pool because a required mod is missing");
+                    continue;
+                }
+
+                // Check if the allergy type is enabled in the settings
+                if (Allergies_Settings.enabledAllergyTypes.TryGetValue(def.defName, out bool isEnabled) && !isEnabled)
+                {
+                    Logger.Log($"Removing {def.defName} from allergy pool because it is disabled in settings");
+                    continue;
+                }
+
+                AllergyWeights.Add(def, def.commonness);
+            }
         }
 
         #endregion

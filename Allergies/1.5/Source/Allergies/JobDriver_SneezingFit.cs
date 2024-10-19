@@ -11,12 +11,12 @@ namespace P42_Allergies
 {
     public class JobDriver_SneezingFit : JobDriver
     {
-        private const int MinSneezeFitDuration = 180; // 180 ticks = 3 seconds
+        private const int MinSneezeFitDuration = 300; // 300 ticks = 5 seconds
         private const int MaxSneezeFitDuration = 600; // 600 ticks = 10 seconds
 
 		private const float SingleSneezeDuration = 150;
 		private const float RestFallPerSneeze = 0.03f;
-		private float SlimeChancePerSneeze = 0.4f;
+		private float SlimeChancePerSneeze = 0.3f;
 
 		private int ticksLeft;
 
@@ -37,20 +37,7 @@ namespace P42_Allergies
 			toil.initAction = delegate
 			{
 				ticksLeft = Rand.Range(MinSneezeFitDuration, MaxSneezeFitDuration);
-				int num = 0;
-				IntVec3 intVec;
-				do
-				{
-					intVec = pawn.Position + GenAdj.AdjacentCellsAndInside[Rand.Range(0, 9)];
-					num++;
-					if (num > 12)
-					{
-						intVec = pawn.Position;
-						break;
-					}
-				}
-				while (!intVec.InBounds(pawn.Map) || !intVec.Standable(pawn.Map));
-				job.targetA = intVec;
+				job.targetA = pawn.Position;
 				pawn.pather.StopDead();
 
 				// Add thought

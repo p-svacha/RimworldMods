@@ -60,12 +60,14 @@
     <Compile Include="Allergies\TextileTypeAllergy.cs" />
     <Compile Include="Allergies\WaterAllergy.cs" />
     <Compile Include="Allergies\XenotypeAllergy.cs" />
+    <Compile Include="Allergies_Settings.cs" />
     <Compile Include="Allergy.cs" />
     <Compile Include="Allergies\FoodTypeAllergy.cs" />
     <Compile Include="AllergyDef.cs" />
     <Compile Include="AllergyExposureInfo.cs" />
     <Compile Include="AllergyGenerator.cs" />
     <Compile Include="AllergySeverity.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="CompUseEffect_AntishockInjector.cs" />
     <Compile Include="ExposureType.cs" />
@@ -79,7 +81,6 @@
     <Compile Include="Harmony\HarmonyPatch_ThingIngested.cs" />
     <Compile Include="Hediff_AllergenBuildup.cs" />
     <Compile Include="Hediff_Allergy.cs" />
-    <Compile Include="Harmony\ModInitializer.cs" />
     <Compile Include="Hediff_AnaphylacticShock.cs" />
     <Compile Include="IngestionOutcomeDoer_AllercureIngestion.cs" />
     <Compile Include="JobDriver_SneezingFit.cs" />

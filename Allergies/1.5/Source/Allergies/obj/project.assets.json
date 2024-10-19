@@ -559,20 +559,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\test\\.nuget\\packages\\": {}
+    "C:\\Users\\phili\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
+      "projectUniqueName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
       "projectName": "Allergies",
-      "projectPath": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
-      "packagesPath": "C:\\Users\\test\\.nuget\\packages\\",
-      "outputPath": "D:\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\obj\\",
+      "projectPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\Allergies.csproj",
+      "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
+      "outputPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Allergies\\1.5\\Source\\Allergies\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
-        "C:\\Users\\test\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
