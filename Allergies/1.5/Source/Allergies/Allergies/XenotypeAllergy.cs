@@ -33,9 +33,9 @@ namespace P42_Allergies
 
         public override void OnDamageTaken(DamageInfo dinfo)
         {
-            if (dinfo.Def.isRanged) return; // Only intereseted in melee hits
-            if (dinfo.Def.isExplosive) return; // Only intereseted in melee hits
-            if (dinfo.Instigator == Pawn) return; // Only intereseted in melee hits
+            if (dinfo.Def.isRanged) return;
+            if (dinfo.Def.isExplosive) return;
+            if (dinfo.Instigator == Pawn) return;
 
             if (dinfo.Instigator is Pawn pawn)
             {

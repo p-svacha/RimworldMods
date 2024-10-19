@@ -138,7 +138,7 @@ namespace P42_Allergies
             if (isVisible) newAllergy.MakeAllergyVisible();
 
             pawn.health.AddHediff(allergyHediff);
-            Logger.Log($"Initialized a new allergy: {newAllergy.TypeLabel} ({newAllergy.GetType()}) with severity {newAllergy.Severity} on {pawn.Name}.");
+            Logger.Log($"Initialized a new allergy: {newAllergy.TypeLabel} ({newAllergy.GetType()}) with severity {newAllergy.Severity} on {pawn.Name}.", ignore: true);
         }
 
         /// <summary>

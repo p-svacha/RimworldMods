@@ -13,6 +13,12 @@ namespace P42_Allergies
 {
     public static class Utils
     {
+        private static bool StringsInitialized = false;
+        public static string Severity_mild = "";
+        public static string Severity_moderate = "";
+        public static string Severity_severe = "";
+        public static string Severity_extreme = "";
+
         private static Dictionary<ThingDef, List<ThingDef>> CachedRecipeIngredients = new Dictionary<ThingDef, List<ThingDef>>();
 
         /// <summary>
@@ -23,6 +29,34 @@ namespace P42_Allergies
             if (pawn.IsWorldPawn()) return false;
 
             return true;
+        }
+
+        public static string GetSeverityString(AllergySeverity severity)
+        {
+            if (!StringsInitialized)
+            {
+                Severity_mild = "P42_AllergySeverity_Mild".Translate();
+                Severity_moderate = "P42_AllergySeverity_Moderate".Translate();
+                Severity_severe = "P42_AllergySeverity_Severe".Translate();
+                Severity_extreme = "P42_AllergySeverity_Extreme".Translate();
+                StringsInitialized = true;
+            }
+
+            if (severity == AllergySeverity.Mild) return Severity_mild;
+            if (severity == AllergySeverity.Moderate) return Severity_moderate;
+            if (severity == AllergySeverity.Severe) return Severity_severe;
+            if (severity == AllergySeverity.Extreme) return Severity_extreme;
+            return "???";
+        }
+
+        public static void ApplyMemoryThought(Pawn pawn, string defName)
+        {
+            if (pawn == null || pawn.needs == null || pawn.needs.mood == null || pawn.needs.mood.thoughts == null || pawn.needs.mood.thoughts.memories == null) return;
+
+            ThoughtDef thoughtDef = DefDatabase<ThoughtDef>.GetNamedSilentFail(defName);
+            if (thoughtDef == null) return;
+
+            pawn.needs?.mood.thoughts.memories.TryGainMemory(thoughtDef);
         }
 
         public static List<Hediff_Allergy> GetPawnAllergies(Pawn pawn)
@@ -101,7 +135,7 @@ namespace P42_Allergies
                 string s = "";
                 foreach (ThingDef t in ingredientDefs) s += " " + t.label + ",";
                 s = s.TrimEnd(',');
-                Log.Message($"[Allergies Mod] {productDef.label} is made of:{s}");
+                Logger.Log($"{productDef.label} is made of:{s}", ignore: true);
             }
             return ingredientDefs;
         }

@@ -57,7 +57,7 @@
       <li Class="P42_Allergies.AllergenBuildupStage">
         <label>minor</label>
         <minSeverity>0.25</minSeverity>
-        <sneezingFitMtbDays>6</sneezingFitMtbDays>
+        <sneezingFitMtbDays>2</sneezingFitMtbDays>
         <skinRashMtbDays>8</skinRashMtbDays>
         <pinkEyeMtbDays>8</pinkEyeMtbDays>
         <throatTightnessMtbDays>20</throatTightnessMtbDays>
@@ -80,7 +80,7 @@
         <label>moderate</label>
         <minSeverity>0.40</minSeverity>
         <painOffset>0.05</painOffset>
-        <sneezingFitMtbDays>3</sneezingFitMtbDays>
+        <sneezingFitMtbDays>1</sneezingFitMtbDays>
         <skinRashMtbDays>4</skinRashMtbDays>
         <pinkEyeMtbDays>4</pinkEyeMtbDays>
         <throatTightnessMtbDays>7</throatTightnessMtbDays>
@@ -121,23 +121,19 @@
         <mentalStateGivers>
           <li>
             <mentalState>Wander_Psychotic</mentalState>
-            <mtbDays>55</mtbDays>
+            <mtbDays>200</mtbDays>
           </li>
           <li>
             <mentalState>Wander_OwnRoom</mentalState>
-            <mtbDays>50</mtbDays>
+            <mtbDays>200</mtbDays>
           </li>
           <li>
             <mentalState>Berserk</mentalState>
-            <mtbDays>45</mtbDays>
-          </li>
-          <li>
-            <mentalState>Wander_Sad</mentalState>
-            <mtbDays>40</mtbDays>
+            <mtbDays>200</mtbDays>
           </li>
           <li>
             <mentalState>Tantrum</mentalState>
-            <mtbDays>35</mtbDays>
+            <mtbDays>200</mtbDays>
           </li>
         </mentalStateGivers>
       </li>
@@ -146,7 +142,7 @@
         <minSeverity>0.60</minSeverity>
         <painOffset>0.15</painOffset>
         <vomitMtbDays>5</vomitMtbDays>
-        <sneezingFitMtbDays>0.7</sneezingFitMtbDays>
+        <sneezingFitMtbDays>0.5</sneezingFitMtbDays>
         <skinRashMtbDays>1</skinRashMtbDays>
         <pinkEyeMtbDays>1</pinkEyeMtbDays>
         <throatTightnessMtbDays>3</throatTightnessMtbDays>
@@ -191,23 +187,19 @@
         <mentalStateGivers>
           <li>
             <mentalState>Wander_Psychotic</mentalState>
-            <mtbDays>35</mtbDays>
+            <mtbDays>120</mtbDays>
           </li>
           <li>
             <mentalState>Wander_OwnRoom</mentalState>
-            <mtbDays>32</mtbDays>
+            <mtbDays>120</mtbDays>
           </li>
           <li>
             <mentalState>Berserk</mentalState>
-            <mtbDays>29</mtbDays>
-          </li>
-          <li>
-            <mentalState>Wander_Sad</mentalState>
-            <mtbDays>26</mtbDays>
+            <mtbDays>120</mtbDays>
           </li>
           <li>
             <mentalState>Tantrum</mentalState>
-            <mtbDays>23</mtbDays>
+            <mtbDays>120</mtbDays>
           </li>
         </mentalStateGivers>
       </li>
@@ -217,7 +209,7 @@
         <tale>P42_Tale_StrongAllergicReactions</tale>
         <painOffset>0.25</painOffset>
         <vomitMtbDays>2</vomitMtbDays>
-        <sneezingFitMtbDays>0.35</sneezingFitMtbDays>
+        <sneezingFitMtbDays>0.3</sneezingFitMtbDays>
         <skinRashMtbDays>0.5</skinRashMtbDays>
         <pinkEyeMtbDays>0.5</pinkEyeMtbDays>
         <throatTightnessMtbDays>1.5</throatTightnessMtbDays>
@@ -262,23 +254,19 @@
         <mentalStateGivers>
           <li>
             <mentalState>Wander_Psychotic</mentalState>
-            <mtbDays>18</mtbDays>
+            <mtbDays>40</mtbDays>
           </li>
           <li>
             <mentalState>Wander_OwnRoom</mentalState>
-            <mtbDays>16</mtbDays>
+            <mtbDays>40</mtbDays>
           </li>
           <li>
             <mentalState>Berserk</mentalState>
-            <mtbDays>14</mtbDays>
-          </li>
-          <li>
-            <mentalState>Wander_Sad</mentalState>
-            <mtbDays>12</mtbDays>
+            <mtbDays>40</mtbDays>
           </li>
           <li>
             <mentalState>Tantrum</mentalState>
-            <mtbDays>10</mtbDays>
+            <mtbDays>40</mtbDays>
           </li>
         </mentalStateGivers>
       </li>

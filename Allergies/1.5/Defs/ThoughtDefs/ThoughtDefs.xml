@@ -6,13 +6,16 @@
     <workerClass>P42_Allergies.ThoughtWorker_AllergenBuildupThought</workerClass>
     <stages>
       <li>
+        <visible>false</visible>
+      </li>
+      <li>
         <label>mildly irritated</label>
-        <description>This allergic reaction is causing some minor discomfort and itchiness.</description>
+        <description>My allergy is causing some discomfort and itchiness.</description>
         <baseMoodEffect>-2</baseMoodEffect>
       </li>
       <li>
         <label>annoying allergies</label>
-        <description>These allergies are starting to bothering me. It’s making it hard to breathe and concentrate.</description>
+        <description>These allergic reactions are starting to bother me. It's making it hard to breathe and concentrate.</description>
         <baseMoodEffect>-4</baseMoodEffect>
       </li>
       <li>
@@ -21,13 +24,13 @@
         <baseMoodEffect>-7</baseMoodEffect>
       </li>
       <li>
-        <label>severe allergic reaction</label>
-        <description>This allergic reaction is unbearable. I'm in constant pain, and my breathing is labored.</description>
+        <label>severe allergic reactions</label>
+        <description>I'm in constant pain, everything itches, and my breathing is labored.</description>
         <baseMoodEffect>-10</baseMoodEffect>
       </li>
       <li>
-        <label>life-threatening allergy</label>
-        <description>This allergic reaction is severe and could be fatal if untreated. I can barely stay conscious.</description>
+        <label>life-threatening allergic reactions</label>
+        <description>I can barely stay conscious. I don't think I can take this much longer.</description>
         <baseMoodEffect>-15</baseMoodEffect>
       </li>
     </stages>
@@ -87,8 +90,53 @@
     <stages>
       <li>
         <label>antishock injection</label>
-        <description>That injection hit hard. My stomach feels like it's tied in knots, but at least I’m still alive. I just hope the benefits are worth the queasiness.</description>
+        <description>That injection hit hard. My stomach feels like it's tied in knots, but at least I'm still alive. I just hope the benefits are worth the queasiness.</description>
         <baseMoodEffect>-9</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_AllergyCured</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>3</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>allergy cured</label>
+        <description>It's such a relief to finally be free of that allergy. I feel like a weight has been lifted off my shoulders.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_AllergyImproved</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>allergy improved</label>
+        <description>My allergy got a little better. Maybe I won't have to suffer through those symptoms as much anymore.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_AllergyWorsened</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>allergy worsened</label>
+        <description>My allergy has gotten worse. It's going to make life even more difficult from now on.</description>
+        <baseMoodEffect>-2</baseMoodEffect>
       </li>
     </stages>
   </ThoughtDef>

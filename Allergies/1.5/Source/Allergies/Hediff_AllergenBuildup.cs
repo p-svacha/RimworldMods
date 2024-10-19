@@ -75,7 +75,7 @@ namespace P42_Allergies
         {
             if (stage.sneezingFitMtbDays > 0)
             {
-                if (Rand.MTBEventOccurs(0.05f, 60000f, ReactionCheckInterval)) // todo: stage.sneezingFitMtbDays
+                if (Rand.MTBEventOccurs(stage.sneezingFitMtbDays, 60000f, ReactionCheckInterval))
                 {
                     StartSneezingFit();
                 }

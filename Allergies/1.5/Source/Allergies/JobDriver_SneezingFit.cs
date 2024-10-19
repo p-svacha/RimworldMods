@@ -41,11 +41,7 @@ namespace P42_Allergies
 				pawn.pather.StopDead();
 
 				// Add thought
-				if (pawn.needs.mood != null)
-				{
-					ThoughtDef sneezingFitThought = DefDatabase<ThoughtDef>.GetNamed("P42_HadSneezingFit");
-					pawn.needs.mood.thoughts.memories.TryGainMemory(sneezingFitThought);
-				}
+				Utils.ApplyMemoryThought(pawn, "P42_HadSneezingFit");
 			};
 
 			toil.tickAction = delegate

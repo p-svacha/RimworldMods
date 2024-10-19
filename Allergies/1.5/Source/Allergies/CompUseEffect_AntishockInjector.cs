@@ -109,11 +109,7 @@ namespace P42_Allergies
 
 		private void AddInjectionThought(Pawn pawn)
         {
-			if (pawn.needs.mood != null)
-			{
-				ThoughtDef thought = DefDatabase<ThoughtDef>.GetNamed("P42_AntishockInjection");
-				pawn.needs.mood.thoughts.memories.TryGainMemory(thought);
-			}
+			Utils.ApplyMemoryThought(pawn, "P42_AntishockInjection");
 		}
 
 		private void ReduceRestNeed(Pawn pawn)

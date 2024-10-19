@@ -8,8 +8,8 @@
 
         <severityCommonness_mild>1</severityCommonness_mild>
         <severityCommonness_moderate>1</severityCommonness_moderate>
-        <severityCommonness_severe>1</severityCommonness_severe>
-        <severityCommonness_extreme>0.05</severityCommonness_extreme>
+        <severityCommonness_severe>0.9</severityCommonness_severe>
+        <severityCommonness_extreme>0.02</severityCommonness_extreme>
 
         <minorPassiveExposure_increasePerHour>0.05</minorPassiveExposure_increasePerHour>
         <strongPassiveExposure_increasePerHour>0.12</strongPassiveExposure_increasePerHour>

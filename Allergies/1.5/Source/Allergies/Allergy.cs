@@ -19,10 +19,10 @@ namespace P42_Allergies
         // Development values
         private const int MinTicksUntilNaturalSeverityChange = 15 * 60000; // 15 days
         private const int MaxTicksUntilNaturalSeverityChange = 180 * 60000; // 180 days (3 years)
-        private const float ExtremeNaturalSeverityChangeChance = 0.1f; // Chance that an allergy instantly goes to extreme / goes away
+        private const float ExtremeNaturalSeverityChangeChance = 0.05f; // Chance that an allergy instantly goes to extreme / goes away
 
         private const int MinTicksUntilAllercureImpact = 5 * 60000; // 5 days
-        private const int MaxTicksUntilAllercureImpact = 60 * 60000; // 60 days (1 year)
+        private const int MaxTicksUntilAllercureImpact = 30 * 60000; // 30 days
         private const float AllercureInstantHealChance = 0.1f;
 
         // Exposure values
@@ -39,9 +39,9 @@ namespace P42_Allergies
 
         private Dictionary<AllergySeverity, float> SeverityMultiplier = new Dictionary<AllergySeverity, float>()
         {
-            { AllergySeverity.Mild, 0.5f },
+            { AllergySeverity.Mild, 0.6f },
             { AllergySeverity.Moderate, 1f },
-            { AllergySeverity.Severe, 2f },
+            { AllergySeverity.Severe, 1.8f },
         };
 
         protected Hediff_Allergy AllergyHediff;
@@ -60,7 +60,6 @@ namespace P42_Allergies
             OnInitOrLoad();
 
             // Init label and description
-            hediff.label = FullAllergyNameCap + " (" + GetSeverityString() + ")";
             if(LanguageDatabase.activeLanguage?.folderName == "English")
                 hediff.description = hediff.def.Description.Replace("an allergen", TypeLabel).Replace("that allergen", KeepAwayFromText);
 
@@ -112,6 +111,8 @@ namespace P42_Allergies
             {
                 Messages.Message("P42_Message_AllergyHealedNaturally".Translate(Pawn.Name.ToStringShort), Pawn, MessageTypeDefOf.PositiveEvent);
             }
+
+            if(IsAllergyDiscovered) Utils.ApplyMemoryThought(Pawn, "P42_AllergyCured");
         }
         private void ReduceAllergySeverityNaturally()
         {
@@ -120,6 +121,8 @@ namespace P42_Allergies
             {
                 Messages.Message("P42_Message_AllergySeverityReducedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
+
+            if(IsAllergyDiscovered) Utils.ApplyMemoryThought(Pawn, "P42_AllergyImproved");
         }
         private void IncreaseAllergySeverityNaturally()
         {
@@ -128,6 +131,8 @@ namespace P42_Allergies
             {
                 Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.NegativeEvent);
             }
+
+            if(IsAllergyDiscovered) Utils.ApplyMemoryThought(Pawn, "P42_AllergyWorsened");
         }
         private void SetToExtremeSeverityNaturally()
         {
@@ -135,7 +140,10 @@ namespace P42_Allergies
             if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.NegativeEvent);
+                
             }
+
+            if(IsAllergyDiscovered) Utils.ApplyMemoryThought(Pawn, "P42_AllergyWorsened");
         }
 
         private void HealAllergyWithAllercure()
@@ -145,6 +153,8 @@ namespace P42_Allergies
             {
                 Messages.Message("P42_Message_AllergyHealedAllercure".Translate(Pawn.Name.ToStringShort, Pawn.Possessive()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
+
+            if(IsAllergyDiscovered) Utils.ApplyMemoryThought(Pawn, "P42_AllergyCured");
         }
         private void ReduceAllergySeverityAllercure()
         {
@@ -153,6 +163,8 @@ namespace P42_Allergies
             {
                 Messages.Message("P42_Message_AllergySeverityReducedAllercure".Translate(Pawn.Name.ToStringShort, Pawn.Possessive(), GetSeverityString()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
+
+            if(IsAllergyDiscovered) Utils.ApplyMemoryThought(Pawn, "P42_AllergyImproved");
         }
 
         #endregion
@@ -276,7 +288,7 @@ namespace P42_Allergies
                 if (amount > 1) amount = 1;
             }
 
-            Logger.Log($"Increasing allergen buildup of {Pawn.Name} by {amount} (exposure type: {exposureType.ToString()}). Allergy severity: {GetSeverityString()}. Cause: {translatedCause}.");
+            Logger.Log($"Increasing allergen buildup of {Pawn.Name} by {amount} (exposure type: {exposureType.ToString()}). Allergy severity: {GetSeverityString()}. Cause: {translatedCause}.", ignore: true);
 
             // Increase anaphylactic shock severity
             Hediff anaphylacticShock = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AnaphylacticShock"));
@@ -284,7 +296,7 @@ namespace P42_Allergies
             {
                 float anaShockIncrease = (amount * AnaphylacticShockIncreaseFactor);
                 anaphylacticShock.Severity += anaShockIncrease;
-                Logger.Log($"Icreasing anaphylactic shock severity of {Pawn.Name} by {anaShockIncrease}.");
+                Logger.Log($"Icreasing anaphylactic shock severity of {Pawn.Name} by {anaShockIncrease}.", ignore: true);
             }
 
             // Create the exposure info log
@@ -733,14 +745,8 @@ namespace P42_Allergies
         public abstract bool IsDuplicateOf(Allergy otherAllergy);
 
         public bool IsAllergyDiscovered => AllergyHediff.Visible;
-        public string GetSeverityString()
-        {
-            if (Severity == AllergySeverity.Mild) return "P42_AllergySeverity_Mild".Translate();
-            if (Severity == AllergySeverity.Moderate) return "P42_AllergySeverity_Moderate".Translate();
-            if (Severity == AllergySeverity.Severe) return "P42_AllergySeverity_Severe".Translate();
-            if (Severity == AllergySeverity.Extreme) return "P42_AllergySeverity_Extreme".Translate();
-            return "???";
-        }
+
+        public string GetSeverityString() => Utils.GetSeverityString(Severity);
 
         public abstract string KeepAwayFromText { get; }
         public abstract string TypeLabel { get; }

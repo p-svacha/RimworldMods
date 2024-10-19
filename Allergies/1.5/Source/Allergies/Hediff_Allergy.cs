@@ -12,7 +12,6 @@ namespace P42_Allergies
     {
         private Allergy Allergy;
 
-        public string label;
         public string description;
 
         public override void Tick()
@@ -52,7 +51,7 @@ namespace P42_Allergies
         }
         public Allergy GetAllergy() => Allergy;
 
-        public override string Label => label;
+        public override string Label => Allergy.FullAllergyNameCap + " (" + Allergy.GetSeverityString() + ")";
         public override string Description => description;
         public override string DebugString()
         {

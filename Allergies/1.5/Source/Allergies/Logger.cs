@@ -9,9 +9,10 @@ namespace P42_Allergies
 {
     public static class Logger
     {
-        public static void Log(string message)
+        public static void Log(string message, bool ignore = false)
         {
             if (!Prefs.DevMode) return;
+            if (ignore) return;
 
             Verse.Log.Message($"[Allergies Mod] {message}");
         }
