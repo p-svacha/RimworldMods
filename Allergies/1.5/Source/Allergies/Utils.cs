@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Verse;
 using RimWorld.Planet;
 using UnityEngine;
+using Verse.AI;
 
 namespace P42_Allergies
 {
@@ -29,6 +30,35 @@ namespace P42_Allergies
             if (pawn.IsWorldPawn()) return false;
 
             return true;
+        }
+
+        /// <summary>
+        /// Checks if a thing is allergenic for a pawn and the pawn knows it.
+        /// </summary>
+        public static bool IsKnownAllergenic(Pawn pawn, Thing t)
+        {
+            foreach (Hediff_Allergy allergyHediff in GetPawnAllergies(pawn))
+            {
+                if (!allergyHediff.GetAllergy().IsAllergyDiscovered) continue;
+
+                bool isAllergenic = allergyHediff.GetAllergy().IsAllergenic(t, checkFoodIngredients: true, checkStuff: true, checkProductionIngredients: true, checkButcherProducts: true, checkMiningYield: true, checkPlantYields: true);
+                if (isAllergenic) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// This method is used in WorkGiver harmony patches for "JobOnThing". If the thing that the pawn would be interacting with for the job is allergenic to them, this will abort the job. Else the original JobOnThing shall be executed.
+        /// </summary>
+        public static bool CheckIfPawnShouldAvoidJobOnThing(Pawn pawn, Thing t, bool forced, ref Job job)
+        {
+            if (!forced && Utils.IsKnownAllergenic(pawn, t))
+            {
+                job = null;
+                return false; // Do not execute original function
+            }
+
+            return true; // Execute original function
         }
 
         public static string GetSeverityString(AllergySeverity severity)

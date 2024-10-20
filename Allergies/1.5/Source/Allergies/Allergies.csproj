@@ -67,12 +67,12 @@
     <Compile Include="AllergyExposureInfo.cs" />
     <Compile Include="AllergyGenerator.cs" />
     <Compile Include="AllergySeverity.cs" />
+    <Compile Include="Harmony\AvoidJobsPatches.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="CompUseEffect_AntishockInjector.cs" />
     <Compile Include="ExposureType.cs" />
     <Compile Include="Harmony\HarmonyPatch_DoTend.cs" />
-    <Compile Include="Harmony\HarmonyPatch_FoodUtility_FoodOptimality.cs" />
     <Compile Include="Harmony\HarmonyPatch_GenerateInitialHediffs.cs" />
     <Compile Include="Harmony\HarmonyPatch_HediffGiverUtility_TryApply.cs" />
     <Compile Include="Harmony\HarmonyPatch_InteractionWorker_Interacted.cs" />

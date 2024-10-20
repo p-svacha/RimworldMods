@@ -619,6 +619,15 @@ namespace P42_Allergies
         }
 
         /// <summary>
+        /// Returns a thing would increase the allergic reactions for a pawn.
+        /// </summary>
+        public bool IsAllergenic(Thing thing, bool checkFoodIngredients = false, bool checkStuff = false, bool checkProductionIngredients = false, bool checkButcherProducts = false, bool checkPlantYields = false, bool checkMiningYield = false)
+        {
+            ExposureType exposure = GetAllergicExposureOfThing(thing, "", out _, directExposure: ExposureType.MinorPassive, ingredientExposure: checkFoodIngredients ? ExposureType.MinorPassive : ExposureType.None, stuffExposure: checkStuff ? ExposureType.MinorPassive : ExposureType.None, productionIngredientExposure: checkProductionIngredients ? ExposureType.MinorPassive : ExposureType.None, butcherProductExposure: checkButcherProducts ? ExposureType.MinorPassive : ExposureType.None, plantExposure: checkPlantYields ? ExposureType.MinorPassive : ExposureType.None, mineableThingExposure: checkMiningYield ? ExposureType.MinorPassive : ExposureType.None);
+            return exposure != ExposureType.None;
+        }
+
+        /// <summary>
         /// Checks an item, its stuff, ingredients, production ingredients, butcher products and plant yield for if they are allergenic.
         /// Returns the exposure severity and translated cause key based on what about the item is allergenic.
         /// </summary>
