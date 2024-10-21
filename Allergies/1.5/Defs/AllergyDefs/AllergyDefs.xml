@@ -31,13 +31,13 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Ingredient</defName>
         <allergyClass>P42_Allergies.IngredientAllergy</allergyClass>
-        <commonness>1</commonness>
+        <commonness>1.1</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Drug</defName>
         <allergyClass>P42_Allergies.DrugAllergy</allergyClass>
-        <commonness>0.8</commonness>
+        <commonness>0.9</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
@@ -61,13 +61,13 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Animal</defName>
         <allergyClass>P42_Allergies.AnimalAllergy</allergyClass>
-        <commonness>1</commonness>
+        <commonness>111</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Plant</defName>
         <allergyClass>P42_Allergies.PlantAllergy</allergyClass>
-        <commonness>0.8</commonness>
+        <commonness>85</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
@@ -109,7 +109,7 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Xenotype</defName>
         <allergyClass>P42_Allergies.XenotypeAllergy</allergyClass>
-        <commonness>0.6</commonness>
+        <commonness>0.4</commonness>
         <requiredMods>
             <li>Ludeon.RimWorld.Biotech</li>
         </requiredMods>
@@ -118,18 +118,18 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Wood</defName>
         <allergyClass>P42_Allergies.WoodAllergy</allergyClass>
-        <commonness>0.45</commonness>
+        <commonness>0.3</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Stone</defName>
         <allergyClass>P42_Allergies.StoneAllergy</allergyClass>
-        <commonness>0.55</commonness>
+        <commonness>0.5</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Metal</defName>
         <allergyClass>P42_Allergies.MetalAllergy</allergyClass>
-        <commonness>0.5</commonness>
+        <commonness>0.3</commonness>
     </P42_Allergies.AllergyDef>
 </Defs>

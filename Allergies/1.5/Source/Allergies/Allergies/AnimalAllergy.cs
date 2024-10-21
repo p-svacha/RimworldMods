@@ -21,7 +21,7 @@ namespace P42_Allergies
 
         protected override void OnInitOrLoad()
         {
-            Logger.Log($"singular: {Animal.label}, plural: {Animal.labelPlural}");
+            // Logger.Log($"singular: {Animal.label}, plural: {Animal.labelPlural}");
             keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Animal".Translate(Animal.labelPlural.NullOrEmpty() ? Animal.label : Animal.labelPlural);
 
             AnimalProducts = new List<ThingDef>();
@@ -53,7 +53,7 @@ namespace P42_Allergies
                 string s = "";
                 foreach (ThingDef t in AnimalProducts) s += " " + t.label + ",";
                 s = s.TrimEnd(',');
-                Log.Message($"[Allergies Mod] Allergenic animal products for {Animal.label} are:{s}");
+                //Logger.Log($"Allergenic animal products for {Animal.label} are:{s}");
             }
         }
 
@@ -77,6 +77,7 @@ namespace P42_Allergies
         protected override bool IsAllergenic(ThingDef thing)
         {
             if (thing == Animal.race) return true;
+            if (thing == Animal.race.race.corpseDef) return true;
             if (AnimalProducts.Contains(thing)) return true;
 
             return false;

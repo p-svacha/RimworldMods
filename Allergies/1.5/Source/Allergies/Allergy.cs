@@ -340,6 +340,9 @@ namespace P42_Allergies
                 {
                     SendAllergyDiscoveredLetter(translatedCause);
                 }
+
+                // Add thought
+                Utils.ApplyMemoryThought(Pawn, "P42_AllergyDiscovered");
             }
         }
 

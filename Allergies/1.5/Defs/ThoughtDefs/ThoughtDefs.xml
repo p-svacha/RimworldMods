@@ -141,4 +141,19 @@
     </stages>
   </ThoughtDef>
 
+  <ThoughtDef>
+    <defName>P42_AllergyDiscovered</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>2</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>allergy discovered</label>
+        <description>I've found out I'm allergic to something... just what I needed. It's going to make things a bit harder around here.</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
 </Defs>
