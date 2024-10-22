@@ -16,7 +16,7 @@ namespace P42_Allergies
             keepAwayFromText = "P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Dust".Translate();
         }
 
-        protected override bool IsAllergenic(ThingDef thingDef) => false;
+        protected override bool IsDirectlyAllergenic(ThingDef thingDef) => false;
 
         protected override void DoPassiveExposureChecks()
         {

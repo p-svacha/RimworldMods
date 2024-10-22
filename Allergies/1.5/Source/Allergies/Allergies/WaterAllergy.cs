@@ -15,7 +15,7 @@ namespace P42_Allergies
             typeLabel = "P42_AllergyType_Water".Translate();
         }
 
-        protected override bool IsAllergenic(ThingDef thingDef) => thingDef == ThingDefOf.SteamGeyser;
+        protected override bool IsDirectlyAllergenic(ThingDef thingDef) => thingDef == ThingDefOf.SteamGeyser;
 
         protected override void DoPassiveExposureChecks()
         {
@@ -32,10 +32,10 @@ namespace P42_Allergies
             }
         }
 
-        protected override ExposureType GetDirectExposureOfFloor(TerrainDef def)
+        public override bool IsTerrainAllergenic(TerrainDef terrain)
         {
-            if (def.IsWater || def.defName == "MarshyTerrain") return ExposureType.MinorPassive;
-            return ExposureType.None;
+            if (terrain.IsWater || terrain.defName == "MarshyTerrain") return true;
+            return base.IsTerrainAllergenic(terrain);
         }
 
         private bool IsPawnExposedToRain(Pawn pawn)

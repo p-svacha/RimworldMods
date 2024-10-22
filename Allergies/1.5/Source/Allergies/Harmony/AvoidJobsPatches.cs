@@ -3,6 +3,7 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
@@ -13,29 +14,77 @@ using Verse.AI;
 /// </summary>
 namespace P42_Allergies
 {
-    #region Hauling
 
-    [HarmonyPatch(typeof(WorkGiver_Haul), "JobOnThing")]
-    public static class HarmonyPatch_WorkGiver_Haul_JobOnThing
+    #region General avoidance of things in thing-related jobs / WorkGivers
+
+    // We patch IsForbidden for a pawn, so that everything allergenic is forbidden, but only temporarily during when they look for a new non-forced job.
+
+    [HarmonyPatch(typeof(JobGiver_Work), "TryIssueJobPackage")]
+    public static class HarmonyPatch_JobGiver_Work_TryIssueJobPackage
     {
         [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, Thing t, bool forced, ref Job __result)
+        public static void Prefix(Pawn pawn, JobIssueParams jobParams)
         {
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, t, forced, ref __result);
+            HarmonyPatch_ForbidUtility_IsForbidden.InTryIssueJobPackage = true;
+        }
+
+        [HarmonyPostfix]
+        public static void Postfix(Pawn pawn, JobIssueParams jobParams)
+        {
+            HarmonyPatch_ForbidUtility_IsForbidden.InTryIssueJobPackage = false;
         }
     }
-    [HarmonyPatch(typeof(WorkGiver_EmptyEggBox), "JobOnThing")]
-    public static class HarmonyPatch_WorkGiver_EmptyEggBox_JobOnThing
+
+    [HarmonyPatch(typeof(ForbidUtility))]
+    [HarmonyPatch("IsForbidden", typeof(Thing), typeof(Pawn))]
+    public static class HarmonyPatch_ForbidUtility_IsForbidden
+    {
+        public static bool InTryIssueJobPackage;
+
+        [HarmonyPostfix]
+        public static void Postfix(this Thing t, Pawn pawn, ref bool __result)
+        {
+            if (__result) return; // Don't need to do anything if already forbidden
+            if (!InTryIssueJobPackage) return; // We are not in the TryIssueJobPackage function and therefore shouldn't change anything
+
+            if (Utils.IsKnownAllergenic(pawn, t)) __result = true; // Make the thing forbidden (just for the job search)
+        }
+    }
+
+    #endregion
+
+    #region Opportunistic hauling
+
+    [HarmonyPatch(typeof(Pawn_JobTracker), "TryOpportunisticJob")]
+    public static class HarmonyPatch_Pawn_JobTracker_TryOpportunisticJob
     {
         [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, Thing t, bool forced, ref Job __result)
+        public static void Prefix(Pawn_JobTracker __instance, Job finalizerJob, Job job)
         {
-            CompEggContainer compEggContainer = t.TryGetComp<CompEggContainer>();
-            if (compEggContainer != null && compEggContainer.ContainedThing != null)
-            {
-                return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, compEggContainer.ContainedThing, forced, ref __result);
-            }
-            return true; // Execute original function
+            HarmonyPatch_ListerHaulables_ThingsPotentiallyNeedingHauling.InTryOpportunisticJob = true;
+            HarmonyPatch_ListerHaulables_ThingsPotentiallyNeedingHauling.JobTracker = __instance;
+        }
+        [HarmonyPostfix]
+        public static void Postfix(Job finalizerJob, Job job)
+        {
+            HarmonyPatch_ListerHaulables_ThingsPotentiallyNeedingHauling.InTryOpportunisticJob = false;
+        }
+    }
+
+    [HarmonyPatch(typeof(ListerHaulables), "ThingsPotentiallyNeedingHauling")]
+    public static class HarmonyPatch_ListerHaulables_ThingsPotentiallyNeedingHauling
+    {
+        public static Pawn_JobTracker JobTracker;
+        public static bool InTryOpportunisticJob;
+
+        [HarmonyPostfix]
+        public static void Postfix(ref List<Thing> __result)
+        {
+            if (!InTryOpportunisticJob) return;
+
+            FieldInfo fieldInfo = typeof(Pawn_JobTracker).GetField("pawn", BindingFlags.NonPublic | BindingFlags.Instance);
+            Pawn pawn = (Pawn)fieldInfo.GetValue(JobTracker);
+            __result = __result.Where(x => !Utils.IsKnownAllergenic(pawn, x)).ToList();
         }
     }
 
@@ -43,50 +92,31 @@ namespace P42_Allergies
 
     #region Construction
 
-    [HarmonyPatch(typeof(WorkGiver_ConstructSmoothWall), "JobOnCell")]
-    public static class HarmonyPatch_WorkGiver_ConstructSmoothWall_JobOnCell
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, IntVec3 c, bool forced, ref Job __result)
-        {
-            bool isAllergenic = Utils.IsKnownAllergenic(pawn, c.GetEdifice(pawn.Map));
-            Logger.Log($"WorkGiver_ConstructDeliverResources {pawn.LabelShort} - {c.GetEdifice(pawn.Map).Label}: allgergenic? {isAllergenic}. __result before: {__result}");
-
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, c.GetEdifice(pawn.Map), forced, ref __result);
-        }
-    }
-
-    [HarmonyPatch(typeof(WorkGiver_ConstructDeliverResources), "ResourceValidator")]
-    public static class HarmonyPatch_WorkGiver_ConstructDeliverResources_ResourceValidator
+    // Smooth wall
+    [HarmonyPatch(typeof(WorkGiver_ConstructSmoothWall), "HasJobOnCell")]
+    public static class HarmonyPatch_WorkGiver_ConstructSmoothWall_HasJobOnCell
     {
         [HarmonyPostfix]
-        public static void Postfix(Pawn pawn, ThingDefCountClass need, Thing th, ref bool __result)
+        public static void Postfix(Pawn pawn, IntVec3 c, bool forced, ref bool __result)
         {
-            bool isAllergenic = Utils.IsKnownAllergenic(pawn, th);
-            Logger.Log($"WorkGiver_ConstructDeliverResources {pawn.LabelShort} - {th.Label}: allgergenic? {isAllergenic}. __result before: {__result}");
+            if (!__result) return; // Only interested if pawn has job on cell
+            if (forced) return; // Only interested if job isn't forced
 
-            if (!__result) return;
-
-            if (Utils.IsKnownAllergenic(pawn, th)) __result = false;
+            if (Utils.IsKnownAllergenic(pawn, c.GetEdifice(pawn.Map))) __result = false;
         }
     }
 
-    [HarmonyPatch(typeof(WorkGiver_RemoveBuilding), "JobOnThing")]
-    public static class HarmonyPatch_WorkGiver_RemoveBuilding_JobOnThing
+    // Smooth / Remove floor
+    [HarmonyPatch(typeof(WorkGiver_ConstructAffectFloor), "HasJobOnCell")]
+    public static class HarmonyPatch_WorkGiver_ConstructAffectFloor_HasJobOnCell
     {
-        [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, Thing t, bool forced, ref Job __result)
+        [HarmonyPostfix]
+        public static void Postfix(Pawn pawn, IntVec3 c, bool forced, ref bool __result)
         {
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, t, forced, ref __result);
-        }
-    }
-    [HarmonyPatch(typeof(WorkGiver_Repair), "JobOnThing")]
-    public static class HarmonyPatch_WorkGiver_Repair_JobOnThing
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, Thing t, bool forced, ref Job __result)
-        {
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, t, forced, ref __result);
+            if (!__result) return; // Only interested if pawn has job on cell
+            if (forced) return; // Only interested if job isn't forced
+
+            if (Utils.IsKnownAllergenic(pawn, pawn.Map.terrainGrid.TerrainAt(c))) __result = false;
         }
     }
 
@@ -97,8 +127,6 @@ namespace P42_Allergies
     [HarmonyPatch(typeof(WorkGiver_DoBill), "StartOrResumeBillJob")]
     public static class HarmonyPatch_WorkGiver_DoBill_StartOrResumeBillJob
     {
-
-
         [HarmonyPrefix]
         public static bool Prefix(Pawn pawn, IBillGiver giver, bool forced, ref Job __result)
         {
@@ -127,103 +155,35 @@ namespace P42_Allergies
 
     #endregion
 
-    #region Animal work
-
-    [HarmonyPatch(typeof(WorkGiver_GatherAnimalBodyResources), "JobOnThing")]
-    public static class HarmonyPatch_WorkGiver_GatherAnimalBodyResources_JobOnThing
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, Thing t, bool forced, ref Job __result)
-        {
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, t, forced, ref __result);
-        }
-    }
-    [HarmonyPatch(typeof(WorkGiver_Tame), "JobOnThing")]
-    public static class HarmonyPatch_WorkGiver_Tame_JobOnThing
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, Thing t, bool forced, ref Job __result)
-        {
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, t, forced, ref __result);
-        }
-    }
-    [HarmonyPatch(typeof(WorkGiver_TakeToPen), "JobOnThing")]
-    public static class HarmonyPatch_WorkGiver_TakeToPen_JobOnThing
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, Thing t, bool forced, ref Job __result)
-        {
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, t, forced, ref __result);
-        }
-    }
-
-    // Slaughter
-    [HarmonyPatch(typeof(WorkGiver_Slaughter), "JobOnThing")]
-    public static class HarmonyPatch_WorkGiver_Slaughter_JobOnThing
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, Thing t, bool forced, ref Job __result)
-        {
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, t, forced, ref __result);
-        }
-    }
-    [HarmonyPatch(typeof(WorkGiver_Slaughter), "ShouldSkip")]
-    public static class HarmonyPatch_WorkGiver_Slaughter_ShouldSkip
-    {
-        [HarmonyPostfix]
-        public static void Postfix(Pawn pawn, bool forced, ref bool __result)
-        {
-            if (!__result) return;
-            if (!forced && pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Slaughter).First().target.Thing..AnimalsToSlaughter.All(x => Utils.IsKnownAllergenic(pawn, x))) __result = true;
-        }
-    }
-
-    #endregion
-
-    #region Mining
-
-    [HarmonyPatch(typeof(WorkGiver_Miner), "JobOnThing")]
-    public static class HarmonyPatch_WorkGiver_Miner_JobOnThing
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, Thing t, bool forced, ref Job __result)
-        {
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, t, forced, ref __result);
-        }
-    }
-
-    #endregion
 
     #region Plant work
 
-    [HarmonyPatch(typeof(WorkGiver_PlantsCut), "JobOnThing")]
-    public static class HarmonyPatch_WorkGiver_PlantsCut_JobOnThing
+    // Harvest
+    [HarmonyPatch(typeof(WorkGiver_GrowerHarvest), "HasJobOnCell")]
+    public static class HarmonyPatch_WorkGiver_GrowerHarvest_HasJobOnCell
     {
-        [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, Thing t, bool forced, ref Job __result)
+        [HarmonyPostfix]
+        public static void Postfix(Pawn pawn, IntVec3 c, bool forced, ref bool __result)
         {
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, t, forced, ref __result);
-        }
-    }
-    [HarmonyPatch(typeof(WorkGiver_PlantSeed), "JobOnThing")]
-    public static class HarmonyPatch_WorkGiver_PlantSeed_JobOnThing
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(Pawn pawn, Thing t, bool forced, ref Job __result)
-        {
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, t, forced, ref __result);
+            if (!__result) return; // Only interested if pawn has job on cell
+            if (forced) return; // Only interested if job isn't forced
+
+            if (Utils.IsKnownAllergenic(pawn, c.GetPlant(pawn.Map))) __result = false;
         }
     }
 
-    // Grow (Harvest & Sow)
-    [HarmonyPatch(typeof(WorkGiver_GrowerHarvest), "JobOnCell")]
-    public static class HarmonyPatch_WorkGiver_GrowerHarvest_JobOnCell
+    // Sow
+    [HarmonyPatch(typeof(WorkGiver_GrowerSow), "JobOnCell")]
+    public static class HarmonyPatch_WorkGiver_GrowerSow_JobOnCell
     {
         [HarmonyPostfix]
-        public static bool Prefix(Pawn pawn, IntVec3 c, bool forced, ref Job __result)
+        public static void Postfix(Pawn pawn, IntVec3 c, bool forced, ref Job __result)
         {
-            Plant plant = c.GetPlant(pawn.Map);
-            return Utils.CheckIfPawnShouldAvoidJobOnThing(pawn, plant, forced, ref __result);
+            if (__result == null) return; // Only interested if pawn has job on cell
+            if (forced) return; // Only interested if job isn't forced
+
+            Zone_Growing zone_Growing = c.GetZone(pawn.Map) as Zone_Growing;
+            if(zone_Growing != null && Utils.IsKnownAllergenic(pawn, zone_Growing.PlantDefToGrow)) __result = null;
         }
     }
 
@@ -249,7 +209,8 @@ namespace P42_Allergies
         [HarmonyPostfix]
         public static void Postfix(Pawn eater, Thing foodSource, bool takingToInventory, ref float __result)
         {
-            if (Utils.IsKnownAllergenic(eater, foodSource)) __result -= 100f;
+            Logger.Log($"optimality of {foodSource.Label} for {eater.LabelShort} is {__result}: Allergenic? {Utils.IsKnownAllergenic(eater, foodSource)}");
+            if (Utils.IsKnownAllergenic(eater, foodSource)) __result -= 200f;
         }
     }
 

@@ -91,7 +91,7 @@ namespace P42_Allergies
 
         protected virtual void OnCreate() { }
 
-        protected abstract bool IsAllergenic(ThingDef thingDef);
+        protected abstract bool IsDirectlyAllergenic(ThingDef thingDef);
 
         #region Development
 
@@ -538,24 +538,24 @@ namespace P42_Allergies
                 if (NumChecksPerTerrain[terrain] > Def.maxPassiveExposureTriggersForSameThingPerCheck) continue;
 
                 // General allergy-specific check
-                ExposureType directExposure = GetDirectExposureOfFloor(terrain);
-                if(directExposure != ExposureType.None) IncreaseAllergenBuildup(directExposure, "P42_AllergyCause_BeingNearby".Translate(terrain.label));
-
-                // Costlist (to make floor) check
-                if(terrain.costList != null)
-                {
-                    foreach(ThingDefCountClass tdcc in terrain.costList)
-                    {
-                        if (IsAllergenic(tdcc.thingDef))
-                        {
-                            IncreaseAllergenBuildup(ExposureType.StrongPassive, "P42_AllergyCause_BeingNearby".Translate(terrain.label));
-                        }
-                    }
-                }
+                if(IsTerrainAllergenic(terrain)) IncreaseAllergenBuildup(ExposureType.MinorPassive, "P42_AllergyCause_BeingNearby".Translate(terrain.label));
             }
         }
 
-        protected virtual ExposureType GetDirectExposureOfFloor(TerrainDef def) { return ExposureType.None; }
+        public virtual bool IsTerrainAllergenic(TerrainDef terrain)
+        {
+            if (terrain.costList != null)
+            {
+                foreach (ThingDefCountClass tdcc in terrain.costList)
+                {
+                    if (IsDirectlyAllergenic(tdcc.thingDef))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
         private void DoPassiveExposureCheckOnNearbyPawn(Pawn nearbyPawn, bool checkInventory, bool checkApparel, bool checkProductionIngredients)
         {
@@ -630,6 +630,36 @@ namespace P42_Allergies
             return exposure != ExposureType.None;
         }
 
+        public bool IsAllergenic(ThingDef def)
+        {
+            // Directly
+            if (IsDirectlyAllergenic(def)) return true;
+
+            // Production ingredients
+            List<ThingDef> productionIngredients = Utils.GetProductionIngredients(def);
+            foreach (ThingDef ingredient in productionIngredients)
+            {
+                if (IsDirectlyAllergenic(ingredient)) return true;
+            }
+
+            // Butcher products
+            if (def.butcherProducts != null)
+            {
+                foreach (ThingDefCountClass tdcc in def.butcherProducts)
+                {
+                    if (IsDirectlyAllergenic(tdcc.thingDef)) return true;
+                }
+            }
+
+            // Plant yield
+            if (def.plant != null && def.plant.harvestedThingDef != null && IsDirectlyAllergenic(def.plant.harvestedThingDef)) return true;
+
+            // Mine yield
+            if (def.building != null && def.building.mineableThing != null && IsDirectlyAllergenic(def.building.mineableThing)) return true;
+
+            return false;
+        }
+
         /// <summary>
         /// Checks an item, its stuff, ingredients, production ingredients, butcher products and plant yield for if they are allergenic.
         /// Returns the exposure severity and translated cause key based on what about the item is allergenic.
@@ -639,7 +669,7 @@ namespace P42_Allergies
             translatedCause = "";
 
             // Check if item itself is allergenic
-            if (directExposure != ExposureType.None && IsAllergenic(thing.def))
+            if (directExposure != ExposureType.None && IsDirectlyAllergenic(thing.def))
             {
                 translatedCause = causeKey.Translate(thing.LabelNoParenthesis);
                 return directExposure;
@@ -650,7 +680,7 @@ namespace P42_Allergies
             {
                 foreach (ThingDef ingredient in thing.TryGetComp<CompIngredients>().ingredients)
                 {
-                    if (IsAllergenic(ingredient))
+                    if (IsDirectlyAllergenic(ingredient))
                     {
                         translatedCause = causeKey.Translate(thing.LabelNoParenthesis + " (" + "P42_AllergyCause_Suffix_Ingredient".Translate(ingredient.label) + ")");
                         return ingredientExposure;
@@ -659,7 +689,7 @@ namespace P42_Allergies
             }
 
             // Check if item stuff is allergenic
-            if (stuffExposure != ExposureType.None && thing.Stuff != null && IsAllergenic(thing.Stuff))
+            if (stuffExposure != ExposureType.None && thing.Stuff != null && IsDirectlyAllergenic(thing.Stuff))
             {
                 translatedCause = causeKey.Translate(thing.LabelNoParenthesis);
                 return stuffExposure;
@@ -671,7 +701,7 @@ namespace P42_Allergies
                 List<ThingDef> productionIngredients = Utils.GetProductionIngredients(thing.def);
                 foreach (ThingDef ingredient in productionIngredients)
                 {
-                    if (IsAllergenic(ingredient))
+                    if (IsDirectlyAllergenic(ingredient))
                     {
                         translatedCause = causeKey.Translate(thing.LabelNoParenthesis + " (" + "P42_AllergyCause_Suffix_MadeOutOf".Translate(ingredient.label) + ")");
                         return productionIngredientExposure;
@@ -684,7 +714,7 @@ namespace P42_Allergies
             {
                 foreach (ThingDefCountClass tdcc in thing.def.butcherProducts)
                 {
-                    if (IsAllergenic(tdcc.thingDef))
+                    if (IsDirectlyAllergenic(tdcc.thingDef))
                     {
                         translatedCause = causeKey.Translate(thing.LabelNoParenthesis);
                         return butcherProductExposure;
@@ -695,7 +725,7 @@ namespace P42_Allergies
             // Check harvest yield
             if(plantExposure != ExposureType.None && thing.def.plant != null && thing.def.plant.harvestedThingDef != null)
             {
-                if (IsAllergenic(thing.def.plant.harvestedThingDef))
+                if (IsDirectlyAllergenic(thing.def.plant.harvestedThingDef))
                 {
                     translatedCause = causeKey.Translate(thing.LabelNoParenthesis);
                     return plantExposure;
@@ -705,7 +735,7 @@ namespace P42_Allergies
             // Mineable thing
             if(mineableThingExposure != ExposureType.None && thing.def.building != null && thing.def.building.mineableThing != null)
             {
-                if (IsAllergenic(thing.def.building.mineableThing))
+                if (IsDirectlyAllergenic(thing.def.building.mineableThing))
                 {
                     translatedCause = causeKey.Translate(thing.LabelNoParenthesis);
                     return mineableThingExposure;

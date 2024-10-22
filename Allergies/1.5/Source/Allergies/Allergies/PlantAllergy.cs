@@ -26,7 +26,7 @@ namespace P42_Allergies
             CheckNearbyThingsForPassiveExposure();
         }
 
-        protected override bool IsAllergenic(ThingDef thing)
+        protected override bool IsDirectlyAllergenic(ThingDef thing)
         {
             if (thing == Plant) return true;
             if (thing == Plant.plant.harvestedThingDef) return true;

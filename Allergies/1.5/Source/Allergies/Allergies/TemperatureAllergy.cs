@@ -30,7 +30,7 @@ namespace P42_Allergies
             else typeLabel = "P42_AllergyTemperatureType_Cold".Translate();
         }
 
-        protected override bool IsAllergenic(ThingDef thingDef) => false;
+        protected override bool IsDirectlyAllergenic(ThingDef thingDef) => false;
 
         protected override void DoPassiveExposureChecks()
         {

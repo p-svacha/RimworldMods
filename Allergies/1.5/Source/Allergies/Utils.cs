@@ -48,6 +48,34 @@ namespace P42_Allergies
         }
 
         /// <summary>
+        /// Checks if a ThingDef is allergenic for a pawn and the pawn knows it.
+        /// </summary>
+        public static bool IsKnownAllergenic(Pawn pawn, ThingDef def)
+        {
+            foreach (Hediff_Allergy allergyHediff in GetPawnAllergies(pawn))
+            {
+                if (!allergyHediff.GetAllergy().IsAllergyDiscovered) continue;
+
+                if (allergyHediff.GetAllergy().IsAllergenic(def)) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if a terrain is allergenic for a pawn and the pawn knows it.
+        /// </summary>
+        public static bool IsKnownAllergenic(Pawn pawn, TerrainDef terrain)
+        {
+            foreach (Hediff_Allergy allergyHediff in GetPawnAllergies(pawn))
+            {
+                if (!allergyHediff.GetAllergy().IsAllergyDiscovered) continue;
+
+                if (allergyHediff.GetAllergy().IsTerrainAllergenic(terrain)) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// This method is used in WorkGiver harmony patches for "JobOnThing". If the thing that the pawn would be interacting with for the job is allergenic to them, this will abort the job. Else the original JobOnThing shall be executed.
         /// </summary>
         public static bool CheckIfPawnShouldAvoidJobOnThing(Pawn pawn, Thing t, bool forced, ref Job job)

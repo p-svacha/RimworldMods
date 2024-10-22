@@ -26,7 +26,7 @@ namespace P42_Allergies
             CheckNearbyFloorsForPassiveExposure();
         }
 
-        protected override bool IsAllergenic(ThingDef thingDef) => thingDef == MetalType;
+        protected override bool IsDirectlyAllergenic(ThingDef thingDef) => thingDef == MetalType;
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {

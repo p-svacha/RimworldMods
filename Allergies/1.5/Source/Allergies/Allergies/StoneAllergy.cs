@@ -47,13 +47,13 @@ namespace P42_Allergies
             CheckNearbyThingsForPassiveExposure(checkApparel: false, checkButcherProducts: true, checkMineableThings: true); // butcher ingredients are for stone chunks
             CheckNearbyFloorsForPassiveExposure();
         }
-        protected override ExposureType GetDirectExposureOfFloor(TerrainDef def)
+        public override bool IsTerrainAllergenic(TerrainDef terrain)
         {
-            if (AllergenicTerrains.Contains(def.defName)) return ExposureType.MinorPassive;
-            return ExposureType.None;
+            if (AllergenicTerrains.Contains(terrain.defName)) return true;
+            return base.IsTerrainAllergenic(terrain);
         }
 
-        protected override bool IsAllergenic(ThingDef thingDef) => thingDef == StoneType || AllergicMountainThings.Contains(thingDef);
+        protected override bool IsDirectlyAllergenic(ThingDef thingDef) => thingDef == StoneType || AllergicMountainThings.Contains(thingDef);
 
         public override bool IsDuplicateOf(Allergy otherAllergy)
         {

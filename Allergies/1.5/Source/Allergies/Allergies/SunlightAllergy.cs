@@ -16,7 +16,7 @@ namespace P42_Allergies
             typeLabel = "P42_AllergyType_Sunlight".Translate();
         }
 
-        protected override bool IsAllergenic(ThingDef thingDef) => false;
+        protected override bool IsDirectlyAllergenic(ThingDef thingDef) => false;
 
         protected override void DoPassiveExposureChecks()
         {

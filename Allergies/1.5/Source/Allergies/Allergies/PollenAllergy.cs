@@ -53,7 +53,7 @@ namespace P42_Allergies
             if (PollenType == PollenType.Grass) CheckNearbyFloorsForPassiveExposure();
         }
 
-        protected override bool IsAllergenic(ThingDef thingDef)
+        protected override bool IsDirectlyAllergenic(ThingDef thingDef)
         {
             switch (PollenType)
             {

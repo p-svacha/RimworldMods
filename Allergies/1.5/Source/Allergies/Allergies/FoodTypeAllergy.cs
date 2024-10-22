@@ -107,7 +107,7 @@ namespace P42_Allergies
             return true;
         }
 
-        protected override bool IsAllergenic(ThingDef def)
+        protected override bool IsDirectlyAllergenic(ThingDef def)
         {
             switch(FoodType)
             {

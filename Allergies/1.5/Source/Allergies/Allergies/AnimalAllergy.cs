@@ -74,7 +74,7 @@ namespace P42_Allergies
             if (pawn.kindDef == Animal) IncreaseAllergenBuildup(ExposureType.MinorEvent, "P42_AllergyCause_InteractedWith".Translate(Animal.label));
         }
 
-        protected override bool IsAllergenic(ThingDef thing)
+        protected override bool IsDirectlyAllergenic(ThingDef thing)
         {
             if (thing == Animal.race) return true;
             if (thing == Animal.race.race.corpseDef) return true;
