@@ -82,8 +82,7 @@ namespace P42_Allergies
         {
             if (!InTryOpportunisticJob) return;
 
-            FieldInfo fieldInfo = typeof(Pawn_JobTracker).GetField("pawn", BindingFlags.NonPublic | BindingFlags.Instance);
-            Pawn pawn = (Pawn)fieldInfo.GetValue(JobTracker);
+            Pawn pawn = Utils.GetPawnFromJobTracker(JobTracker);
             __result = __result.Where(x => !Utils.IsKnownAllergenic(pawn, x)).ToList();
         }
     }
@@ -147,7 +146,7 @@ namespace P42_Allergies
 
             if (bill.IsFixedOrAllowedIngredient(t) && !IsBillForced && Utils.IsKnownAllergenic(BillPawn, t))
             {
-                Logger.Log($"{BillPawn.LabelShort} will not work on bill {bill.Label} with ingredient {t.Label} because they are allergenic to them.");
+                // Logger.Log($"{BillPawn.LabelShort} will not work on bill {bill.Label} with ingredient {t.Label} because they are allergenic to them.");
                 __result = false;
             }
         }
@@ -209,7 +208,6 @@ namespace P42_Allergies
         [HarmonyPostfix]
         public static void Postfix(Pawn eater, Thing foodSource, bool takingToInventory, ref float __result)
         {
-            Logger.Log($"optimality of {foodSource.Label} for {eater.LabelShort} is {__result}: Allergenic? {Utils.IsKnownAllergenic(eater, foodSource)}");
             if (Utils.IsKnownAllergenic(eater, foodSource)) __result -= 200f;
         }
     }

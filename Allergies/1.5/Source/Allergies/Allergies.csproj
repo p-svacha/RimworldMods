@@ -68,6 +68,7 @@
     <Compile Include="AllergyGenerator.cs" />
     <Compile Include="AllergySeverity.cs" />
     <Compile Include="Harmony\AvoidJobsPatches.cs" />
+    <Compile Include="Harmony\HarmonyPatch_Pawn_JobTracker_StartJob.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="CompUseEffect_AntishockInjector.cs" />

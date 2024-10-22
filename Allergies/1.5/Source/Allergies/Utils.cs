@@ -9,6 +9,7 @@ using Verse;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse.AI;
+using System.Reflection;
 
 namespace P42_Allergies
 {
@@ -193,9 +194,15 @@ namespace P42_Allergies
                 string s = "";
                 foreach (ThingDef t in ingredientDefs) s += " " + t.label + ",";
                 s = s.TrimEnd(',');
-                Logger.Log($"{productDef.label} is made of:{s}", ignore: true);
+                // Logger.Log($"{productDef.label} is made of:{s}");
             }
             return ingredientDefs;
+        }
+
+        public static Pawn GetPawnFromJobTracker(Pawn_JobTracker tracker)
+        {
+            FieldInfo fieldInfo = typeof(Pawn_JobTracker).GetField("pawn", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (Pawn)fieldInfo.GetValue(tracker);
         }
 
         public static T GetWeightedRandomElement<T>(Dictionary<T, float> weightDictionary)

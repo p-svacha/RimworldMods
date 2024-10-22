@@ -9,6 +9,9 @@ using Verse;
 
 namespace P42_Allergies
 {
+    /// <summary>
+    /// Patch that prevents chronic sinusitis from being applied on pawns without skills (that would cause an error).
+    /// </summary>
     [HarmonyPatch(typeof(HediffGiverUtility), "TryApply")]
     public static class HarmonyPatch_HediffGiverUtility_TryApply
     {

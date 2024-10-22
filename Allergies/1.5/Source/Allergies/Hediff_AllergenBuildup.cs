@@ -116,7 +116,7 @@ namespace P42_Allergies
 
             float chosenSeverity = Rand.Range(SkinRashMinSeverity, SkinRashMaxSeverity);
 
-            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Trying to apply skin rash onto {bodyPart.Label}. There were {naturalBodyParts.Count} options.");
+            // Logger.Log($"Trying to apply skin rash onto {bodyPart.Label}. There were {naturalBodyParts.Count} options.");
 
             if (pawn.health.hediffSet.GetPartHealth(bodyPart) <= chosenSeverity) return; // Don't apply skin rash if it would destory the body part
 
@@ -172,10 +172,9 @@ namespace P42_Allergies
             if (naturalEyes.Count == 0) return; 
 
             BodyPartRecord bodyPart = naturalEyes.RandomElement();
-            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Trying to apply pink eye onto {bodyPart.Label}. There were {naturalEyes.Count} options.");
+            // Logger.Log($"Trying to apply pink eye onto {bodyPart.Label}. There were {naturalEyes.Count} options.");
 
             Hediff existingHediff = pawn.health.hediffSet.hediffs.FirstOrDefault(x => x.Part == bodyPart && x.def == HediffDef.Named("P42_PinkEye"));
-            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Found pink eye on same body part.");
             if (existingHediff == null)
             {
                 Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("P42_PinkEye"), pawn, bodyPart);

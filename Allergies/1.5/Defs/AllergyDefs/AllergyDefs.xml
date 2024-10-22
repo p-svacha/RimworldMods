@@ -31,7 +31,7 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Ingredient</defName>
         <allergyClass>P42_Allergies.IngredientAllergy</allergyClass>
-        <commonness>111</commonness>
+        <commonness>1.1</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
@@ -49,7 +49,7 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>TextileType</defName>
         <allergyClass>P42_Allergies.TextileTypeAllergy</allergyClass>
-        <commonness>60</commonness>
+        <commonness>0.6</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">

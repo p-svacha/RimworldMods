@@ -49,7 +49,7 @@ namespace P42_Allergies
             else if (currentSeason == Season.Spring || currentSeason == Season.Fall) return ExposureType.StrongPassive;
             else if (currentSeason == Season.Summer || currentSeason == Season.PermanentSummer) return ExposureType.ExtremePassive;
 
-            if (Prefs.DevMode) Log.Message($"[Allergies Mod] Error in getting sunlight exposure.");
+            Logger.Log($"Error in getting sunlight exposure.");
             return ExposureType.None;
         }
 

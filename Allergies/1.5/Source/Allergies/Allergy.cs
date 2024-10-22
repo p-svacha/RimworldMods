@@ -288,7 +288,7 @@ namespace P42_Allergies
                 if (amount > 1) amount = 1;
             }
 
-            Logger.Log($"Increasing allergen buildup of {Pawn.Name} by {amount} (exposure type: {exposureType.ToString()}). Allergy severity: {GetSeverityString()}. Cause: {translatedCause}.", ignore: true);
+            // Logger.Log($"Increasing allergen buildup of {Pawn.Name} by {amount} (exposure type: {exposureType.ToString()}). Allergy severity: {GetSeverityString()}. Cause: {translatedCause}.");
 
             // Increase anaphylactic shock severity
             Hediff anaphylacticShock = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AnaphylacticShock"));
@@ -296,7 +296,7 @@ namespace P42_Allergies
             {
                 float anaShockIncrease = (amount * AnaphylacticShockIncreaseFactor);
                 anaphylacticShock.Severity += anaShockIncrease;
-                Logger.Log($"Icreasing anaphylactic shock severity of {Pawn.Name} by {anaShockIncrease}.", ignore: true);
+                // Logger.Log($"Icreasing anaphylactic shock severity of {Pawn.Name} by {anaShockIncrease}.");
             }
 
             // Create the exposure info log

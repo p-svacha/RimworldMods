@@ -45,7 +45,7 @@ namespace P42_Allergies
             if (HasAllergyProneTrait(pawn)) mtbDays = NewAllergyFromTraitMtbDays;
             else mtbDays = NewAllergyRandomMtbDays / allergicSensitivity;
 
-            Logger.Log($"{pawn.Name} with an allergic sensitivity of {allergicSensitivity} has an mtb of {mtbDays} to develop a new allergy.", ignore: true);
+            //Logger.Log($"{pawn.Name} with an allergic sensitivity of {allergicSensitivity} has an mtb of {mtbDays} to develop a new allergy.");
 
             return (Rand.MTBEventOccurs(mtbDays, 60000f, NewAllergyCheckInterval));
         }

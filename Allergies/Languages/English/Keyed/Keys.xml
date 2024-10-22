@@ -80,6 +80,8 @@
     <P42_Message_AllergyHealedAllercure>{0}'s allergy has gone away because of {1} regular intake of allercure.</P42_Message_AllergyHealedAllercure>
     <P42_Message_AllergySeverityReducedAllercure>{0}'s allergy has become better because of {1} regular intake of allercure. It is now {2}.</P42_Message_AllergySeverityReducedAllercure>
 
+    <P42_Message_AllergicJobWarning>Caution: {0} is allergic to {1}. This job will cause an allergic reaction.</P42_Message_AllergicJobWarning>
+
     <!-- Letters -->
     <P42_LetterLabel_NewAllergyDiscovered>New allergy discovered</P42_LetterLabel_NewAllergyDiscovered>
     <P42_LetterTextStart_NewAllergyDiscovered_Mild>When {0}, {1} felt a mild irritation on {2} skin.</P42_LetterTextStart_NewAllergyDiscovered_Mild>
