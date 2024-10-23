@@ -17,12 +17,12 @@ namespace P42_Allergies
         protected const int AllercureHighCheckInterval = 1000;
 
         // Development values
-        private const int MinTicksUntilNaturalSeverityChange = 15 * 60000; // 15 days
+        private const int MinTicksUntilNaturalSeverityChange = 20 * 60000; // 20 days
         private const int MaxTicksUntilNaturalSeverityChange = 180 * 60000; // 180 days (3 years)
         private const float ExtremeNaturalSeverityChangeChance = 0.05f; // Chance that an allergy instantly goes to extreme / goes away
 
         private const int MinTicksUntilAllercureImpact = 5 * 60000; // 5 days
-        private const int MaxTicksUntilAllercureImpact = 30 * 60000; // 30 days
+        private const int MaxTicksUntilAllercureImpact = 50 * 60000; // 50 days
         private const float AllercureInstantHealChance = 0.1f;
 
         // Exposure values
@@ -396,59 +396,34 @@ namespace P42_Allergies
             IntVec3 pawnPosition = Pawn.Position;
             Room room = Pawn.GetRoom();
 
+            // Nearby things
             if (map != null)
             {
-                // Pawn outside
-                if (room == null || room.IsHuge)
+                foreach (Thing item in GenRadial.RadialDistinctThingsAround(pawnPosition, map, NearbyItemsSearchRadius, useCenter: true))
                 {
-                    foreach (Thing item in GenRadial.RadialDistinctThingsAround(pawnPosition, map, NearbyItemsSearchRadius, useCenter: true))
+                    if (item == Pawn) continue; // No exposure to self
+                    if (item.GetRoom() != room) continue; // No exposure to nearby things in other rooms
+
+                    bool inSameRoom = (room != null && !room.IsHuge);
+                    string causeKey = inSameRoom ? "P42_AllergyCause_InSameRoom" : "P42_AllergyCause_BeingNearby";
+                    ExposureType exposureStrength = inSameRoom ? ExposureType.StrongPassive : ExposureType.MinorPassive;
+
+                    if (checkNearbyItems)
                     {
-                        if (item == Pawn) continue;
-
-                        if (checkNearbyItems)
-                        {
-                            CheckThingIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_BeingNearby",
-                                directExposure: ExposureType.MinorPassive,
-                                ingredientExposure: ExposureType.MinorPassive,
-                                stuffExposure: ExposureType.MinorPassive,
-                                productionIngredientExposure: checkProductionIngredients ? ExposureType.MinorPassive : ExposureType.None,
-                                butcherProductExposure: checkButcherProducts ? ExposureType.MinorPassive : ExposureType.None,
-                                plantExposure: checkPlants ? ExposureType.MinorPassive : ExposureType.None,
-                                mineableThingExposure: checkMineableThings ? ExposureType.MinorPassive : ExposureType.None);
-                        }
-
-                        // Check nearby pawns
-                        if (item is Pawn nearbyPawn)
-                        {
-                            DoPassiveExposureCheckOnNearbyPawn(nearbyPawn, checkInventory, checkApparel, checkProductionIngredients);
-                        }
+                        CheckThingIfAllergenicAndApplyBuildup(item, causeKey,
+                            directExposure: exposureStrength,
+                            ingredientExposure: exposureStrength,
+                            stuffExposure: exposureStrength,
+                            productionIngredientExposure: checkProductionIngredients ? exposureStrength : ExposureType.None,
+                            butcherProductExposure: checkButcherProducts ? exposureStrength : ExposureType.None,
+                            plantExposure: checkPlants ? exposureStrength : ExposureType.None,
+                            mineableThingExposure: checkMineableThings ? exposureStrength : ExposureType.None);
                     }
-                }
 
-                // Pawn inside
-                else
-                {
-                    foreach (Thing item in room.ContainedAndAdjacentThings)
+                    // Check nearby pawns
+                    if (item is Pawn nearbyPawn)
                     {
-                        if (item == Pawn) continue;
-
-                        if (checkNearbyItems)
-                        {
-                            CheckThingIfAllergenicAndApplyBuildup(item, "P42_AllergyCause_InSameRoom",
-                                directExposure: ExposureType.StrongPassive,
-                                ingredientExposure: ExposureType.MinorPassive,
-                                stuffExposure: ExposureType.MinorPassive,
-                                productionIngredientExposure: ExposureType.MinorPassive,
-                                butcherProductExposure: checkButcherProducts ? ExposureType.MinorPassive : ExposureType.None,
-                                plantExposure: checkPlants ? ExposureType.MinorPassive : ExposureType.None,
-                                mineableThingExposure: checkMineableThings ? ExposureType.MinorPassive : ExposureType.None);
-                        }
-
-                        // Check nearby pawns
-                        if (item is Pawn nearbyPawn)
-                        {
-                            DoPassiveExposureCheckOnNearbyPawn(nearbyPawn, checkInventory, checkApparel, checkProductionIngredients);
-                        }
+                        DoPassiveExposureCheckOnNearbyPawn(nearbyPawn, checkInventory, checkApparel, checkProductionIngredients);
                     }
                 }
             }

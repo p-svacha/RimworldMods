@@ -5,7 +5,7 @@
     <label>allergy</label>
     <description>A condition in which the immune system mistakenly identifies an allergen as a threat. This results in allergic reactions when coming into contact with that allergen.
       \nAllergic reactions can vary greatly depending on the level of exposure and the severity of the allergy. They can range from minor irritations to permanent conditions like asthma, or even life-threatening emergencies such as anaphylactic shock.
-      \nWhile it is best to avoid allergens entirely, it is possible to cure allergies. Taking allercure over an extended period can heal allergies, and other treatments for chronic conditions, such as luciferium, may work as well.</description>
+      \nWhile it is best to avoid allergens entirely, it is possible to cure allergies. Taking allercure over an extended period can improve or heal allergies, and other treatments for chronic conditions, such as luciferium, may work as well.</description>
     <chronic>true</chronic>
     <isBad>true</isBad>
     <makesSickThought>false</makesSickThought>
@@ -29,7 +29,7 @@
     <defName>P42_AllergenBuildup</defName>
     <label>allergic reactions</label>
     <description>Allergic reactions due to exposure to allergens. The reactions will get better and disappear with time but continuous exposure to allergens will increase their severity.
-      \nAllergic reacions will lead to health conditions like skin rashes, pink eye or throat tightness.
+      \nAllergic reactions will lead to health conditions like sneezing fits, skin rashes, pink eye or throat tightness.
       \nAt higher levels they can also cause severe or permanent damage to the body such as asthma, chronic sinusitis or even anaphylactic shock, which can be lethal.</description>
     <defaultLabelColor>(0.9, 1.0, 0.6)</defaultLabelColor>
     <initialSeverity>0.001</initialSeverity>

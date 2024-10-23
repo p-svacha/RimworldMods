@@ -60,7 +60,7 @@
     <P42_AllergyCause_Rain>exposed to rain</P42_AllergyCause_Rain>
     <P42_AllergyCause_Fog>exposed to fog</P42_AllergyCause_Fog>
 
-    <P42_AllergyCause_BeingNearby>being close to {0}</P42_AllergyCause_BeingNearby>
+    <P42_AllergyCause_BeingNearby>close to {0}</P42_AllergyCause_BeingNearby>
     <P42_AllergyCause_InSameRoom>in the same room as {0}</P42_AllergyCause_InSameRoom>
     <P42_AllergyCause_Holding>holding {0}</P42_AllergyCause_Holding>
     <P42_AllergyCause_NearbyHolding>a person nearby was holding {0}</P42_AllergyCause_NearbyHolding>
