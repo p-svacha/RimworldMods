@@ -1,0 +1,89 @@
+[img] https://i.imgur.com/XsnF23f.png [/img] 
+This mods adds a whole new health condition module to the people of the Rim - allergies!
+
+Allergies come in many shapes and forms, with different effects and gameplay implications. Be aware that this mod doesn't just add a new disease, it adds a whole new system of allergy types, triggers, exposure mechanics, allergic reactions and treatment options.
+
+One of my main goals when designing the new systems was to create them in a way so they integrate well with vanilla, don't feel out of place and don't add any unnecessary clutter to the game.
+
+So with the basics out of the way, you might wonder...
+[img] https://i.imgur.com/tBgJ6G0.png [/img] 
+
+Allergies act as a kind of chronic disease that can affect pawns of any age. They can be present from the start or develop, improve, worsen or go away naturally during the life of pawns. An allergy in itself isn't harmful at all - you might not even know about your colonists allergies until they have their first allergic reaction from it.
+
+There are many many different allergy types that each have their own exposure mechanics. Let's look at a few examples:
+[list]
+[*] Rice allergy: If a pawn is allergic to rice, they will experience a mild exposure when being close to rice and a more severe exposure when eating rice or meals made out of rice. Pretty simple.
+[*] Cow allergy: If a pawn is allergic to cows, they will experience an exposure when coming into contact with anything that is related to cows. This involves things such as being close to cows, eating milk and beef or even just wearing something made out of plainleather.
+[*] Dust allergy: If a pawn is allergic to dust, they will experience an exposure whenever they are in a dirty room, with the severity of the exposure increasing with room filthiness.
+[/list]
+
+These are just a few examples of how exposure approximately works. But what does exposure mean exactly? Well being exposed to an allergen means the allergic reactions of a pawn will increase, with more severe exposure meaning a faster increase. Allergic reactions are mildly unpleasant at first, but can lead to permanent and severe damage in later stages. On a base level allergic reactions cause general issues such as increased pain and rest fall rate, and reduced mood, breathing and working speed. But the higher the stage of allergic reactions, the higher chance of developing additional health conditions:
+[list]
+[*] Sneezing fits that interrupt any work someone is doing
+[*] Skin rashes that are ugly, painful, and might get infected if left untended
+[*] Pink eye, a temporary condition in the eye that is mildly painful and reduces vision
+[*] Throat tightness, a temporary but serious condition that further reduces breathing
+[*] Nausea and vomiting (from vanilla Rimworld)
+[*] Asthma, a chronic condition affecting the lungs (from vanilla Rimworld)
+[*] Chroncic sinusitis, a chronic condition affecting the nose that will also reduce the pawns cooking skill
+[*] Anaphylactic shock, an extremely serious allergic reaction that can be fatal if left untreated
+[/list]
+
+Allergies also come in different severities, from mild to extreme. Mild allergies will increase allergic reactions way slower and never lead to extreme health conditions, but more severe allergies can lead to severe problems very quick if pawns are exposed to them.
+The exposure rate is also further modified by the allergic sensitivity of a pawn, a new stat can be affected by immunity-affecting traits, genes, implants and temporarily by drugs.
+
+With the main mechanics explained, your next question might be...
+[img] https://i.imgur.com/8z0ZMOY.png [/img] 
+
+[b]Option 1 - Avoidance[/b]
+The easiest way to deal with allergies is to just avoid triggering them - and pawns will generally do exactly that. Once they know about their allergy, they will avoid doing work, eating food or wearing apparel that would leave them exposed to their allergies. So for example a pawn with a cotton plant allergy will never go harvest cotton plants by themselves, even if they are assigned to do harvest work. You can still force them to do it anyway if necessary.
+
+Just as a heads-up: This avoidance isn't perfect. The cotton-allergic pawn might still walk through a cotton field when doing another job, so if you have someone in your colony with a severe x allergy, it might be best to avoid doing anything with x completely, whatever x might be here.
+
+[b] Option 2 - Treatment[/b]
+Fortunately there is also way to treat allergies in a more permanent way. The mod introduces a new research project:
+
+##### IMAGE RESEARCH PROJECT ########
+
+##### IMAGE ALLERCURE ########
+
+##### IMAGE ANTISHOCK INJECTOR ########
+
+Existing treatment options that work for other chronic diseases also work for allergies. These include luciferium, the scarless gene, healer mech serum and the biosculptor pod regeneration cycle.
+
+The same way that allergies can develop and worsen over time, they can also improve or even go away completely with time.
+
+[img] https://i.imgur.com/h7Jx3n2.png [/img] 
+Here is a short summary of what this mod adds
+[list]
+[*] 18 different kinds of allergy types, some with different subtypes
+[*] 7 allergic reaction health conditions, some with multiple stages
+[*] 1 research project
+[*] 1 drug that helps to deal with and - over time - cures allergies
+[*] 1 usable item for emergency situations
+[*] 2 backstories
+[*] 2 traits
+[*] Some story pieces that can appear on art pieces
+[*] A new "allergic sensitivity" stat that affects how a pawn develops and reacts to allergies
+[/list]
+
+[img] https://i.imgur.com/yJBeXwJ.png [/img] 
+
+[b]Can this mod be added mid-save?[/b]
+Yes, but existing pawns will not instantly develop any allergies. But with time, some may develop allergies.
+
+[b]Can this mod be removed from a save?[/b]
+I've made some tests and the answer seems to be yes. You will get some red errors once that you can ignore. I still advise you to make a backup of the save beforehand just in case.
+
+[b]Is this mod compatible with X?[/b]
+I probably don't know. I assume there should be no issues with most other mods but if you find any please report.
+
+[b]Can I get more details about the mod?[/b]
+Sure. [url=https://docs.google.com/document/d/1Qwo4GU6Ok9KlgFtuZaZGyPBWojDBEyb42r95eQrtoj8]Here's the design document[/url] I made for the mods and [url=https://github.com/p-svacha/RimworldMods/tree/main/Allergies]here's the source code[/url].
+
+[img] https://i.imgur.com/Wdxibn1.png [/img]
+[b]Phil42:[/b] Design & Programming
+[b]Times New Roman:[/b] Sprite Art
+
+[img] https://i.imgur.com/2kglx66.png [/img]
+Please use the comment section for all bug reports and suggestions as I don't get a notification otherwise. I'll always try to have a look at them. :)
