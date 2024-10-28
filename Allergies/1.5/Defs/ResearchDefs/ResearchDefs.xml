@@ -3,8 +3,7 @@
   <ResearchProjectDef>
     <defName>P42_AllergyTreatments</defName>
     <label>allergy treatments</label>
-    <description>Produce drugs that can help suppress and heal allergies, as well as deal with allergic reactions. afaf af sad as faf asf safas fsa fasf saf as fasf saf saf sud houfhs f sdfosdfosdfsdf
-      \n\nAllergy treatment drugs are based on penoxycyline and berries and require them as ingredients for production.</description>
+    <description>Produce drugs that can help suppress and heal allergies, as well as deal with allergic reactions.</description>
     <baseCost>900</baseCost>
     <techLevel>Industrial</techLevel>
     <prerequisites>

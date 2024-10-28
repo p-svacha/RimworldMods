@@ -90,6 +90,7 @@
     <P42_LetterTextStart_NewAllergyDiscovered_Extreme>When {0}, {1} started gasping for air, and {2} breathing became severely restricted, experiencing an intense anaphylactic shock.</P42_LetterTextStart_NewAllergyDiscovered_Extreme>
     <P42_LetterTextMiddle_AllergyDiscovered>discovered that {0} has a</P42_LetterTextMiddle_AllergyDiscovered>
     <P42_LetterTextEnd_AllergyDiscovered>Keep {0} away from {1} or try to treat the allergy to avoid health complications.</P42_LetterTextEnd_AllergyDiscovered>
+    <P42_LetterTextEnd2_AllergyDiscovered>If not forced, {0} will from now on avoid doing work that would expose {1} to the allergy.</P42_LetterTextEnd2_AllergyDiscovered>
 
     <P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Related>{0} and any {0}-related things</P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Related>
     <P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Animal>{0} and any products that are related to {0}</P42_LetterTextEnd_AllergyDiscovered_KeepAwayFrom_Animal>

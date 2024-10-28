@@ -75,7 +75,7 @@
         <defName>P42_AntishockInjector</defName>
         <label>antishock injector</label>
         <description>A potent emergency treatment that forcefully and violently regulates someones bodily functions.
-            \n\nThe injection will instantly heal the user from an anaphylactic shock, temporary allergic reactions, toxic buildup, food poisoning, heatstroke and hypothermia. It's unpleasant and induces a boosting and painful state for a while.
+            \n\nThe injection will instantly heal the user from an anaphylactic shock, temporary allergic reactions, toxic buildup, food poisoning, heatstroke and hypothermia. It's unpleasant and induces a boosting but painful state for a while.
             \n\nSide effects can include nausea and in very rare cases also heart attacks.</description>
         <graphicData>
             <texPath>Things/Item/Drug/P42_AntishockInjector</texPath>

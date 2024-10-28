@@ -380,7 +380,7 @@ namespace P42_Allergies
                 letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Extreme".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
 
             TaggedString letterTextMiddle = "\n\n" + Pawn.NameShortColored + " " + "P42_LetterTextMiddle_AllergyDiscovered".Translate(Pawn.ProSubj()) + " " + (GetSeverityString() + " " + FullAllergyName).Colorize(new UnityEngine.Color(0.9f, 1f, 0.6f));
-            TaggedString letterTextEnd = "\n\n" + "P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.ProObj(), KeepAwayFromText);
+            TaggedString letterTextEnd = "\n\n" + "P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.ProObj(), KeepAwayFromText) + "\n\n" + "P42_LetterTextEnd2_AllergyDiscovered".Translate(Pawn.NameShortColored, Pawn.ProObj());
 
             TaggedString letterText = letterTextStart + letterTextMiddle + letterTextEnd;
             Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NegativeEvent, Pawn);

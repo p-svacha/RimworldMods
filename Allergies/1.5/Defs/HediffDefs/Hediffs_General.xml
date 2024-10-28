@@ -5,7 +5,8 @@
     <label>allergy</label>
     <description>A condition in which the immune system mistakenly identifies an allergen as a threat. This results in allergic reactions when coming into contact with that allergen.
       \nAllergic reactions can vary greatly depending on the level of exposure and the severity of the allergy. They can range from minor irritations to permanent conditions like asthma, or even life-threatening emergencies such as anaphylactic shock.
-      \nWhile it is best to avoid allergens entirely, it is possible to cure allergies. Taking allercure over an extended period can improve or heal allergies, and other treatments for chronic conditions, such as luciferium, may work as well.</description>
+      \nWhile it is best to avoid allergens entirely, it is possible to cure allergies. Taking allercure over an extended period can improve or heal allergies, and other treatments for chronic conditions, such as luciferium, may work as well.
+      \n\nPeople will generally avoid doing work that would expose them to allergens.</description>
     <chronic>true</chronic>
     <isBad>true</isBad>
     <makesSickThought>false</makesSickThought>

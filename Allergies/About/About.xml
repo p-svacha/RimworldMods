@@ -1,7 +1,7 @@
 <ModMetaData>
     <name>Allergies</name>
     <packageId>phil42.allergies</packageId>
-    <description>Pawns can now have a wide variety of allergies and experience allergic reactions. A medical RimWorld expansion designed to feel as vanilla as possible.</description>
+    <description>A mod that introduces a detailed allergy system with many different allergy types, health conditions and treatment options that add a new challenge to the people of the Rim.</description>
     <author>Phil42</author>
     <supportedVersions>
         <li>1.5</li>
