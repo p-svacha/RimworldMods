@@ -201,7 +201,7 @@ namespace P42_Allergies
         private static bool IsDrug(ThingDef def)
         {
             if (!def.IsDrug) return false;
-            if (def.tradeTags.Contains("Serum")) return false;
+            if (def.tradeTags != null && def.tradeTags.Contains("Serum")) return false;
             return true;
         }
 
@@ -251,7 +251,7 @@ namespace P42_Allergies
             if (def.race == null) return false;
             if (def.race.thingCategories == null) return false;
             if (!def.race.thingCategories.Contains(ThingCategoryDefOf.Animals)) return false;
-            if (def.race.tradeTags.Contains("AnimalDryad")) return false; // exclude dryads
+            if (def.race.tradeTags != null && def.race.tradeTags.Contains("AnimalDryad")) return false; // exclude dryads
 
             return true;
         }
