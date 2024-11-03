@@ -10,8 +10,8 @@ namespace P42_Allergies
 {
     public class Allergies_Settings : ModSettings
     {
-		private const float baseAllergyChance_DefaultValue = 0.15f;
-        public static float baseAllergyChance = 0.15f;
+		private const float baseAllergyChance_DefaultValue = 0.12f;
+        public static float baseAllergyChance = 0.12f;
 
 		public static Dictionary<string, bool> enabledAllergyTypes = new Dictionary<string, bool>();
 		private List<string> allergyKeys;
@@ -22,7 +22,7 @@ namespace P42_Allergies
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.Look(ref baseAllergyChance, "baseAllergyChance", 15);
+			Scribe_Values.Look(ref baseAllergyChance, "baseAllergyChance", baseAllergyChance);
 			Scribe_Collections.Look(ref enabledAllergyTypes, "enabledAllergyTypes", LookMode.Value, LookMode.Value, ref allergyKeys, ref boolValues);
 		}
 

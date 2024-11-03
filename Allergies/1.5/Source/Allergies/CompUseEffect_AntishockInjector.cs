@@ -90,7 +90,10 @@ namespace P42_Allergies
 					Hediff newHediff = HediffMaker.MakeHediff(HediffDef.Named("HeartAttack"), pawn, bodyPart);
 					pawn.health.AddHediff(newHediff);
 
-					Find.LetterStack.ReceiveLetter("LetterHealthComplicationsLabel".Translate(pawn.LabelShort, newHediff.LabelBaseCap, pawn.Named("PAWN")).CapitalizeFirst(), "LetterHealthComplications".Translate(pawn.LabelShortCap, newHediff.LabelBaseCap, parent.LabelNoParenthesisCap, pawn.Named("PAWN")).CapitalizeFirst(), LetterDefOf.NegativeEvent, pawn);
+					if (pawn.IsColonistPlayerControlled)
+					{
+						Find.LetterStack.ReceiveLetter("LetterHealthComplicationsLabel".Translate(pawn.LabelShort, newHediff.LabelBaseCap, pawn.Named("PAWN")).CapitalizeFirst(), "LetterHealthComplications".Translate(pawn.LabelShortCap, newHediff.LabelBaseCap, parent.LabelNoParenthesisCap, pawn.Named("PAWN")).CapitalizeFirst(), LetterDefOf.NegativeEvent, pawn);
+					}
 				}
 			}
 		}

@@ -9,7 +9,7 @@
         <severityCommonness_mild>1</severityCommonness_mild>
         <severityCommonness_moderate>1</severityCommonness_moderate>
         <severityCommonness_severe>0.9</severityCommonness_severe>
-        <severityCommonness_extreme>0.02</severityCommonness_extreme>
+        <severityCommonness_extreme>0.01</severityCommonness_extreme>
 
         <minorPassiveExposure_increasePerHour>0.05</minorPassiveExposure_increasePerHour>
         <strongPassiveExposure_increasePerHour>0.12</strongPassiveExposure_increasePerHour>
@@ -25,7 +25,7 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>FoodType</defName>
         <allergyClass>P42_Allergies.FoodTypeAllergy</allergyClass>
-        <commonness>0.9</commonness>
+        <commonness>0.7</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
@@ -49,7 +49,7 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>TextileType</defName>
         <allergyClass>P42_Allergies.TextileTypeAllergy</allergyClass>
-        <commonness>0.6</commonness>
+        <commonness>0.5</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
@@ -67,19 +67,19 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Plant</defName>
         <allergyClass>P42_Allergies.PlantAllergy</allergyClass>
-        <commonness>0.85</commonness>
+        <commonness>0.75</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Pollen</defName>
         <allergyClass>P42_Allergies.PollenAllergy</allergyClass>
-        <commonness>0.65</commonness>
+        <commonness>0.45</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Sunlight</defName>
         <allergyClass>P42_Allergies.SunlightAllergy</allergyClass>
-        <commonness>0.4</commonness>
+        <commonness>0.35</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
@@ -91,13 +91,13 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Water</defName>
         <allergyClass>P42_Allergies.WaterAllergy</allergyClass>
-        <commonness>0.4</commonness>
+        <commonness>0.45</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Temperature</defName>
         <allergyClass>P42_Allergies.TemperatureAllergy</allergyClass>
-        <commonness>0.4</commonness>
+        <commonness>0.45</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
@@ -109,7 +109,7 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Xenotype</defName>
         <allergyClass>P42_Allergies.XenotypeAllergy</allergyClass>
-        <commonness>0.4</commonness>
+        <commonness>0.5</commonness>
         <requiredMods>
             <li>Ludeon.RimWorld.Biotech</li>
         </requiredMods>
