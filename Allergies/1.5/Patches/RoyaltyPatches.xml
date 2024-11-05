@@ -7,12 +7,79 @@
         <match Class="PatchOperationSequence">
             <operations>
 
+                <!-- IMPLANTS -->
+
                 <!-- Immunoenhancer: -40% allergic sensitivity -->
                 <li Class="PatchOperationAdd">
                     <xpath>*/HediffDef[defName="Immunoenhancer"]/stages/li/statOffsets</xpath>
                     <value>
                         <P42_AllergicSensitivity>-0.40</P42_AllergicSensitivity>
                     </value>
+                </li>
+
+                <!-- Stoneskin gland: -25% allergic sensitivity -->
+                <li Class="PatchOperationAdd">
+                    <xpath>*/HediffDef[defName="StoneskinGland"]/stages/li/statOffsets</xpath>
+                    <value>
+                        <P42_AllergicSensitivity>-0.25</P42_AllergicSensitivity>
+                    </value>
+                </li>
+
+                <!-- Armorskin gland: -25% allergic sensitivity -->
+                <li Class="PatchOperationAdd">
+                    <xpath>*/HediffDef[defName="ArmorskinGland"]/stages/li/statOffsets</xpath>
+                    <value>
+                        <P42_AllergicSensitivity>-0.25</P42_AllergicSensitivity>
+                    </value>
+                </li>
+
+                <!-- Toughskin gland: -25% allergic sensitivity -->
+                <li Class="PatchOperationAdd">
+                    <xpath>*/HediffDef[defName="ToughskinGland"]/stages/li/statOffsets</xpath>
+                    <value>
+                        <P42_AllergicSensitivity>-0.25</P42_AllergicSensitivity>
+                    </value>
+                </li>
+
+
+                <!-- CLOTHES -->
+
+                <!-- Cataphract helmet: -30% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/ThingDef[defName = "Apparel_ArmorHelmetCataphract"]/equippedStatOffsets</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_ArmorHelmetCataphract"]/equippedStatOffsets</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>-0.30</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_ArmorHelmetCataphract"]</xpath>
+                        <value>
+                            <equippedStatOffsets>
+                                <P42_AllergicSensitivity>-0.30</P42_AllergicSensitivity>
+                            </equippedStatOffsets>
+                        </value>
+                    </nomatch>
+                </li>
+
+                <!-- Prestige cataphract helmet: -50% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/ThingDef[defName = "Apparel_ArmorHelmetCataphractPrestige"]/equippedStatOffsets</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_ArmorHelmetCataphractPrestige"]/equippedStatOffsets</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>-0.50</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_ArmorHelmetCataphractPrestige"]</xpath>
+                        <value>
+                            <equippedStatOffsets>
+                                <P42_AllergicSensitivity>-0.50</P42_AllergicSensitivity>
+                            </equippedStatOffsets>
+                        </value>
+                    </nomatch>
                 </li>
 
             </operations>

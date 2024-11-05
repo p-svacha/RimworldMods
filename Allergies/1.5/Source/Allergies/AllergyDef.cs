@@ -18,16 +18,20 @@ namespace P42_Allergies
 
         public float severityCommonness_mild = 1f;
         public float severityCommonness_moderate = 1f;
-        public float severityCommonness_severe = 1f;
-        public float severityCommonness_extreme = 0.05f;
+        public float severityCommonness_severe = 0.85f;
+        public float severityCommonness_extreme = 0.01f;
 
-        public float minorPassiveExposure_increasePerHour = 0.05f;
-        public float strongPassiveExposure_increasePerHour = 0.12f;
-        public float extremePassiveExposure_increasePerHour = 0.30f;
+        public float minorPassiveExposure_increasePerHour = 0.03f;
+        public float strongPassiveExposure_increasePerHour = 0.07f;
+        public float extremePassiveExposure_increasePerHour = 0.18f;
 
         public float minorExposureEvent_instantIncrease = 0.10f;
         public float strongExposureEvent_instantIncrease = 0.25f;
         public float extremeExposureEvent_instantIncrease = 0.45f;
+
+        public float exposureMultiplier_mild = 0.6f;
+        public float exposureMultiplier_moderate = 0.6f;
+        public float exposureMultiplier_severe = 1.6f;
 
         public int maxPassiveExposureTriggersForSameThingPerCheck = 3;
 

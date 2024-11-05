@@ -7,6 +7,26 @@
         <match Class="PatchOperationSequence">
             <operations>
 
+                <!-- CLOTHES -->
+
+                <!-- Face mask: -40% allergic sensitivity -->
+                <li Class="PatchOperationAdd">
+                    <xpath>*/ThingDef[defName = "Apparel_ClothMask"]/equippedStatOffsets</xpath>
+                    <value>
+                        <P42_AllergicSensitivity>-0.60</P42_AllergicSensitivity>
+                    </value>
+                </li>
+
+                <!-- Gas mask: -70% allergic sensitivity -->
+                <li Class="PatchOperationAdd">
+                    <xpath>*/ThingDef[defName = "Apparel_GasMask"]/equippedStatOffsets</xpath>
+                    <value>
+                        <P42_AllergicSensitivity>-0.80</P42_AllergicSensitivity>
+                    </value>
+                </li>
+
+                <!-- GENES -->
+
                 <!-- Non-senescent: Cannot gain chronic sinusitis -->
                 <li Class="PatchOperationAdd">
                     <xpath>*/GeneDef[defName = "DiseaseFree"]/hediffGiversCannotGive</xpath>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <!-- War mask: -25% allergic sensitivity -->
+    <Operation Class="PatchOperationConditional">
+        <xpath>*/ThingDef[defName = "Apparel_WarMask"]/equippedStatOffsets</xpath>
+        <match Class="PatchOperationAdd">
+            <xpath>*/ThingDef[defName = "Apparel_WarMask"]/equippedStatOffsets</xpath>
+            <value>
+                <P42_AllergicSensitivity>-0.25</P42_AllergicSensitivity>
+            </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>*/ThingDef[defName = "Apparel_WarMask"]</xpath>
+            <value>
+                <equippedStatOffsets>
+                    <P42_AllergicSensitivity>-0.25</P42_AllergicSensitivity>
+                </equippedStatOffsets>
+            </value>
+        </nomatch>
+    </Operation>
+
+    <!-- Veil: -15% allergic sensitivity -->
+    <Operation Class="PatchOperationConditional">
+        <xpath>*/ThingDef[defName = "Apparel_WarVeil"]/equippedStatOffsets</xpath>
+        <match Class="PatchOperationAdd">
+            <xpath>*/ThingDef[defName = "Apparel_WarVeil"]/equippedStatOffsets</xpath>
+            <value>
+                <P42_AllergicSensitivity>-0.15</P42_AllergicSensitivity>
+            </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>*/ThingDef[defName = "Apparel_WarVeil"]</xpath>
+            <value>
+                <equippedStatOffsets>
+                    <P42_AllergicSensitivity>-0.15</P42_AllergicSensitivity>
+                </equippedStatOffsets>
+            </value>
+        </nomatch>
+    </Operation>
+</Patch>

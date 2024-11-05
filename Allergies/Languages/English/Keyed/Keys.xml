@@ -36,6 +36,9 @@
     <P42_AllergySeverity_Severe>severe</P42_AllergySeverity_Severe>
     <P42_AllergySeverity_Extreme>extreme</P42_AllergySeverity_Extreme>
 
+    <!-- Stat reports -->
+    <P42_StatsReport_Tribal>Tribal</P42_StatsReport_Tribal>
+
     <!-- Exposure intenstities -->
     <P42_AllergyExposure_Minor>minor</P42_AllergyExposure_Minor>
     <P42_AllergyExposure_Major>major</P42_AllergyExposure_Major>

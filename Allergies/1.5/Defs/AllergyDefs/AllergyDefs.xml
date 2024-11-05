@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
     <P42_Allergies.AllergyDef Name="AllergyBase" Abstract="True">
+
         <commonness>1</commonness>
 
+        <!-- The amount at which allergic reactions stop increasing based on allergy severity -->
         <mildSeverityReactionsCap>0.35</mildSeverityReactionsCap>
         <moderateSeverityReactionsCap>0.70</moderateSeverityReactionsCap>
 
+        <!-- How likely allergies of different severeties are -->
         <severityCommonness_mild>1</severityCommonness_mild>
-        <severityCommonness_moderate>1</severityCommonness_moderate>
-        <severityCommonness_severe>0.9</severityCommonness_severe>
+        <severityCommonness_moderate>0.8</severityCommonness_moderate>
+        <severityCommonness_severe>0.6</severityCommonness_severe>
         <severityCommonness_extreme>0.01</severityCommonness_extreme>
 
-        <minorPassiveExposure_increasePerHour>0.05</minorPassiveExposure_increasePerHour>
-        <strongPassiveExposure_increasePerHour>0.12</strongPassiveExposure_increasePerHour>
-        <extremePassiveExposure_increasePerHour>0.30</extremePassiveExposure_increasePerHour>
+        <!-- The amount that allergic reactions increases over time when passively exposed -->
+        <minorPassiveExposure_increasePerHour>0.02</minorPassiveExposure_increasePerHour>
+        <strongPassiveExposure_increasePerHour>0.05</strongPassiveExposure_increasePerHour>
+        <extremePassiveExposure_increasePerHour>0.11</extremePassiveExposure_increasePerHour>
 
+        <!-- The amount that allergic reactions instantly increases on exposure events -->
         <minorExposureEvent_instantIncrease>0.10</minorExposureEvent_instantIncrease>
         <strongExposureEvent_instantIncrease>0.25</strongExposureEvent_instantIncrease>
         <extremeExposureEvent_instantIncrease>0.45</extremeExposureEvent_instantIncrease>
+
+        <!-- The factor that each exposure increase is multiplied with based on allergy severity -->
+        <exposureMultiplier_mild>0.6</exposureMultiplier_mild>
+        <exposureMultiplier_moderate>1</exposureMultiplier_moderate>
+        <exposureMultiplier_severe>1.6</exposureMultiplier_severe>
 
         <maxPassiveExposureTriggersForSameThingPerCheck>3</maxPassiveExposureTriggersForSameThingPerCheck>
     </P42_Allergies.AllergyDef>
@@ -118,18 +128,18 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Wood</defName>
         <allergyClass>P42_Allergies.WoodAllergy</allergyClass>
-        <commonness>0.3</commonness>
+        <commonness>0.25</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Stone</defName>
         <allergyClass>P42_Allergies.StoneAllergy</allergyClass>
-        <commonness>0.5</commonness>
+        <commonness>0.25</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Metal</defName>
         <allergyClass>P42_Allergies.MetalAllergy</allergyClass>
-        <commonness>0.3</commonness>
+        <commonness>0.25</commonness>
     </P42_Allergies.AllergyDef>
 </Defs>

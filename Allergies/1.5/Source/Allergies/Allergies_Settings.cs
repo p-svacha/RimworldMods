@@ -10,8 +10,8 @@ namespace P42_Allergies
 {
     public class Allergies_Settings : ModSettings
     {
-		private const float baseAllergyChance_DefaultValue = 0.12f;
-        public static float baseAllergyChance = 0.12f;
+		private const float baseAllergyChance_DefaultValue = 0.09f;
+        public static float baseAllergyChance = 0.09f;
 
 		public static Dictionary<string, bool> enabledAllergyTypes = new Dictionary<string, bool>();
 		private List<string> allergyKeys;

@@ -12,5 +12,10 @@
         <showOnMechanoids>false</showOnMechanoids>
         <showOnAnimals>false</showOnAnimals>
         <showOnEntities>false</showOnEntities>
+        <parts>
+            <li Class="P42_Allergies.StatPart_NeolithicAllergicSensitivity">
+                <factor>0.50</factor>
+            </li>
+        </parts>
     </StatDef>
 </Defs>

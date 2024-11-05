@@ -55,7 +55,7 @@ namespace P42_Allergies
         public override string Description => description;
         public override string DebugString()
         {
-            return base.DebugString() + "\nticks until severity change: " + Allergy.TicksUntilNaturalSeverityChange + "\nticks until allercure impact: " + Allergy.TicksUntilAllercureImpact + "\nType: " + Allergy.GetType();
+            return base.DebugString() + "\nticks until severity change: " + Allergy.TicksUntilNaturalSeverityChange + "\nticks until allercure impact: " + Allergy.TicksUntilAllercureImpact + "\nType: " + Allergy.GetType() + "\narrivalTick: " + Allergy.ArrivalTick + "\nImmune? " + Allergy.IsImmuneToBuildup();
         }
     }
 }

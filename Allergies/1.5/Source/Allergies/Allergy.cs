@@ -37,13 +37,6 @@ namespace P42_Allergies
 
         private const float AnaphylacticShockIncreaseFactor = 0.1f; // Each allergen buildup increase also icreases anaphylactic shock severity to a lesser extent (multiplied by this factor)
 
-        private Dictionary<AllergySeverity, float> SeverityMultiplier = new Dictionary<AllergySeverity, float>()
-        {
-            { AllergySeverity.Mild, 0.6f },
-            { AllergySeverity.Moderate, 1f },
-            { AllergySeverity.Severe, 1.8f },
-        };
-
         protected Hediff_Allergy AllergyHediff;
         
         public AllergySeverity Severity;
@@ -53,6 +46,10 @@ namespace P42_Allergies
         // Cache
         private Dictionary<ThingDef, int> NumChecksPerThing = new Dictionary<ThingDef, int>(); // stores how many times a specific ThingDef has been checked for exposure in a single check
         private Dictionary<TerrainDef, int> NumChecksPerTerrain = new Dictionary<TerrainDef, int>(); // stores how many times a specific TerrainDef has been checked for exposure in a single check
+
+        // Immunity
+        private const int ImmunityDurationAfterSpawning = 60000; // 1 day
+        public int ArrivalTick;
 
         public void OnInitOrLoad(Hediff_Allergy hediff)
         {
@@ -265,7 +262,7 @@ namespace P42_Allergies
 
         public void IncreaseAllergenBuildup(ExposureType exposureType, string translatedCause)
         {
-            if (Pawn == null || Pawn.Dead) return;
+            if (IsImmuneToBuildup()) return;
 
             // Calculate amount
             float baseAmount;
@@ -282,7 +279,7 @@ namespace P42_Allergies
             if (Severity == AllergySeverity.Extreme) amount = 1;
             else
             {
-                amount *= SeverityMultiplier[Severity]; // Scale by allergy severity
+                amount *= GetSeverityMultiplier(); // Scale by allergy severity
                 amount *= Utils.GetAllergicSensitivity(Pawn); // Scale by allergic sensitivity stat
                 if (amount <= 0) return;
                 if (amount > 1) amount = 1;
@@ -344,6 +341,34 @@ namespace P42_Allergies
                 // Add thought
                 Utils.ApplyMemoryThought(Pawn, "P42_AllergyDiscovered");
             }
+        }
+
+        private float GetSeverityMultiplier()
+        {
+            if (Severity == AllergySeverity.Mild) return Def.exposureMultiplier_mild;
+            if (Severity == AllergySeverity.Moderate) return Def.exposureMultiplier_moderate;
+            if (Severity == AllergySeverity.Severe) return Def.exposureMultiplier_severe;
+            if (Severity == AllergySeverity.Extreme) return 2f;
+
+            return 0f;
+        }
+
+        public void SetArrivalTickToNow()
+        {
+            ArrivalTick = Find.TickManager.TicksGame;
+        }
+        public bool IsImmuneToBuildup()
+        {
+            if (Pawn == null || Pawn.Dead) return true;
+
+            // Non-player pawns that just appeared on the map are immune
+            if (!Pawn.IsColonistPlayerControlled)
+            {
+                int ticksSinceArrival = Find.TickManager.TicksGame - ArrivalTick;
+                if (ticksSinceArrival < ImmunityDurationAfterSpawning) return true;
+            }
+
+            return false;
         }
 
         public void MakeAllergyVisible()
@@ -773,6 +798,7 @@ namespace P42_Allergies
             Scribe_Values.Look(ref Severity, "allergySeverity");
             Scribe_Values.Look(ref TicksUntilNaturalSeverityChange, "ticksUntilNaturalSeverityChange");
             Scribe_Values.Look(ref TicksUntilAllercureImpact, "ticksUntilAllercureImpact");
+            Scribe_Values.Look(ref ArrivalTick, "arrivalTick");
             ExposeExtraData();
         }
         protected abstract void ExposeExtraData();

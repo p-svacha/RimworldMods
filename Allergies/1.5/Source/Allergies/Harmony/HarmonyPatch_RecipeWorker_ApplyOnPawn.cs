@@ -12,6 +12,7 @@ namespace P42_Allergies
     [HarmonyPatch(typeof(RecipeWorker), "ApplyOnPawn")]
     public static class HarmonyPatch_RecipeWorker_ApplyOnPawn
     {
+        [HarmonyPostfix]
         public static void Postfix(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
         {
             if (!Utils.CheckForAllergies(pawn)) return;

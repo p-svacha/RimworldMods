@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,7 @@ namespace P42_Allergies
         protected override bool IsDirectlyAllergenic(ThingDef thing)
         {
             if (thing == Plant) return true;
-            if (thing == Plant.plant.harvestedThingDef) return true;
+            if (Plant.plant != null && Plant.plant.harvestedThingDef != null && Plant.plant.harvestedThingDef != ThingDefOf.WoodLog && thing == Plant.plant.harvestedThingDef) return true;
 
             return false;
         }
