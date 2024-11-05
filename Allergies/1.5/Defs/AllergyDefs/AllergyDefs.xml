@@ -15,9 +15,9 @@
         <severityCommonness_extreme>0.01</severityCommonness_extreme>
 
         <!-- The amount that allergic reactions increases over time when passively exposed -->
-        <minorPassiveExposure_increasePerHour>0.02</minorPassiveExposure_increasePerHour>
-        <strongPassiveExposure_increasePerHour>0.05</strongPassiveExposure_increasePerHour>
-        <extremePassiveExposure_increasePerHour>0.11</extremePassiveExposure_increasePerHour>
+        <minorPassiveExposure_increasePerHour>0.03</minorPassiveExposure_increasePerHour>
+        <strongPassiveExposure_increasePerHour>0.06</strongPassiveExposure_increasePerHour>
+        <extremePassiveExposure_increasePerHour>0.12</extremePassiveExposure_increasePerHour>
 
         <!-- The amount that allergic reactions instantly increases on exposure events -->
         <minorExposureEvent_instantIncrease>0.10</minorExposureEvent_instantIncrease>
