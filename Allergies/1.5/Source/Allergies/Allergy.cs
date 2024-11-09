@@ -104,7 +104,7 @@ namespace P42_Allergies
         private void HealAllergyNaturally()
         {
             Pawn.health.RemoveHediff(AllergyHediff);
-            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (IsAllergyDiscovered && Utils.ShouldSendAllergyNotification(Pawn))
             {
                 Messages.Message("P42_Message_AllergyHealedNaturally".Translate(Pawn.Name.ToStringShort), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -114,7 +114,7 @@ namespace P42_Allergies
         private void ReduceAllergySeverityNaturally()
         {
             Severity = (AllergySeverity)(((int)Severity) - 1);
-            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (IsAllergyDiscovered && Utils.ShouldSendAllergyNotification(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityReducedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -124,17 +124,17 @@ namespace P42_Allergies
         private void IncreaseAllergySeverityNaturally()
         {
             Severity = (AllergySeverity)(((int)Severity) + 1);
-            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (IsAllergyDiscovered && Utils.ShouldSendAllergyNotification(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.NegativeEvent);
             }
 
             if(IsAllergyDiscovered) Utils.ApplyMemoryThought(Pawn, "P42_AllergyWorsened");
         }
-        private void SetToExtremeSeverityNaturally()
+        private void SetToSevereSeverityNaturally()
         {
-            Severity = AllergySeverity.Extreme;
-            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            Severity = AllergySeverity.Severe;
+            if (IsAllergyDiscovered && Utils.ShouldSendAllergyNotification(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityIncreasedNaturally".Translate(Pawn.Name.ToStringShort, GetSeverityString()), Pawn, MessageTypeDefOf.NegativeEvent);
                 
@@ -146,7 +146,7 @@ namespace P42_Allergies
         private void HealAllergyWithAllercure()
         {
             Pawn.health.RemoveHediff(AllergyHediff);
-            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (IsAllergyDiscovered && Utils.ShouldSendAllergyNotification(Pawn))
             {
                 Messages.Message("P42_Message_AllergyHealedAllercure".Translate(Pawn.Name.ToStringShort, Pawn.Possessive()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -156,7 +156,7 @@ namespace P42_Allergies
         private void ReduceAllergySeverityAllercure()
         {
             Severity = (AllergySeverity)(((int)Severity) - 1);
-            if (IsAllergyDiscovered && PawnUtility.ShouldSendNotificationAbout(Pawn))
+            if (IsAllergyDiscovered && Utils.ShouldSendAllergyNotification(Pawn))
             {
                 Messages.Message("P42_Message_AllergySeverityReducedAllercure".Translate(Pawn.Name.ToStringShort, Pawn.Possessive(), GetSeverityString()), Pawn, MessageTypeDefOf.PositiveEvent);
             }
@@ -201,11 +201,11 @@ namespace P42_Allergies
                 }
                 else if (!isGoodOutcome && !isExtremeOutcome)
                 {
-                    if (Severity != AllergySeverity.Extreme) IncreaseAllergySeverityNaturally();
+                    if (Severity != AllergySeverity.Extreme && Severity != AllergySeverity.Severe) IncreaseAllergySeverityNaturally();
                 }
                 else if (!isGoodOutcome && isExtremeOutcome)
                 {
-                    if (Severity != AllergySeverity.Extreme) SetToExtremeSeverityNaturally();
+                    if (Severity != AllergySeverity.Extreme && Severity != AllergySeverity.Severe) SetToSevereSeverityNaturally();
                 }
 
                 ResetTicksUntilNaturalSeverityChange();
@@ -333,7 +333,7 @@ namespace P42_Allergies
                 MakeAllergyVisible();
 
                 // Create a letter to notify the player of the newly discovered allergy
-                if (Pawn.IsColonistPlayerControlled)
+                if (Utils.ShouldSendAllergyNotification(Pawn))
                 {
                     SendAllergyDiscoveredLetter(translatedCause);
                 }

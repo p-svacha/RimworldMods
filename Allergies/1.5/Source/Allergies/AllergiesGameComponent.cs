@@ -13,8 +13,8 @@ namespace P42_Allergies
     /// </summary>
     public class AllergiesGameComponent : GameComponent
     {
-        private const float NewAllergyRandomMtbDays = 300; // How many days on average it takes for a pawn to develop a new allergy
-        private const float NewAllergyFromTraitMtbDays = 45; // How many days on average it takes for a pawn with the allergy-prone trait to develop a new allergy
+        private const float NewAllergyRandomMtbDays = 360; // How many days on average it takes for a pawn to develop a new allergy
+        private const float NewAllergyFromTraitMtbDays = 90; // How many days on average it takes for a pawn with the allergy-prone trait to develop a new allergy
 
         private const int NewAllergyCheckInterval = 30000; // How often it is checked if pawns should get a new allergy
 

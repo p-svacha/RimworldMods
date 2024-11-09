@@ -19,7 +19,7 @@ namespace P42Allergies
 			get
 			{
 				allergicReactionColonists.Clear();
-				foreach (Pawn item in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoSuspended)
+				foreach (Pawn item in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners_NoCryptosleep)
 				{
 					Hediff firstHediffOfDef = item.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllergenBuildup"));
 					if (firstHediffOfDef != null && firstHediffOfDef.Severity >= SeverityThreshold)

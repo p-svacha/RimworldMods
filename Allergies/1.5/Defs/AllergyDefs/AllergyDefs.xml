@@ -27,9 +27,9 @@
         <!-- The factor that each exposure increase is multiplied with based on allergy severity -->
         <exposureMultiplier_mild>0.6</exposureMultiplier_mild>
         <exposureMultiplier_moderate>1</exposureMultiplier_moderate>
-        <exposureMultiplier_severe>1.6</exposureMultiplier_severe>
+        <exposureMultiplier_severe>1.5</exposureMultiplier_severe>
 
-        <maxPassiveExposureTriggersForSameThingPerCheck>3</maxPassiveExposureTriggersForSameThingPerCheck>
+        <maxPassiveExposureTriggersForSameThingPerCheck>2</maxPassiveExposureTriggersForSameThingPerCheck>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
@@ -53,19 +53,19 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Medicine</defName>
         <allergyClass>P42_Allergies.MedicineAllergy</allergyClass>
-        <commonness>0.55</commonness>
+        <commonness>0.65</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>TextileType</defName>
         <allergyClass>P42_Allergies.TextileTypeAllergy</allergyClass>
-        <commonness>0.5</commonness>
+        <commonness>0.45</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Textile</defName>
         <allergyClass>P42_Allergies.TextileAllergy</allergyClass>
-        <commonness>0.8</commonness>
+        <commonness>0.85</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
@@ -77,19 +77,19 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Plant</defName>
         <allergyClass>P42_Allergies.PlantAllergy</allergyClass>
-        <commonness>0.75</commonness>
+        <commonness>0.9</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Pollen</defName>
         <allergyClass>P42_Allergies.PollenAllergy</allergyClass>
-        <commonness>0.45</commonness>
+        <commonness>0.4</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Sunlight</defName>
         <allergyClass>P42_Allergies.SunlightAllergy</allergyClass>
-        <commonness>0.35</commonness>
+        <commonness>0.3</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">

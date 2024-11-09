@@ -90,6 +90,18 @@ namespace P42_Allergies
             return true; // Execute original function
         }
 
+        /// <summary>
+        /// Returns if a notification should be sent (message, alert, etc.) for something allergy-related for the given pawn.
+        /// </summary>
+        public static bool ShouldSendAllergyNotification(Pawn p)
+        {
+            if (PawnUtility.ShouldSendNotificationAbout(p)) return true;
+            if (p.IsColonistPlayerControlled) return true;
+            if (p.IsPrisonerOfColony) return true;
+
+            return false;
+        }
+
         public static string GetSeverityString(AllergySeverity severity)
         {
             if (!StringsInitialized)
@@ -139,7 +151,7 @@ namespace P42_Allergies
                 newHediff.Severity = severity;
                 pawn.health.AddHediff(newHediff);
 
-                if (pawn.IsColonistPlayerControlled)
+                if (ShouldSendAllergyNotification(pawn))
                 {
                     Find.LetterStack.ReceiveLetter("LetterHealthComplicationsLabel".Translate(pawn.LabelShort, newHediff.LabelBaseCap, pawn.Named("PAWN")).CapitalizeFirst(), "LetterHealthComplications".Translate(pawn.LabelShortCap, newHediff.LabelBaseCap, cause, pawn.Named("PAWN")).CapitalizeFirst(), LetterDefOf.NegativeEvent, pawn);
                 }

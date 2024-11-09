@@ -24,7 +24,7 @@ namespace P42_Allergies
         {
             { PollenType.Flowers, 0.7f },
             { PollenType.Trees, 0.8f },
-            { PollenType.Grass, 0.75f },
+            { PollenType.Grass, 0.6f },
         };
 
         protected override void OnCreate()
