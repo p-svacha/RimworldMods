@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <HediffDef>
+    <defName>P42_SkinRash</defName>
+    <label>skin rash</label>
+    <labelNoun>a skin rash</labelNoun>
+    <description>A rash caused by an allergic reaction, making the affected skin red and irritated. It's painful and unsightly.</description>
+    <hediffClass>Hediff_Injury</hediffClass>
+    <tendable>true</tendable>
+    <displayWound>true</displayWound>
+    <makesSickThought>false</makesSickThought>
+    <canAffectBionicOrImplant>false</canAffectBionicOrImplant>
+    <comps>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.05</infectionChance>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent">
+        <permanentLabel>skin rash scar</permanentLabel>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.008</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.004</averagePainPerSeverityPermanent>
+      <bleedRate>0</bleedRate>
+      <canMerge>false</canMerge>
+    </injuryProps>
+
+    <stages>
+      <li>
+        <statOffsets>
+          <PawnBeauty>-0.1</PawnBeauty>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>2</minSeverity>
+        <statOffsets>
+          <PawnBeauty>-0.2</PawnBeauty>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>4</minSeverity>
+        <statOffsets>
+          <PawnBeauty>-0.3</PawnBeauty>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>P42_AnaphylacticShock</defName>
+    <label>anaphylactic shock</label>
+    <labelNoun>an anaphylactic shock</labelNoun>
+    <description>A severe and potentially life-threatening allergic reaction. It causes difficulty breathing, a rapid drop in blood pressure, and loss of consciousness. Immediate medical treatment is essential to prevent death.
+      \nThe condition can be cured instantly with an antishock injection or over time with adequate tending.
+      \nAn anaphylactic shock will further worsen if the exposure to allergens continues.</description>
+    <hediffClass>P42_Allergies.Hediff_AnaphylacticShock</hediffClass>
+    <defaultLabelColor>(1, 0.2, 0.2)</defaultLabelColor>
+    <initialSeverity>0.4</initialSeverity>
+    <lethalSeverity>1</lethalSeverity>
+    <tendable>true</tendable>
+    <taleOnVisible>P42_Tale_AnaphylacticShock</taleOnVisible>
+    <stages>
+      <li>
+        <label>painful</label>
+        <lifeThreatening>true</lifeThreatening>
+        <painOffset>0.2</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <postFactor>0.6</postFactor>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.30</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>debilitating</label>
+        <minSeverity>0.6</minSeverity>
+        <lifeThreatening>true</lifeThreatening>
+        <painOffset>0.4</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.40</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.30</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>fatal</label>
+        <minSeverity>1</minSeverity>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="DiseaseBase">
+    <defName>P42_TightThroat</defName>
+    <label>tight throat</label>
+    <labelNoun>a tight throat</labelNoun>
+    <description>A swelling in the throat caused by an allergic reaction.</description>
+    <initialSeverity>0.4</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <alwaysShowSeverity>false</alwaysShowSeverity>
+
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+
+    <stages>
+      <li>
+        <partEfficiencyOffset>-0.25</partEfficiencyOffset>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="DiseaseBase">
+    <defName>P42_PinkEye</defName>
+    <label>pink eye</label>
+    <description>An irritated and swollen eye, making it itch and burn. Caused by an allergic reaction.</description>
+    <initialSeverity>0.4</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <alwaysShowSeverity>false</alwaysShowSeverity>
+    <canAffectBionicOrImplant>false</canAffectBionicOrImplant>
+
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+
+    <stages>
+      <li>
+        <painOffset>0.05</painOffset>
+        <partEfficiencyOffset>-0.25</partEfficiencyOffset>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="ChronicDiseaseBase">
+    <defName>P42_ChronicSinusitis</defName>
+    <label>chronic sinusitis</label>
+    <description>Chronicly inflamed and swollen sinuses.</description>
+    <canAffectBionicOrImplant>false</canAffectBionicOrImplant>
+
+    <aptitudes>
+      <Cooking>-3</Cooking>
+      <Social>-1</Social>
+    </aptitudes>
+
+    <stages>
+      <li>
+        <painOffset>0.05</painOffset>
+        <capMods>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.15</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.05</WorkSpeedGlobal>
+          <RestFallRateFactor>0.05</RestFallRateFactor>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+</Defs>

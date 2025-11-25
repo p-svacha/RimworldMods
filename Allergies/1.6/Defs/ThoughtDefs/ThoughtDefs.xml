@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThoughtDef>
+    <defName>P42_AllergenBuildupThought</defName>
+    <thoughtClass>Thought_Situational</thoughtClass>
+    <workerClass>P42_Allergies.ThoughtWorker_AllergenBuildupThought</workerClass>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>mildly irritated</label>
+        <description>My allergy is causing some discomfort and itchiness.</description>
+        <baseMoodEffect>-2</baseMoodEffect>
+      </li>
+      <li>
+        <label>annoying allergies</label>
+        <description>These allergic reactions are starting to bother me. It's making it hard to breathe and concentrate.</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+      <li>
+        <label>struggling with allergies</label>
+        <description>My allergies are becoming overwhelming. It's hard to focus or breathe normally.</description>
+        <baseMoodEffect>-7</baseMoodEffect>
+      </li>
+      <li>
+        <label>severe allergic reactions</label>
+        <description>I'm in constant pain, everything itches, and my breathing is labored.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+      <li>
+        <label>life-threatening allergic reactions</label>
+        <description>I can barely stay conscious. I don't think I can take this much longer.</description>
+        <baseMoodEffect>-15</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_HadSneezingFit</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>0.5</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>sneezing fit</label>
+        <description>I had a really bad sneezing fit. It was exhausting and uncomfortable.</description>
+        <baseMoodEffect>-1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_AllercureHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>P42_AllercureHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>feeling good from allercure</label>
+        <description>I'm feeling better thanks to allercure. My allergies are under control, and I have a nice, calming sensation.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_AntishockBoost</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>P42_AntishockInjectorHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>antishock boost</label>
+        <description>That boost from the antishock injection is quite something, I can really feel the go-juice in there.</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_AntishockInjection</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>1.2</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.5</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>antishock injection</label>
+        <description>That injection hit hard. My stomach feels like it's tied in knots, but at least I'm still alive. I just hope the benefits are worth the queasiness.</description>
+        <baseMoodEffect>-9</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_AllergyCured</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>3</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>allergy cured</label>
+        <description>It's such a relief to finally be free of that allergy. I feel like a weight has been lifted off my shoulders.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_AllergyImproved</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>allergy improved</label>
+        <description>My allergy got a little better. Maybe I won't have to suffer through those symptoms as much anymore.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_AllergyWorsened</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>allergy worsened</label>
+        <description>My allergy has gotten worse. It's going to make life even more difficult from now on.</description>
+        <baseMoodEffect>-2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>P42_AllergyDiscovered</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>2</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>allergy discovered</label>
+        <description>I've found out I'm allergic to something... just what I needed. It's going to make things a bit harder around here.</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

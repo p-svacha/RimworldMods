@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <P42_Allergies.AllergyDef Name="AllergyBase" Abstract="True">
+
+        <commonness>1</commonness>
+
+        <!-- The amount at which allergic reactions stop increasing based on allergy severity -->
+        <mildSeverityReactionsCap>0.35</mildSeverityReactionsCap>
+        <moderateSeverityReactionsCap>0.70</moderateSeverityReactionsCap>
+
+        <!-- How likely allergies of different severeties are -->
+        <severityCommonness_mild>1</severityCommonness_mild>
+        <severityCommonness_moderate>0.8</severityCommonness_moderate>
+        <severityCommonness_severe>0.6</severityCommonness_severe>
+        <severityCommonness_extreme>0.01</severityCommonness_extreme>
+
+        <!-- The amount that allergic reactions increases over time when passively exposed -->
+        <minorPassiveExposure_increasePerHour>0.03</minorPassiveExposure_increasePerHour>
+        <strongPassiveExposure_increasePerHour>0.06</strongPassiveExposure_increasePerHour>
+        <extremePassiveExposure_increasePerHour>0.12</extremePassiveExposure_increasePerHour>
+
+        <!-- The amount that allergic reactions instantly increases on exposure events -->
+        <minorExposureEvent_instantIncrease>0.10</minorExposureEvent_instantIncrease>
+        <strongExposureEvent_instantIncrease>0.25</strongExposureEvent_instantIncrease>
+        <extremeExposureEvent_instantIncrease>0.45</extremeExposureEvent_instantIncrease>
+
+        <!-- The factor that each exposure increase is multiplied with based on allergy severity -->
+        <exposureMultiplier_mild>0.6</exposureMultiplier_mild>
+        <exposureMultiplier_moderate>1</exposureMultiplier_moderate>
+        <exposureMultiplier_severe>1.5</exposureMultiplier_severe>
+
+        <maxPassiveExposureTriggersForSameThingPerCheck>2</maxPassiveExposureTriggersForSameThingPerCheck>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>FoodType</defName>
+        <allergyClass>P42_Allergies.FoodTypeAllergy</allergyClass>
+        <commonness>0.7</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Ingredient</defName>
+        <allergyClass>P42_Allergies.IngredientAllergy</allergyClass>
+        <commonness>1.1</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Drug</defName>
+        <allergyClass>P42_Allergies.DrugAllergy</allergyClass>
+        <commonness>0.9</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Medicine</defName>
+        <allergyClass>P42_Allergies.MedicineAllergy</allergyClass>
+        <commonness>0.65</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>TextileType</defName>
+        <allergyClass>P42_Allergies.TextileTypeAllergy</allergyClass>
+        <commonness>0.45</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Textile</defName>
+        <allergyClass>P42_Allergies.TextileAllergy</allergyClass>
+        <commonness>0.85</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Animal</defName>
+        <allergyClass>P42_Allergies.AnimalAllergy</allergyClass>
+        <commonness>1.1</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Plant</defName>
+        <allergyClass>P42_Allergies.PlantAllergy</allergyClass>
+        <commonness>0.9</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Pollen</defName>
+        <allergyClass>P42_Allergies.PollenAllergy</allergyClass>
+        <commonness>0.4</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Sunlight</defName>
+        <allergyClass>P42_Allergies.SunlightAllergy</allergyClass>
+        <commonness>0.3</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Dust</defName>
+        <allergyClass>P42_Allergies.DustAllergy</allergyClass>
+        <commonness>0.4</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Water</defName>
+        <allergyClass>P42_Allergies.WaterAllergy</allergyClass>
+        <commonness>0.45</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Temperature</defName>
+        <allergyClass>P42_Allergies.TemperatureAllergy</allergyClass>
+        <commonness>0.45</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>SpecificMiscItem</defName>
+        <allergyClass>P42_Allergies.SpecificMiscItemAllergy</allergyClass>
+        <commonness>0.8</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Xenotype</defName>
+        <allergyClass>P42_Allergies.XenotypeAllergy</allergyClass>
+        <commonness>0.5</commonness>
+        <requiredMods>
+            <li>Ludeon.RimWorld.Biotech</li>
+        </requiredMods>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Wood</defName>
+        <allergyClass>P42_Allergies.WoodAllergy</allergyClass>
+        <commonness>0.25</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Stone</defName>
+        <allergyClass>P42_Allergies.StoneAllergy</allergyClass>
+        <commonness>0.25</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Metal</defName>
+        <allergyClass>P42_Allergies.MetalAllergy</allergyClass>
+        <commonness>0.25</commonness>
+    </P42_Allergies.AllergyDef>
+</Defs>

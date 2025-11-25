@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+    <!-- Super-immune trait: -20% allergic sensitivity -->
+    <Operation Class="PatchOperationConditional">
+        <xpath>*/TraitDef[defName = "Immunity"]/degreeDatas/li[label="super-immune"]/statOffsets</xpath>
+        <match Class="PatchOperationAdd">
+            <xpath>*/TraitDef[defName = "Immunity"]/degreeDatas/li[label="super-immune"]/statOffsets</xpath>
+            <value>
+                <P42_AllergicSensitivity>-0.20</P42_AllergicSensitivity>
+            </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>*/TraitDef[defName = "Immunity"]/degreeDatas/li[label="super-immune"]</xpath>
+            <value>
+                <statOffsets>
+                    <P42_AllergicSensitivity>-0.20</P42_AllergicSensitivity>
+                </statOffsets>
+            </value>
+        </nomatch>
+    </Operation>
+
+    <!-- Sickly trait: +20% allergic sensitivity -->
+    <Operation Class="PatchOperationConditional">
+        <xpath>*/TraitDef[defName = "Immunity"]/degreeDatas/li[label="sickly"]/statOffsets</xpath>
+        <match Class="PatchOperationAdd">
+            <xpath>*/TraitDef[defName = "Immunity"]/degreeDatas/li[label="sickly"]/statOffsets</xpath>
+            <value>
+                <P42_AllergicSensitivity>0.20</P42_AllergicSensitivity>
+            </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>*/TraitDef[defName = "Immunity"]/degreeDatas/li[label="sickly"]</xpath>
+            <value>
+                <statOffsets>
+                    <P42_AllergicSensitivity>0.20</P42_AllergicSensitivity>
+                </statOffsets>
+            </value>
+        </nomatch>
+    </Operation>
+
+</Patch>
