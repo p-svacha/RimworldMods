@@ -1,0 +1,25 @@
+There are many different allergy types that each have their own exposure mechanics. Being exposed to an allergy leads to increasing allergic reactions. Different kinds of exposure lead to different increases in allergic reactions. For example, a pawn with a milk allergy may feel some minor reactions when hauling milk, but drinking it will have a much greater effect.
+
+Here is a non-exhaustive list of actions that could cause allergic reactions:
+
+- Consuming / ingesting the allergen*
+- Wearing the allergen
+- Working with the allergen (crafting / tailoring, etc.)
+- Having the allergen in the inventory or holding it (i.e. weapons)
+- Travelling in a caravan with the allergen
+- Coming in direct contact with the allergen
+- Hauling the allergen
+- Being close to the allergen
+
+*allergen refers to the thing that a pawn is allergic to.
+
+
+Exposure also doesn't just come from the thing the pawn is allergic to directly. Depending on the allergy type, many related things may trigger allergic reactions as well. Here is a non-exhaustive list of things that could potentially trigger allergic reactions in the same cases as the list above.
+
+- Things containing the allergen (i.e. a simple meal with rice will trigger a rice allergy)
+- Things made out of the allergen (i.e. a synthread shirt will trigger a synthread allergy)
+- Things producing the allergen (i.e. a corn plant will trigger a corn allergy)
+- Things that require the allergen as a production ingredient (i.e. medicine will trigger a neutroamine allergy)
+- Buildings made out of the allergen (i.e. a slate art bench will trigger a slate allergy)
+
+If you are ever unsure of what exactly caused an allergic reaction, be sure to check the "allergic reactions" in the Health tab. It will log all recent reasons for allergic reaction increases, including information about when it occurred.

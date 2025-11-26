@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -72,6 +72,7 @@
     <Compile Include="Harmony\HarmonyPatch_Thing_SpawnSetup.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="StatPart_NeolithicAllergicSensitivity.cs" />
+    <Compile Include="StatPart_ToxicEnvAllergicSensitivity.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="CompUseEffect_AntishockInjector.cs" />
     <Compile Include="ExposureType.cs" />
@@ -99,6 +100,9 @@
     <PackageReference Include="Lib.Harmony">
       <Version>2.4.2</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="todo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,11 @@
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.6\Source\Allergies\bin\Release\Allergies.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.6\Source\Allergies\bin\Release\Allergies.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.6\Source\Allergies\bin\Release\0Harmony.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.6\Source\Allergies\bin\Release\0Harmony.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.6\Source\Allergies\obj\Release\Allergies.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.6\Source\Allergies\obj\Release\Allergies.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.6\Source\Allergies\obj\Release\Allergies.csproj.Up2Date
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.6\Source\Allergies\obj\Release\Allergies.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.6\Source\Allergies\obj\Release\Allergies.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.6\Assemblies\Allergies.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Allergies\1.6\Assemblies\Allergies.pdb

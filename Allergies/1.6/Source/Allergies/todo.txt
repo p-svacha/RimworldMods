@@ -1,0 +1,17 @@
+Todo 1.6 Patch
+
+
+- Add detailed info to mod description of how exposure works, make "Exposure" its own chapter (move part in mechanics)
+	- add screenshot of last exposures in health tab
+	- add Q&A: my pawn randomly gets allergic reactions, it makes no sense???
+
+
+changelog
+------------
+- Add compatibility with Rimworld 1.6
+- Fix "Base Allergy Chance" not saving in mod settings
+- Fish allergy now works with Odyssey DLC (instead of Vanilla Expanded Mod)
+- Allergic sensitivity is now affected by Toxic Environment Resistance (reduced by 25% of that stat)
+- Some minor text improvements (typos, wording, punctuation)
+
+I also added an "exposure"" section to the mod description, since there has been some confusion about why pawns experience allergic reaction for seemingly no reason. That should hopefully clear things up a bit.

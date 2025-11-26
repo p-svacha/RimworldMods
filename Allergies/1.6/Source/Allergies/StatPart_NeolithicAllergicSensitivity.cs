@@ -27,19 +27,16 @@ namespace P42_Allergies
 
         public override void TransformValue(StatRequest req, ref float val)
         {
-            if (req.HasThing && ActiveFor(req.Thing))
-            {
-                val *= factor;
-            }
+            if (!req.HasThing || !ActiveFor(req.Thing)) return;
+
+            val *= factor;
         }
 
         public override string ExplanationPart(StatRequest req)
         {
-            if (req.HasThing && ActiveFor(req.Thing))
-            {
-                return "P42_StatsReport_Tribal".Translate() + ": x" + factor.ToStringPercent();
-            }
-            return null;
+            if (!req.HasThing || !ActiveFor(req.Thing)) return null;
+
+            return "P42_StatsReport_Tribal".Translate() + ": x" + factor.ToStringPercent();
         }
     }
 }

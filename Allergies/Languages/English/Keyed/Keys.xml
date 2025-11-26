@@ -105,6 +105,9 @@
     <P42_Alert_AllergicReactions>Allergic reactions</P42_Alert_AllergicReactions>
     <P42_Alert_AllergicReactionsDesc>These colonists are experiencing serious allergic reactions:\n\n{0}\n\nCheck their allergies and make sure to move them away from anything they are allergic to.\n\nExperiencing allergic reactions of this severity can lead to serious, permanent or even lethal conditions.</P42_Alert_AllergicReactionsDesc>
 
+    <!-- Mote Texts -->
+     <P42_Mote_AllergicReactionsDecreased>allergic reactions reduced</P42_Mote_AllergicReactionsDecreased>
+
     <!-- Settings -->
     <P42_Allergies_Settings_BaseAllergyChance>Base allergy chance</P42_Allergies_Settings_BaseAllergyChance>
     <P42_Allergies_Settings_Reset>Reset</P42_Allergies_Settings_Reset>

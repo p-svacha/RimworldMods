@@ -22,7 +22,7 @@ namespace P42_Allergies
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.Look(ref baseAllergyChance, "baseAllergyChance", baseAllergyChance);
+			Scribe_Values.Look(ref baseAllergyChance, "baseAllergyChance", baseAllergyChance_DefaultValue);
 			Scribe_Collections.Look(ref enabledAllergyTypes, "enabledAllergyTypes", LookMode.Value, LookMode.Value, ref allergyKeys, ref boolValues);
 		}
 

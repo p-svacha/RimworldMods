@@ -12,7 +12,7 @@ namespace P42_Allergies
     {
         protected override ThoughtState CurrentStateInternal(Pawn p)
         {
-            // Get the hediff of allergen buildup
+            // Get the allergic reactions hediff
             Hediff allergenBuildup = p.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllergenBuildup"));
             if (allergenBuildup == null) return ThoughtState.Inactive;
 

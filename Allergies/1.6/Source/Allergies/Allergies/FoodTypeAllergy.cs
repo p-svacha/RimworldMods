@@ -42,7 +42,7 @@ namespace P42_Allergies
 
         protected override void OnCreate()
         {
-            if (!ModsConfig.IsActive("VanillaExpanded.VCEF")) FoodTypeWeights.Remove(FoodType.Fish);
+            if (!ModsConfig.IsActive("Ludeon.RimWorld.Odyssey")) FoodTypeWeights.Remove(FoodType.Fish);
 
             FoodType = Utils.GetWeightedRandomElement(FoodTypeWeights);
         }
@@ -163,7 +163,7 @@ namespace P42_Allergies
         }
         private bool IsFish(ThingDef thing)
         {
-            return thing.thingCategories != null && thing.thingCategories.Contains(ThingCategoryDef.Named("VCEF_RawFishCategory"));
+            return thing.thingCategories != null && thing.thingCategories.Contains(ThingCategoryDefOf.Fish);
         }
 
 

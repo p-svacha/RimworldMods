@@ -35,7 +35,7 @@ namespace P42_Allergies
         private float StrongPassiveExposureIncreasePerCheck;
         private float ExtremePassiveExposureIncreasePerCheck;
 
-        private const float AnaphylacticShockIncreaseFactor = 0.1f; // Each allergen buildup increase also icreases anaphylactic shock severity to a lesser extent (multiplied by this factor)
+        private const float AnaphylacticShockIncreaseFactor = 0.1f; // Each allergic reactions increase also icreases anaphylactic shock severity to a lesser extent (multiplied by this factor)
 
         protected Hediff_Allergy AllergyHediff;
         
@@ -285,7 +285,7 @@ namespace P42_Allergies
                 if (amount > 1) amount = 1;
             }
 
-            // Logger.Log($"Increasing allergen buildup of {Pawn.Name} by {amount} (exposure type: {exposureType.ToString()}). Allergy severity: {GetSeverityString()}. Cause: {translatedCause}.");
+            // Logger.Log($"Increasing allergic reactions of {Pawn.Name} by {amount} (exposure type: {exposureType.ToString()}). Allergy severity: {GetSeverityString()}. Cause: {translatedCause}.");
 
             // Increase anaphylactic shock severity
             Hediff anaphylacticShock = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AnaphylacticShock"));
@@ -299,7 +299,7 @@ namespace P42_Allergies
             // Create the exposure info log
             AllergyExposureInfo info = new AllergyExposureInfo(translatedCause, Find.TickManager.TicksGame);
 
-            // Try to get the allergen buildup hediff from the pawn's health
+            // Try to get the allergic reactions hediff from the pawn's health
             Hediff_AllergenBuildup existingAllergenBuildup = (Hediff_AllergenBuildup)Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllergenBuildup"));
             float newSeverity;
             float severityCap = GetBuildupCap();
@@ -404,7 +404,7 @@ namespace P42_Allergies
             if (Severity == AllergySeverity.Extreme)
                 letterTextStart = "P42_LetterTextStart_NewAllergyDiscovered_Extreme".Translate(translatedCause, Pawn.NameShortColored, Pawn.Possessive());
 
-            TaggedString letterTextMiddle = "\n\n" + Pawn.NameShortColored + " " + "P42_LetterTextMiddle_AllergyDiscovered".Translate(Pawn.ProSubj()) + " " + (GetSeverityString() + " " + FullAllergyName).Colorize(new UnityEngine.Color(0.9f, 1f, 0.6f));
+            TaggedString letterTextMiddle = "\n\n" + Pawn.NameShortColored + " " + "P42_LetterTextMiddle_AllergyDiscovered".Translate(Pawn.ProSubj()) + " " + (GetSeverityString() + " " + FullAllergyName).Colorize(new UnityEngine.Color(0.9f, 1f, 0.6f)) + ".";
             TaggedString letterTextEnd = "\n\n" + "P42_LetterTextEnd_AllergyDiscovered".Translate(Pawn.ProObj(), KeepAwayFromText) + "\n\n" + "P42_LetterTextEnd2_AllergyDiscovered".Translate(Pawn.NameShortColored, Pawn.ProObj());
 
             TaggedString letterText = letterTextStart + letterTextMiddle + letterTextEnd;
@@ -605,7 +605,7 @@ namespace P42_Allergies
         protected virtual void OnNearbyPawn(Pawn nearbyPawn) { }
 
         /// <summary>
-        /// Checks if an item is allergenic and applies the corresponding allergen buildup.
+        /// Checks if an item is allergenic and applies the corresponding allergic reactions increase.
         /// </summary>
         public void CheckThingIfAllergenicAndApplyBuildup(Thing thing, string causeKey, ExposureType directExposure, ExposureType ingredientExposure, ExposureType stuffExposure, ExposureType productionIngredientExposure, ExposureType butcherProductExposure = ExposureType.None, ExposureType plantExposure = ExposureType.None, ExposureType mineableThingExposure = ExposureType.None)
         {

@@ -25,7 +25,7 @@ namespace P42_Allergies
             if (allergenBuildup != null)
             {
                 allergenBuildup.Severity = Math.Max(0, allergenBuildup.Severity - allergenBuildupSeverityReduction);
-                MoteMaker.ThrowText(pawn.DrawPos, pawn.Map, "allergen buildup reduced", 6f);
+                MoteMaker.ThrowText(pawn.DrawPos, pawn.Map, "P42_Mote_AllergicReactionsDecreased".Translate(), 6f);
             }
 
             // Chance to trigger anaphylactic shock

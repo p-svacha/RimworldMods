@@ -78,7 +78,7 @@ namespace P42_Allergies
         public static bool InTryOpportunisticJob;
 
         [HarmonyPostfix]
-        public static void Postfix(ref List<Thing> __result)
+        public static void Postfix(ref ICollection<Thing> __result)
         {
             if (!InTryOpportunisticJob) return;
 
