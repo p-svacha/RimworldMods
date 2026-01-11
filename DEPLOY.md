@@ -13,5 +13,5 @@
     * <mod>/<version>/Assemblies/0Harmony.* (FOR EACH VERSION)
     * <mod>/About/*.psd files
 6. Open Rimworld
-7. Publish in Mod Manager (in-Game)
+7. Publish in Mod Manager (in-Game > Select Mod > Advanced... > Update on Steam Workshop)
 8. Readd removed files
