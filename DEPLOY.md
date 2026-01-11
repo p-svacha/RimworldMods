@@ -13,5 +13,5 @@
     * <mod>/<version>/Assemblies/0Harmony.* (FOR EACH VERSION)
     * <mod>/About/*.psd files
 6. Open Rimworld
-7. Publish in Mod Manager
+7. Publish in Mod Manager (in-Game)
 8. Readd removed files

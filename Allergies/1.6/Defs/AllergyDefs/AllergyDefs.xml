@@ -11,7 +11,7 @@
         <!-- How likely allergies of different severeties are -->
         <severityCommonness_mild>1</severityCommonness_mild>
         <severityCommonness_moderate>0.8</severityCommonness_moderate>
-        <severityCommonness_severe>0.6</severityCommonness_severe>
+        <severityCommonness_severe>0.55</severityCommonness_severe>
         <severityCommonness_extreme>0.01</severityCommonness_extreme>
 
         <!-- The amount that allergic reactions increases over time when passively exposed -->
@@ -27,97 +27,127 @@
         <!-- The factor that each exposure increase is multiplied with based on allergy severity -->
         <exposureMultiplier_mild>0.6</exposureMultiplier_mild>
         <exposureMultiplier_moderate>1</exposureMultiplier_moderate>
-        <exposureMultiplier_severe>1.5</exposureMultiplier_severe>
+        <exposureMultiplier_severe>1.4</exposureMultiplier_severe>
 
         <maxPassiveExposureTriggersForSameThingPerCheck>2</maxPassiveExposureTriggersForSameThingPerCheck>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>FoodType</defName>
+        <label>Food Type</label>
+        <description>Allergy to a specific food type (like meat, eggs, fish etc.).</description>
         <allergyClass>P42_Allergies.FoodTypeAllergy</allergyClass>
         <commonness>0.7</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Ingredient</defName>
+        <label>Ingredient</label>
+        <description>Allergy to a specific food ingredient (like corn, venison, etc.).</description>
         <allergyClass>P42_Allergies.IngredientAllergy</allergyClass>
-        <commonness>1.1</commonness>
+        <commonness>1.5</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Drug</defName>
+        <label>Drug</label>
+        <description>Allergy to a specific drug.</description>
         <allergyClass>P42_Allergies.DrugAllergy</allergyClass>
-        <commonness>0.9</commonness>
+        <commonness>1.1</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Medicine</defName>
+        <label>Medicine</label>
+        <description>Allergy to a specific type of medicine.</description>
         <allergyClass>P42_Allergies.MedicineAllergy</allergyClass>
-        <commonness>0.65</commonness>
+        <commonness>0.6</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>TextileType</defName>
+        <label>Textile Type</label>
+        <description>Allergy to a specific type of textiles (like wool, leather, fabric).</description>
         <allergyClass>P42_Allergies.TextileTypeAllergy</allergyClass>
         <commonness>0.45</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Textile</defName>
+        <label>Textile</label>
+        <description>Allergy to a specific textiles (like sheep wool, dog leather, etc.).</description>
         <allergyClass>P42_Allergies.TextileAllergy</allergyClass>
-        <commonness>0.85</commonness>
+        <commonness>1.2</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Animal</defName>
+        <label>Animal</label>
+        <description>Allergy to a specific animal (like cow, sheep, warg, etc.).</description>
         <allergyClass>P42_Allergies.AnimalAllergy</allergyClass>
-        <commonness>1.1</commonness>
+        <commonness>1.2</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Plant</defName>
+        <label>Plant</label>
+        <description>Allergy to a specific plant (like oak tree, sugaro cactus, corn plant, etc.).</description>
         <allergyClass>P42_Allergies.PlantAllergy</allergyClass>
         <commonness>0.9</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Pollen</defName>
+        <label>Pollen</label>
+        <description>Allergy to a specific type of pollen / plant category (like grass, flowers, trees).</description>
         <allergyClass>P42_Allergies.PollenAllergy</allergyClass>
-        <commonness>0.4</commonness>
-    </P42_Allergies.AllergyDef>
-
-    <P42_Allergies.AllergyDef ParentName="AllergyBase">
-        <defName>Sunlight</defName>
-        <allergyClass>P42_Allergies.SunlightAllergy</allergyClass>
         <commonness>0.3</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
+        <defName>Sunlight</defName>
+        <label>Sunlight</label>
+        <description>Allergy to direct exposure to sunlight.</description>
+        <allergyClass>P42_Allergies.SunlightAllergy</allergyClass>
+        <commonness>0.15</commonness>
+    </P42_Allergies.AllergyDef>
+
+    <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Dust</defName>
+        <label>Dust</label>
+        <description>Allergy to dust, triggered by being located in dirty rooms.</description>
         <allergyClass>P42_Allergies.DustAllergy</allergyClass>
-        <commonness>0.4</commonness>
+        <commonness>0.15</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Water</defName>
+        <label>Water</label>
+        <description>Allergy to water, triggered by coming in contact with water (like standing in it, or being exposed to rain).</description>
         <allergyClass>P42_Allergies.WaterAllergy</allergyClass>
-        <commonness>0.45</commonness>
+        <commonness>0.15</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Temperature</defName>
+        <label>Temperature</label>
+        <description>Allergy to being exposed to either very high or very low temperatures.</description>
         <allergyClass>P42_Allergies.TemperatureAllergy</allergyClass>
-        <commonness>0.45</commonness>
+        <commonness>0.15</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>SpecificMiscItem</defName>
+        <label>Specific Misc. Item</label>
+        <description>Allergy to a specific item not covered by other allergy types (like neutroamine, chemfuel, etc.).</description>
         <allergyClass>P42_Allergies.SpecificMiscItemAllergy</allergyClass>
-        <commonness>0.8</commonness>
+        <commonness>0.85</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Xenotype</defName>
+        <label>Xenotype</label>
+        <description>Allergy to a specific xenotype, triggered by being close to or coming into direct contact with pawns of that xenotype.</description>
         <allergyClass>P42_Allergies.XenotypeAllergy</allergyClass>
         <commonness>0.5</commonness>
         <requiredMods>
@@ -127,19 +157,25 @@
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Wood</defName>
+        <label>Wood</label>
+        <description>Allergy to a specific type of wood.</description>
         <allergyClass>P42_Allergies.WoodAllergy</allergyClass>
-        <commonness>0.25</commonness>
+        <commonness>0.15</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Stone</defName>
+        <label>Stone</label>
+        <description>Allergy to a specific type of stone (like slate, granite, etc.).</description>
         <allergyClass>P42_Allergies.StoneAllergy</allergyClass>
-        <commonness>0.25</commonness>
+        <commonness>0.15</commonness>
     </P42_Allergies.AllergyDef>
 
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Metal</defName>
+        <label>Metal</label>
+        <description>Allergy to a specific type of stone (like steel, bioferrite, etc.).</description>
         <allergyClass>P42_Allergies.MetalAllergy</allergyClass>
-        <commonness>0.25</commonness>
+        <commonness>0.15</commonness>
     </P42_Allergies.AllergyDef>
 </Defs>

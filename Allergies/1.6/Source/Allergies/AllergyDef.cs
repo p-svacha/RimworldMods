@@ -12,6 +12,7 @@ namespace P42_Allergies
     {
         public Type allergyClass = typeof(Allergy);
         public float commonness = 1f;
+        public float defaultCommonness = -1f;
 
         public float mildSeverityReactionsCap = 0.35f;
         public float moderateSeverityReactionsCap = 0.70f;
@@ -36,5 +37,12 @@ namespace P42_Allergies
         public int maxPassiveExposureTriggersForSameThingPerCheck = 3;
 
         public List<string> requiredMods = null;
+
+        // Save the default commonness according the commonness set in the XML.
+        public override void PostLoad()
+        {
+            base.PostLoad();
+            defaultCommonness = commonness;
+        }
     }
 }

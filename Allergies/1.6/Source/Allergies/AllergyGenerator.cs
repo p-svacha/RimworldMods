@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using Verse;
 
 namespace P42_Allergies
@@ -79,20 +80,29 @@ namespace P42_Allergies
 
         public static void RecreateAllergyWeightsTable()
         {
+            Logger.Log($"Recreating allergy weights table...");
             AllergyWeights.Clear();
             foreach (AllergyDef def in DefDatabase<AllergyDef>.AllDefs)
             {
+                // Check if required mods are enabled
                 if (def.requiredMods != null && def.requiredMods.Any(x => !ModsConfig.IsActive(x)))
                 {
-                    Logger.Log($"Removing {def.defName} from allergy pool because a required mod is missing");
+                    // Logger.Log($"Removing {def.defName} from allergy pool because a required mod is missing");
                     continue;
                 }
 
                 // Check if the allergy type is enabled in the settings
                 if (Allergies_Settings.enabledAllergyTypes.TryGetValue(def.defName, out bool isEnabled) && !isEnabled)
                 {
-                    Logger.Log($"Removing {def.defName} from allergy pool because it is disabled in settings");
+                    // Logger.Log($"Removing {def.defName} from allergy pool because it is disabled in settings");
                     continue;
+                }
+
+                // Apply commonness from settings
+                if (Allergies_Settings.allergyCommonness != null && Allergies_Settings.allergyCommonness.TryGetValue(def.defName, out float savedCommonness))
+                {
+                    // Logger.Log($"Commonness for {def.defName} is {savedCommonness}.");
+                    def.commonness = savedCommonness;
                 }
 
                 AllergyWeights.Add(def, def.commonness);
@@ -149,6 +159,7 @@ namespace P42_Allergies
             if (pawn == null) return false;
             if (pawn.Dead) return false; // No allergies for dead pawns
             if (pawn.NonHumanlikeOrWildMan()) return false; // Only humanlikes get allergies
+            if (pawn.IsMutant) return false; // No allergies for ghouls, shamblers, etc.
             if (Utils.GetAllergicSensitivity(pawn) <= 0f) return false; // No allergies for pawns with 0 allergic sensitivity
             if (existingAllergies.Count >= MaxAllergiesPerPawn) return false; // max amount of allergies
 

@@ -14,13 +14,6 @@ namespace P42_Allergies
     /// </summary>
     public class StatPart_ToxicEnvAllergicSensitivity : StatPart
     {
-
-        /// <summary>
-        /// Allergic sensitivity is reduced by (factor * ToxicEnvironmentResistance).
-        /// A factor of 0.25 would mean that allergic sensitivity is reduced by 25% if a pawn has 100% toxic environment resistance.
-        /// </summary>
-        public float factor = 0.25f;
-
         private bool ActiveFor(Thing t)
         {
             if (t is Pawn pawn)
@@ -62,6 +55,6 @@ namespace P42_Allergies
         }
 
         private float GetToxicEnvironmentResistance(Pawn pawn) => Mathf.Clamp01(pawn.GetStatValue(StatDefOf.ToxicEnvironmentResistance, applyPostProcess: true));
-        private float GetAllergicSensitivityReductionAmount(Pawn pawn) => GetToxicEnvironmentResistance(pawn) * factor;
+        private float GetAllergicSensitivityReductionAmount(Pawn pawn) => GetToxicEnvironmentResistance(pawn) * Allergies_Settings.toxicResEffect;
     }
 }

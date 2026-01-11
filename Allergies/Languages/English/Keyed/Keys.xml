@@ -111,5 +111,7 @@
     <!-- Settings -->
     <P42_Allergies_Settings_BaseAllergyChance>Base allergy chance</P42_Allergies_Settings_BaseAllergyChance>
     <P42_Allergies_Settings_Reset>Reset</P42_Allergies_Settings_Reset>
-    <P42_Allergies_Settings_EnableAllergyTypes>Toggle which allergy types can occur (default = all enabled)</P42_Allergies_Settings_EnableAllergyTypes>
+    <P42_Allergies_Settings_EnableAllergyTypes>Toggle which allergy types can occur and how likely they are to occur:</P42_Allergies_Settings_EnableAllergyTypes>
+    <P42_Allergies_Settings_ToxicResEffect>Toxic resistance effect</P42_Allergies_Settings_ToxicResEffect>
+    <P42_Allergies_Settings_ToxicResEffect_Desc>Determines how much a pawn's Toxic Environment Resistance reduces their Allergic Sensitivity.\n\nExample: If this is set to 25%, a pawn with 100% toxic resistance will have their allergic sensitivity reduced by 25%.</P42_Allergies_Settings_ToxicResEffect_Desc>
 </LanguageData>

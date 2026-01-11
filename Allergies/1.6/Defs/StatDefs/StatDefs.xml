@@ -16,9 +16,7 @@
             <li Class="P42_Allergies.StatPart_NeolithicAllergicSensitivity"> <!-- Tribal modifier -->
                 <factor>0.50</factor>
             </li>
-            <li Class="P42_Allergies.StatPart_ToxicEnvAllergicSensitivity"> <!-- Toxic environment resistance modifier -->
-                <factor>0.25</factor>
-            </li>
+            <li Class="P42_Allergies.StatPart_ToxicEnvAllergicSensitivity"/>
         </parts>
     </StatDef>
 </Defs>

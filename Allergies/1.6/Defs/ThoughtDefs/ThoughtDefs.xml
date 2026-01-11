@@ -106,7 +106,7 @@
       <li>
         <label>allergy cured</label>
         <description>It's such a relief to finally be free of that allergy. I feel like a weight has been lifted off my shoulders.</description>
-        <baseMoodEffect>5</baseMoodEffect>
+        <baseMoodEffect>8</baseMoodEffect>
       </li>
     </stages>
   </ThoughtDef>

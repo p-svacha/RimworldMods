@@ -22,7 +22,7 @@ namespace P42_Allergies
         private const float ExtremeNaturalSeverityChangeChance = 0.05f; // Chance that an allergy instantly goes to extreme / goes away
 
         private const int MinTicksUntilAllercureImpact = 5 * 60000; // 5 days
-        private const int MaxTicksUntilAllercureImpact = 50 * 60000; // 50 days
+        private const int MaxTicksUntilAllercureImpact = 30 * 60000; // 30 days
         private const float AllercureInstantHealChance = 0.1f;
 
         // Exposure values

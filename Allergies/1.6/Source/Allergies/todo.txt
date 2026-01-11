@@ -1,17 +1,24 @@
-Todo 1.6 Patch
+Todo 1.2.1 Patch
 
 
-- Add detailed info to mod description of how exposure works, make "Exposure" its own chapter (move part in mechanics)
-	- add screenshot of last exposures in health tab
-	- add Q&A: my pawn randomly gets allergic reactions, it makes no sense???
+(/) In mod settings, allergy types have tooltips explaining the allergy types
+(/) In mod settings, for each allergy add a slider for commonality
+(/) In mod settings, for each allergy add a "Reset" button to reset commonality
+(/) mod settings commonality logs
+(/) In mod settings, add a slider for factor how much toxic enviornment resistance affects allergic sensitivity
+(/) slider tooltip
+(/) tre settings effect
+(/) all settings persistence
+
+(/) make severe allergies less common
+(/) make severe allergies less bad
+(/) make water, dust, temperature, sunlight, stone, metal allergies less common
+(/) increase mood boost from curing allergy
+(/) decrease maximum amount of time a pawn needs to have allercure to heal allergy
+
+(/) fix: base allergy chance is now correctly applied in pawn generation when starting a new game
+(/) fix: mutants (ghouls, shamblers, etc.) can no longer get new allergies
 
 
 changelog
 ------------
-- Add compatibility with Rimworld 1.6
-- Fix "Base Allergy Chance" not saving in mod settings
-- Fish allergy now works with Odyssey DLC (instead of Vanilla Expanded Mod)
-- Allergic sensitivity is now affected by Toxic Environment Resistance (reduced by 25% of that stat)
-- Some minor text improvements (typos, wording, punctuation)
-
-I also added an "exposure"" section to the mod description, since there has been some confusion about why pawns experience allergic reaction for seemingly no reason. That should hopefully clear things up a bit.
