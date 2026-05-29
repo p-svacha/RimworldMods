@@ -37,6 +37,10 @@ namespace P42_Allergies
 
         private const float AnaphylacticShockIncreaseFactor = 0.1f; // Each allergic reactions increase also icreases anaphylactic shock severity to a lesser extent (multiplied by this factor)
 
+        // Forced by gene
+        public bool IsFromGene = false;
+        public string SourceGeneDefName = null;
+
         protected Hediff_Allergy AllergyHediff;
         
         public AllergySeverity Severity;
@@ -171,48 +175,51 @@ namespace P42_Allergies
         public void Tick()
         {
             // Check for natural severity change
-            TicksUntilNaturalSeverityChange--;
-            if (TicksUntilNaturalSeverityChange <= 0)
+            if (!IsFromGene)
             {
-                // Define what kind of change should occur
-                float chanceForGoodOutcome = 0.5f;
-                float allergicSensitivity = Utils.GetAllergicSensitivity(Pawn);
-                if (allergicSensitivity == 0f) chanceForGoodOutcome = 1f;
-                else if (allergicSensitivity < 1f) chanceForGoodOutcome = 0.6f;
-                else if (allergicSensitivity > 1f) chanceForGoodOutcome = 0.4f;
-
-                bool isGoodOutcome = Rand.Chance(chanceForGoodOutcome);
-                bool isExtremeOutcome = Rand.Chance(ExtremeNaturalSeverityChangeChance);
-
-                // Do the change
-                if (isGoodOutcome && isExtremeOutcome)
+                TicksUntilNaturalSeverityChange--;
+                if (TicksUntilNaturalSeverityChange <= 0)
                 {
-                    HealAllergyNaturally();
-                    return;
-                }
-                else if (isGoodOutcome && !isExtremeOutcome)
-                {
-                    if (Severity == AllergySeverity.Mild)
+                    // Define what kind of change should occur
+                    float chanceForGoodOutcome = 0.5f;
+                    float allergicSensitivity = Utils.GetAllergicSensitivity(Pawn);
+                    if (allergicSensitivity == 0f) chanceForGoodOutcome = 1f;
+                    else if (allergicSensitivity < 1f) chanceForGoodOutcome = 0.6f;
+                    else if (allergicSensitivity > 1f) chanceForGoodOutcome = 0.4f;
+
+                    bool isGoodOutcome = Rand.Chance(chanceForGoodOutcome);
+                    bool isExtremeOutcome = Rand.Chance(ExtremeNaturalSeverityChangeChance);
+
+                    // Do the change
+                    if (isGoodOutcome && isExtremeOutcome)
                     {
                         HealAllergyNaturally();
                         return;
                     }
-                    else ReduceAllergySeverityNaturally();
-                }
-                else if (!isGoodOutcome && !isExtremeOutcome)
-                {
-                    if (Severity != AllergySeverity.Extreme && Severity != AllergySeverity.Severe) IncreaseAllergySeverityNaturally();
-                }
-                else if (!isGoodOutcome && isExtremeOutcome)
-                {
-                    if (Severity != AllergySeverity.Extreme && Severity != AllergySeverity.Severe) SetToSevereSeverityNaturally();
-                }
+                    else if (isGoodOutcome && !isExtremeOutcome)
+                    {
+                        if (Severity == AllergySeverity.Mild)
+                        {
+                            HealAllergyNaturally();
+                            return;
+                        }
+                        else ReduceAllergySeverityNaturally();
+                    }
+                    else if (!isGoodOutcome && !isExtremeOutcome)
+                    {
+                        if (Severity != AllergySeverity.Extreme && Severity != AllergySeverity.Severe) IncreaseAllergySeverityNaturally();
+                    }
+                    else if (!isGoodOutcome && isExtremeOutcome)
+                    {
+                        if (Severity != AllergySeverity.Extreme && Severity != AllergySeverity.Severe) SetToSevereSeverityNaturally();
+                    }
 
-                ResetTicksUntilNaturalSeverityChange();
+                    ResetTicksUntilNaturalSeverityChange();
+                }
             }
 
             // Check for allercure severity change
-            if (Pawn.IsHashIntervalTick(AllercureHighCheckInterval))
+            if (!IsFromGene && Pawn.IsHashIntervalTick(AllercureHighCheckInterval))
             {
                 Hediff allercureHigh = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("P42_AllercureHigh"));
                 if (allercureHigh != null)
@@ -775,6 +782,12 @@ namespace P42_Allergies
 
         #endregion
 
+        #region Gene Force
+
+        public virtual void ApplyGenePreset(string target) { }
+
+        #endregion
+
         #region Getters
 
         protected Pawn Pawn => AllergyHediff.pawn;
@@ -799,6 +812,8 @@ namespace P42_Allergies
             Scribe_Values.Look(ref TicksUntilNaturalSeverityChange, "ticksUntilNaturalSeverityChange");
             Scribe_Values.Look(ref TicksUntilAllercureImpact, "ticksUntilAllercureImpact");
             Scribe_Values.Look(ref ArrivalTick, "arrivalTick");
+            Scribe_Values.Look(ref IsFromGene, "isFromGene", false);
+            Scribe_Values.Look(ref SourceGeneDefName, "sourceGeneDefName", null);
             ExposeExtraData();
         }
         protected abstract void ExposeExtraData();

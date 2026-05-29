@@ -8,7 +8,7 @@
     <P42_AllergyType_Dust>dust</P42_AllergyType_Dust>
     <P42_AllergyType_Water>water</P42_AllergyType_Water>
 
-    <P42_AllergyFoodType_Produce>produce</P42_AllergyFoodType_Produce>
+    <P42_AllergyFoodType_Produce>fruit &amp; vegetable</P42_AllergyFoodType_Produce>
     <P42_AllergyFoodType_Seed>seed</P42_AllergyFoodType_Seed>
     <P42_AllergyFoodType_Meat>meat</P42_AllergyFoodType_Meat>
     <P42_AllergyFoodType_Milk>milk</P42_AllergyFoodType_Milk>
@@ -85,6 +85,8 @@
 
     <P42_Message_AllergicJobWarning>Caution: {0} is allergic to {1}. This job will cause an allergic reaction.</P42_Message_AllergicJobWarning>
 
+    <P42_Message_GeneAllergyReadded>{0}'s {1} has flared back up — it's encoded in {0}'s genes and can't be permanently cured.</P42_Message_GeneAllergyReadded>
+
     <!-- Letters -->
     <P42_LetterLabel_NewAllergyDiscovered>New allergy discovered</P42_LetterLabel_NewAllergyDiscovered>
     <P42_LetterTextStart_NewAllergyDiscovered_Mild>When {0}, {1} felt a mild irritation on {2} skin.</P42_LetterTextStart_NewAllergyDiscovered_Mild>
@@ -114,4 +116,6 @@
     <P42_Allergies_Settings_EnableAllergyTypes>Toggle which allergy types can occur and how likely they are to occur:</P42_Allergies_Settings_EnableAllergyTypes>
     <P42_Allergies_Settings_ToxicResEffect>Toxic resistance effect</P42_Allergies_Settings_ToxicResEffect>
     <P42_Allergies_Settings_ToxicResEffect_Desc>Determines how much a pawn's Toxic Environment Resistance reduces their Allergic Sensitivity.\n\nExample: If this is set to 25%, a pawn with 100% toxic resistance will have their allergic sensitivity reduced by 25%.</P42_Allergies_Settings_ToxicResEffect_Desc>
+    <P42_Allergies_Settings_NewAllergyRate>New allergy development rate</P42_Allergies_Settings_NewAllergyRate>
+    <P42_Allergies_Settings_NewAllergyRate_Desc>Determines how often pawns develop new allergies over the course of the game. Higher values make new allergies appear more frequently.\n\nAt 1x, a pawn with average allergic sensitivity develops a new allergy roughly once every 12 years on average. The actual rate is also affected by each pawn's allergic sensitivity.</P42_Allergies_Settings_NewAllergyRate_Desc>
 </LanguageData>

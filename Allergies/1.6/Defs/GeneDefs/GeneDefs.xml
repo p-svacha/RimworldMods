@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <GeneDef>
+        <defName>P42_AllergyGene_Steel</defName>
+        <label>steel allergy</label>
+        <description>Carriers are allergic to steel and anything made of it. The allergy is permanent and cannot be cured while this gene is present.</description>
+        <geneClass>P42_Allergies.Gene_Allergy</geneClass>
+        <iconPath>UI/Genes/Gene_AllergySteel</iconPath>
+        <displayCategory>ResistanceAndWeakness</displayCategory>
+        <biostatCpx>1</biostatCpx>
+        <biostatMet>1</biostatMet>
+        <canGenerateInGeneSet>true</canGenerateInGeneSet>
+        <modExtensions>
+            <li Class="P42_Allergies.AllergyGeneExtension">
+            <allergyDef>Metal</allergyDef>
+            <allergyTarget>Steel</allergyTarget>
+            <severity>Moderate</severity>
+            </li>
+        </modExtensions>
+    </GeneDef>
+
+    <GeneDef>
+        <defName>P42_AllergyGene_Immunity</defName>
+        <label>allergy immunity</label>
+        <description>Carriers never develop allergies, and any existing allergies cease to affect them. Overrides any allergy-forcing genes.</description>
+        <geneClass>P42_Allergies.Gene_AllergyImmunity</geneClass>
+        <iconPath>UI/Genes/Gene_AllergyImmunity</iconPath>
+        <displayCategory>ResistanceAndWeakness</displayCategory>
+        <biostatCpx>1</biostatCpx>
+        <biostatMet>-1</biostatMet>
+        <canGenerateInGeneSet>true</canGenerateInGeneSet>
+        <statFactors>
+            <P42_AllergicSensitivity>0</P42_AllergicSensitivity>
+        </statFactors>
+    </GeneDef>
+</Defs>

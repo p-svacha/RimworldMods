@@ -67,6 +67,8 @@
     <Compile Include="AllergyExposureInfo.cs" />
     <Compile Include="AllergyGenerator.cs" />
     <Compile Include="AllergySeverity.cs" />
+    <Compile Include="Gene_Allergy.cs" />
+    <Compile Include="Gene_AllergyImmunity.cs" />
     <Compile Include="Harmony\AvoidJobsPatches.cs" />
     <Compile Include="Harmony\HarmonyPatch_Pawn_JobTracker_StartJob.cs" />
     <Compile Include="Harmony\HarmonyPatch_Thing_SpawnSetup.cs" />

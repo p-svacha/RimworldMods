@@ -32,6 +32,16 @@ namespace P42_Allergies
         {
             return (otherAllergy is MetalAllergy otherMetalAllergy && otherMetalAllergy.MetalType == MetalType);
         }
+
+        public override void ApplyGenePreset(string target)
+        {
+            if (!string.IsNullOrEmpty(target))
+            {
+                ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(target);
+                if (def != null) MetalType = def;
+            }
+        }
+
         public override string TypeLabel => MetalType.label;
         private string keepAwayFromText;
         public override string KeepAwayFromText => keepAwayFromText;

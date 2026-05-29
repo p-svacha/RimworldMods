@@ -77,6 +77,21 @@ namespace P42_Allergies
         }
 
         /// <summary>
+        /// Checks if a pawn is completely immune to allergies.
+        /// </summary>
+        public static bool HasAllergyImmunity(Pawn pawn)
+        {
+            if (pawn?.genes == null) return false;
+
+            foreach (Gene g in pawn.genes.GenesListForReading)
+            {
+                if (g.Active && g is Gene_AllergyImmunity) return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// This method is used in WorkGiver harmony patches for "JobOnThing". If the thing that the pawn would be interacting with for the job is allergenic to them, this will abort the job. Else the original JobOnThing shall be executed.
         /// </summary>
         public static bool CheckIfPawnShouldAvoidJobOnThing(Pawn pawn, Thing t, bool forced, ref Job job)

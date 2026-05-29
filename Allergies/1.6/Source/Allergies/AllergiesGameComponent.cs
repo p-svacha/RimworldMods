@@ -13,8 +13,8 @@ namespace P42_Allergies
     /// </summary>
     public class AllergiesGameComponent : GameComponent
     {
-        private const float NewAllergyRandomMtbDays = 360; // How many days on average it takes for a pawn to develop a new allergy
-        private const float NewAllergyFromTraitMtbDays = 90; // How many days on average it takes for a pawn with the allergy-prone trait to develop a new allergy
+        private const float NewAllergyRandomMtbDays = 720; // How many days on average it takes for a pawn to develop a new allergy
+        private const float NewAllergyFromTraitMtbDays = 180; // How many days on average it takes for a pawn with the allergy-prone trait to develop a new allergy
 
         private const int NewAllergyCheckInterval = 30000; // How often it is checked if pawns should get a new allergy
 
@@ -28,7 +28,8 @@ namespace P42_Allergies
                 List<Pawn> allPawns = PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive;
                 foreach(Pawn pawn in allPawns)
                 {
-                    if(ShouldPawnGetNewAllergy(pawn))
+                    ReassertGeneAllergies(pawn);
+                    if (ShouldPawnGetNewAllergy(pawn))
                     {
                         AllergyGenerator.GenerateAndApplyRandomAllergy(pawn, isVisible: false);
                     }
@@ -38,7 +39,6 @@ namespace P42_Allergies
 
         private bool ShouldPawnGetNewAllergy(Pawn pawn)
         {
-            // Safety checks for invalid pawns
             if (pawn == null || pawn.Dead) return false;
 
             float allergicSensitivity = Utils.GetAllergicSensitivity(pawn);
@@ -48,9 +48,27 @@ namespace P42_Allergies
             if (HasAllergyProneTrait(pawn)) mtbDays = NewAllergyFromTraitMtbDays;
             else mtbDays = NewAllergyRandomMtbDays / allergicSensitivity;
 
-            //Logger.Log($"{pawn.Name} with an allergic sensitivity of {allergicSensitivity} has an mtb of {mtbDays} to develop a new allergy.");
+            // Apply the player-configurable rate multiplier (higher factor = lower MTB = more frequent)
+            float factor = Allergies_Settings.newAllergyRateFactor;
+            if (factor <= 0f) return false; // 0 effectively disables new allergies
+            mtbDays /= factor;
 
-            return (Rand.MTBEventOccurs(mtbDays, 60000f, NewAllergyCheckInterval));
+            return Rand.MTBEventOccurs(mtbDays, 60000f, NewAllergyCheckInterval);
+        }
+
+        private void ReassertGeneAllergies(Pawn pawn)
+        {
+            if (pawn == null || pawn.Dead || !ModsConfig.BiotechActive || pawn.genes == null) return;
+            if (Utils.HasAllergyImmunity(pawn)) return; // immune pawns: don't re-add forced allergies
+
+            foreach (Gene g in pawn.genes.GenesListForReading)
+            {
+                if (g is Gene_Allergy ga && g.Active
+                    && !Utils.GetPawnAllergies(pawn).Any(h => h.GetAllergy().SourceGeneDefName == g.def.defName))
+                {
+                    ga.EnsureAllergy(sendReaddMessage: true);
+                }
+            }
         }
 
         private bool HasAllergyProneTrait(Pawn pawn)

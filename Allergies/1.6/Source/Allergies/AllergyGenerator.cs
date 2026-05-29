@@ -30,7 +30,7 @@ namespace P42_Allergies
 
         private static bool IsInitialized = false;
 
-        private static void Initialize()
+        public static void Initialize()
         {
             if (IsInitialized) return;
 

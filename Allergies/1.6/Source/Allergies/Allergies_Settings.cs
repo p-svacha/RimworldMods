@@ -11,8 +11,12 @@ namespace P42_Allergies
     public class Allergies_Settings : ModSettings
     {
         // Base chance setting
-		private const float baseAllergyChance_DefaultValue = 0.09f;
-        public static float baseAllergyChance = 0.09f;
+		private const float baseAllergyChance_DefaultValue = 0.04f;
+        public static float baseAllergyChance = 0.04f;
+
+        // New allergy rate multiplier
+        private const float newAllergyRateFactor_DefaultValue = 1f;
+        public static float newAllergyRateFactor = 1f;
 
         // Toxic Resistance Effect Setting
         private const float toxicResEffect_DefaultValue = 0.25f;
@@ -34,6 +38,7 @@ namespace P42_Allergies
 		{
 			base.ExposeData();
 			Scribe_Values.Look(ref baseAllergyChance, "baseAllergyChance", baseAllergyChance_DefaultValue);
+            Scribe_Values.Look(ref newAllergyRateFactor, "newAllergyRateFactor", newAllergyRateFactor_DefaultValue);
             Scribe_Values.Look(ref toxicResEffect, "toxicResEffect", toxicResEffect_DefaultValue);
 
             Scribe_Collections.Look(ref enabledAllergyTypes, "enabledAllergyTypes", LookMode.Value, LookMode.Value, ref allergyKeys, ref boolValues);
@@ -52,6 +57,16 @@ namespace P42_Allergies
 
 			// Base allergy chance slider
             CreatePercentSlider(listing_Standard, "P42_Allergies_Settings_BaseAllergyChance".Translate(), ref baseAllergyChance, baseAllergyChance_DefaultValue);
+
+            // New allergy rate slider
+            CreateMultiplierSlider(
+                listing_Standard,
+                "P42_Allergies_Settings_NewAllergyRate".Translate(),
+                ref newAllergyRateFactor,
+                newAllergyRateFactor_DefaultValue,
+                0.5f, 3f,
+                "P42_Allergies_Settings_NewAllergyRate_Desc".Translate()
+            );
 
             // Toxic Resistance Effect slider with Tooltip
             CreatePercentSlider(
@@ -164,5 +179,27 @@ namespace P42_Allergies
 				value = defaultValue;
             }
 		}
+
+        private void CreateMultiplierSlider(Listing_Standard listingStandard, string labelName, ref float value, float defaultValue, float min, float max, string tooltip = null)
+        {
+            Rect rectBase = listingStandard.GetRect(Text.LineHeight);
+
+            float widthLabel = rectBase.width * 0.35f;
+            float widthSlider = rectBase.width * 0.35f;
+            float widthSliderValueLabel = rectBase.width * 0.10f;
+            float widthButton = rectBase.width * 0.20f;
+
+            Rect rectLabel = new Rect(rectBase.x, rectBase.y, widthLabel, rectBase.height);
+            Rect rectSlider = new Rect(rectLabel.xMax, rectBase.y, widthSlider, rectBase.height);
+            Rect rectSliderValueLabel = new Rect(rectSlider.xMax, rectBase.y, widthSliderValueLabel, rectBase.height);
+            Rect rectButton = new Rect(rectSliderValueLabel.xMax, rectBase.y, widthButton, rectBase.height);
+
+            Widgets.Label(rectLabel, labelName);
+            if (!string.IsNullOrEmpty(tooltip)) TooltipHandler.TipRegion(rectLabel, tooltip);
+
+            value = Widgets.HorizontalSlider(rectSlider, value, min, max, middleAlignment: true, roundTo: 0.05f);
+            Widgets.Label(rectSliderValueLabel, $"{value:F2}x");
+            if (Widgets.ButtonText(rectButton, "P42_Allergies_Settings_Reset".Translate())) value = defaultValue;
+        }
     }
 }
