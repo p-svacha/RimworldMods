@@ -55,8 +55,8 @@ namespace P42_Allergies
             Listing_Standard listing_Standard = new Listing_Standard();
             listing_Standard.Begin(inRect);
 
-			// Base allergy chance slider
-            CreatePercentSlider(listing_Standard, "P42_Allergies_Settings_BaseAllergyChance".Translate(), ref baseAllergyChance, baseAllergyChance_DefaultValue);
+            // Base allergy chance slider
+            CreatePercentSlider(listing_Standard, "P42_Allergies_Settings_BaseAllergyChance".Translate(), ref baseAllergyChance, baseAllergyChance_DefaultValue, "P42_Allergies_Settings_BaseAllergyChance_Desc".Translate());
 
             // New allergy rate slider
             CreateMultiplierSlider(
@@ -64,7 +64,7 @@ namespace P42_Allergies
                 "P42_Allergies_Settings_NewAllergyRate".Translate(),
                 ref newAllergyRateFactor,
                 newAllergyRateFactor_DefaultValue,
-                0.5f, 3f,
+                0.2f, 3f,
                 "P42_Allergies_Settings_NewAllergyRate_Desc".Translate()
             );
 

@@ -15,3 +15,5 @@
 6. Open Rimworld
 7. Publish in Mod Manager (in-Game > Select Mod > Advanced... > Update on Steam Workshop)
 8. Readd removed files
+9. Update changelog on Workshop page.
+10. Optional: Make a comment with the most important changes.

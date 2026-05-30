@@ -85,7 +85,7 @@
 
     <P42_Message_AllergicJobWarning>Caution: {0} is allergic to {1}. This job will cause an allergic reaction.</P42_Message_AllergicJobWarning>
 
-    <P42_Message_GeneAllergyReadded>{0}'s {1} has flared back up — it's encoded in {0}'s genes and can't be permanently cured.</P42_Message_GeneAllergyReadded>
+    <P42_Message_GeneAllergyReadded>{0}'s {1} has flared back up. It's encoded in {0}'s genes and can't be permanently cured.</P42_Message_GeneAllergyReadded>
 
     <!-- Letters -->
     <P42_LetterLabel_NewAllergyDiscovered>New allergy discovered</P42_LetterLabel_NewAllergyDiscovered>
@@ -112,8 +112,9 @@
 
     <!-- Settings -->
     <P42_Allergies_Settings_BaseAllergyChance>Base allergy chance</P42_Allergies_Settings_BaseAllergyChance>
+    <P42_Allergies_Settings_BaseAllergyChance_Desc>Determines the chance that a newly generated pawn starts with an allergy.</P42_Allergies_Settings_BaseAllergyChance_Desc>
     <P42_Allergies_Settings_Reset>Reset</P42_Allergies_Settings_Reset>
-    <P42_Allergies_Settings_EnableAllergyTypes>Toggle which allergy types can occur and how likely they are to occur:</P42_Allergies_Settings_EnableAllergyTypes>
+    <P42_Allergies_Settings_EnableAllergyTypes>Toggle which allergy types can occur and how likely they are to occur</P42_Allergies_Settings_EnableAllergyTypes>
     <P42_Allergies_Settings_ToxicResEffect>Toxic resistance effect</P42_Allergies_Settings_ToxicResEffect>
     <P42_Allergies_Settings_ToxicResEffect_Desc>Determines how much a pawn's Toxic Environment Resistance reduces their Allergic Sensitivity.\n\nExample: If this is set to 25%, a pawn with 100% toxic resistance will have their allergic sensitivity reduced by 25%.</P42_Allergies_Settings_ToxicResEffect_Desc>
     <P42_Allergies_Settings_NewAllergyRate>New allergy development rate</P42_Allergies_Settings_NewAllergyRate>
