@@ -1,0 +1,5 @@
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Real Ruins - Dynamic Ruin Wealth Cap\Source\RealRuinsDynamicWealthCap\obj\Debug\RealRuinsDynamicWealthCap.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Real Ruins - Dynamic Ruin Wealth Cap\Source\RealRuinsDynamicWealthCap\obj\Debug\RealRuinsDynamicWealthCap.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Real Ruins - Dynamic Ruin Wealth Cap\Source\RealRuinsDynamicWealthCap\obj\Debug\RealRuin.5BA37046.Up2Date
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Real Ruins - Dynamic Ruin Wealth Cap\Assemblies\RealRuinsDynamicWealthCap.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Real Ruins - Dynamic Ruin Wealth Cap\Source\RealRuinsDynamicWealthCap\obj\Debug\RealRuinsDynamicWealthCap.dll

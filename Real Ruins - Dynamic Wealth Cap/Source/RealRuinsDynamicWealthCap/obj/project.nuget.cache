@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Vy/32H7bjkw=",
+  "success": true,
+  "projectFilePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Real Ruins - Dynamic Ruin Wealth Cap\\Source\\RealRuinsDynamicWealthCap\\RealRuinsDynamicWealthCap.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\phili\\.nuget\\packages\\krafs.rimworld.ref\\1.6.4871\\krafs.rimworld.ref.1.6.4871.nupkg.sha512",
+    "C:\\Users\\phili\\.nuget\\packages\\lib.harmony\\2.4.2\\lib.harmony.2.4.2.nupkg.sha512"
+  ],
+  "logs": []
+}
