@@ -73,13 +73,13 @@ namespace P42_Allergies
                 "P42_Allergies_Settings_NewAllergyRate_Desc".Translate()
             );
 
-            // Natural severity change rate slider (25% steps)
-            CreateStepPercentSlider(
+            // Natural severity change rate slider
+            CreateMultiplierSlider(
                 listing_Standard,
                 "P42_Allergies_Settings_SeverityChangeRate".Translate(),
                 ref severityChangeRateFactor,
                 severityChangeRateFactor_DefaultValue,
-                0f, 2f, 0.25f,
+                0f, 2f,
                 "P42_Allergies_Settings_SeverityChangeRate_Desc".Translate()
             );
 
@@ -195,28 +195,6 @@ namespace P42_Allergies
             }
 		}
 
-        private void CreateStepPercentSlider(Listing_Standard listingStandard, string labelName, ref float value, float defaultValue, float min, float max, float step, string tooltip = null)
-        {
-            Rect rectBase = listingStandard.GetRect(Text.LineHeight);
-
-            float widthLabel = rectBase.width * 0.35f;
-            float widthSlider = rectBase.width * 0.35f;
-            float widthSliderValueLabel = rectBase.width * 0.10f;
-            float widthButton = rectBase.width * 0.20f;
-
-            Rect rectLabel = new Rect(rectBase.x, rectBase.y, widthLabel, rectBase.height);
-            Rect rectSlider = new Rect(rectLabel.xMax, rectBase.y, widthSlider, rectBase.height);
-            Rect rectSliderValueLabel = new Rect(rectSlider.xMax, rectBase.y, widthSliderValueLabel, rectBase.height);
-            Rect rectButton = new Rect(rectSliderValueLabel.xMax, rectBase.y, widthButton, rectBase.height);
-
-            Widgets.Label(rectLabel, labelName);
-            if (!string.IsNullOrEmpty(tooltip)) TooltipHandler.TipRegion(rectLabel, tooltip);
-
-            value = Widgets.HorizontalSlider(rectSlider, value, min, max, middleAlignment: true, roundTo: step);
-            Widgets.Label(rectSliderValueLabel, $"{value * 100f:F0}%");
-            if (Widgets.ButtonText(rectButton, "P42_Allergies_Settings_Reset".Translate())) value = defaultValue;
-        }
-
         private void CreateMultiplierSlider(Listing_Standard listingStandard, string labelName, ref float value, float defaultValue, float min, float max, string tooltip = null)
         {
             Rect rectBase = listingStandard.GetRect(Text.LineHeight);
@@ -234,7 +212,7 @@ namespace P42_Allergies
             Widgets.Label(rectLabel, labelName);
             if (!string.IsNullOrEmpty(tooltip)) TooltipHandler.TipRegion(rectLabel, tooltip);
 
-            value = Widgets.HorizontalSlider(rectSlider, value, min, max, middleAlignment: true, roundTo: 0.05f);
+            value = Widgets.HorizontalSlider(rectSlider, value, min, max, middleAlignment: true, roundTo: 0.1f);
             Widgets.Label(rectSliderValueLabel, $"{value:F2}x");
             if (Widgets.ButtonText(rectButton, "P42_Allergies_Settings_Reset".Translate())) value = defaultValue;
         }

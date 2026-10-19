@@ -174,7 +174,7 @@
     <P42_Allergies.AllergyDef ParentName="AllergyBase">
         <defName>Metal</defName>
         <label>Metal</label>
-        <description>Allergy to a specific type of stone (like steel, bioferrite, etc.).</description>
+        <description>Allergy to a specific type of metal (like steel, bioferrite, etc.).</description>
         <allergyClass>P42_Allergies.MetalAllergy</allergyClass>
         <commonness>0.15</commonness>
     </P42_Allergies.AllergyDef>
