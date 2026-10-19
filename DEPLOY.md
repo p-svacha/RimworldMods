@@ -9,6 +9,7 @@
     * If creating a new mod, make sure the file DOES NOT exist.
 5. Temporarily move away the following files and directories, so they are not uploaded
     * <mod>/<version>/Source (FOR EACH VERSION)
+    * <mod>/<version>/Assemblies/*.pdb (FOR EACH VERSION)
     * <mod>/<version>/Assemblies/0Harmony.* (FOR EACH VERSION)
     * <mod>/<version>/Assemblies/<dependency>.dll (FOR EACH VERSION, FOR EACH DEPENDENCY)
     * <mod>/About/*.psd files

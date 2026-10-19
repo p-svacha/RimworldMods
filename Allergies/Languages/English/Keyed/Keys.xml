@@ -120,5 +120,5 @@
     <P42_Allergies_Settings_NewAllergyRate>New allergy development rate</P42_Allergies_Settings_NewAllergyRate>
     <P42_Allergies_Settings_NewAllergyRate_Desc>Determines how often pawns develop new allergies over the course of the game. Higher values make new allergies appear more frequently.\n\nAt 1x, a pawn with average allergic sensitivity develops a new allergy roughly once every 12 years on average. The actual rate is also affected by each pawn's allergic sensitivity.</P42_Allergies_Settings_NewAllergyRate_Desc>
     <P42_Allergies_Settings_SeverityChangeRate>Natural severity change rate</P42_Allergies_Settings_SeverityChangeRate>
-    <P42_Allergies_Settings_SeverityChangeRate_Desc>Determines how quickly the severity of existing allergies naturally changes over time. Higher values make allergies worsen or improve more rapidly. 0x means no natural changes.</P42_Allergies_Settings_SeverityChangeRate_Desc>
+    <P42_Allergies_Settings_SeverityChangeRate_Desc>Determines how quickly the severity of existing allergies naturally changes over time. Higher values make allergies worsen or improve more rapidly.\n\nAt 1x, allergies change at a random interval between 45 days and 3 years.\n\nAt 0x, allergies do not naturally change over time.</P42_Allergies_Settings_SeverityChangeRate_Desc>
 </LanguageData>
