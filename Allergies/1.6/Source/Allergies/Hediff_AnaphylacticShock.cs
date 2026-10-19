@@ -11,9 +11,11 @@ namespace P42_Allergies
     public class Hediff_AnaphylacticShock : HediffWithComps
     {
 		private float intervalFactor;
-		private const int SeverityChangeInterval = 5000;
-		private const float TendSuccessChanceFactor = 0.65f;
-		private const float TendSeverityReduction = 0.3f;
+		private const int SeverityChangeInterval = 4000; // Severity change interval
+		private const float MaxSeverityDecreasePerChange = 0.2f; // Random severity change per interval
+		private const float MaxSeverityIncreasePerChange = 0.3f; // Random severity change per interval
+		private const float TendSuccessChanceFactor = 0.65f; // Tend success chance (multiplied by quality)
+		private const float TendSeverityReduction = 0.30f; // Severity removed per successful tend
 
 		public override void PostMake()
 		{
@@ -32,7 +34,7 @@ namespace P42_Allergies
 			base.Tick();
 			if (pawn.IsHashIntervalTick((int)(SeverityChangeInterval * intervalFactor)))
 			{
-				Severity += Rand.Range(-0.2f, 0.3f);
+				Severity += Rand.Range(-MaxSeverityDecreasePerChange, MaxSeverityIncreasePerChange);
 			}
 		}
 

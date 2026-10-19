@@ -4,10 +4,10 @@
     <defName>P42_SkinRash</defName>
     <label>skin rash</label>
     <labelNoun>a skin rash</labelNoun>
-    <description>A rash caused by an allergic reaction, making the affected skin red and irritated. It's painful and unsightly.</description>
+    <description>A rash caused by an allergic reaction, making the affected skin red and irritated. It's painful and unsightly. Can get infected or leave permanent scars if not tended properly.</description>
     <hediffClass>Hediff_Injury</hediffClass>
     <tendable>true</tendable>
-    <displayWound>true</displayWound>
+    <displayWound>false</displayWound>
     <makesSickThought>false</makesSickThought>
     <canAffectBionicOrImplant>false</canAffectBionicOrImplant>
     <comps>
@@ -24,7 +24,7 @@
       </li>
     </comps>
     <injuryProps>
-      <painPerSeverity>0.008</painPerSeverity>
+      <painPerSeverity>0.012</painPerSeverity>
       <averagePainPerSeverityPermanent>0.004</averagePainPerSeverityPermanent>
       <bleedRate>0</bleedRate>
       <canMerge>false</canMerge>
@@ -64,15 +64,6 @@
     <lethalSeverity>1</lethalSeverity>
     <tendable>true</tendable>
     <taleOnVisible>P42_Tale_AnaphylacticShock</taleOnVisible>
-    <comps>
-      <li Class="HediffCompProperties_TendDuration">
-        <baseTendDurationHours>4</baseTendDurationHours>
-        <tendOverlapHours>1</tendOverlapHours>
-        <labelTendedWell>treated</labelTendedWell>
-        <labelTendedWellInner>treated</labelTendedWellInner>
-        <labelSolidTendedWell>treated</labelSolidTendedWell>
-      </li>
-    </comps>
     <stages>
       <li>
         <label>painful</label>
