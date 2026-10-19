@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Real Ruins - Dynamic Ruin Wealth Cap\\Source\\RealRuinsDynamicWealthCap\\RealRuinsDynamicWealthCap.csproj": {}
+    "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Real Ruins - Dynamic Wealth Cap\\1.6\\Source\\RealRuinsDynamicWealthCap\\RealRuinsDynamicWealthCap.csproj": {}
   },
   "projects": {
-    "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Real Ruins - Dynamic Ruin Wealth Cap\\Source\\RealRuinsDynamicWealthCap\\RealRuinsDynamicWealthCap.csproj": {
+    "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Real Ruins - Dynamic Wealth Cap\\1.6\\Source\\RealRuinsDynamicWealthCap\\RealRuinsDynamicWealthCap.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Real Ruins - Dynamic Ruin Wealth Cap\\Source\\RealRuinsDynamicWealthCap\\RealRuinsDynamicWealthCap.csproj",
+        "projectUniqueName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Real Ruins - Dynamic Wealth Cap\\1.6\\Source\\RealRuinsDynamicWealthCap\\RealRuinsDynamicWealthCap.csproj",
         "projectName": "RealRuinsDynamicWealthCap",
-        "projectPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Real Ruins - Dynamic Ruin Wealth Cap\\Source\\RealRuinsDynamicWealthCap\\RealRuinsDynamicWealthCap.csproj",
+        "projectPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Real Ruins - Dynamic Wealth Cap\\1.6\\Source\\RealRuinsDynamicWealthCap\\RealRuinsDynamicWealthCap.csproj",
         "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
-        "outputPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Real Ruins - Dynamic Ruin Wealth Cap\\Source\\RealRuinsDynamicWealthCap\\obj\\",
+        "outputPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Real Ruins - Dynamic Wealth Cap\\1.6\\Source\\RealRuinsDynamicWealthCap\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "UsingMicrosoftNETSdk": false,
