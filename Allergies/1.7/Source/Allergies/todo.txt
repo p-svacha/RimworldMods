@@ -1,0 +1,24 @@
+Todo 1.2.1 Patch
+
+
+(/) In mod settings, allergy types have tooltips explaining the allergy types
+(/) In mod settings, for each allergy add a slider for commonality
+(/) In mod settings, for each allergy add a "Reset" button to reset commonality
+(/) mod settings commonality logs
+(/) In mod settings, add a slider for factor how much toxic enviornment resistance affects allergic sensitivity
+(/) slider tooltip
+(/) tre settings effect
+(/) all settings persistence
+
+(/) make severe allergies less common
+(/) make severe allergies less bad
+(/) make water, dust, temperature, sunlight, stone, metal allergies less common
+(/) increase mood boost from curing allergy
+(/) decrease maximum amount of time a pawn needs to have allercure to heal allergy
+
+(/) fix: base allergy chance is now correctly applied in pawn generation when starting a new game
+(/) fix: mutants (ghouls, shamblers, etc.) can no longer get new allergies
+
+
+changelog
+------------

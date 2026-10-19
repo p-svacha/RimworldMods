@@ -11,6 +11,11 @@
     <makesSickThought>false</makesSickThought>
     <canAffectBionicOrImplant>false</canAffectBionicOrImplant>
     <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>treated</labelTendedWell>
+        <labelTendedWellInner>treated</labelTendedWellInner>
+        <labelSolidTendedWell>treated</labelSolidTendedWell>
+      </li>
       <li Class="HediffCompProperties_Infecter">
         <infectionChance>0.05</infectionChance>
       </li>
@@ -59,6 +64,15 @@
     <lethalSeverity>1</lethalSeverity>
     <tendable>true</tendable>
     <taleOnVisible>P42_Tale_AnaphylacticShock</taleOnVisible>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <baseTendDurationHours>4</baseTendDurationHours>
+        <tendOverlapHours>1</tendOverlapHours>
+        <labelTendedWell>treated</labelTendedWell>
+        <labelTendedWellInner>treated</labelTendedWellInner>
+        <labelSolidTendedWell>treated</labelSolidTendedWell>
+      </li>
+    </comps>
     <stages>
       <li>
         <label>painful</label>

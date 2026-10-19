@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Anomaly</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+
+                <!-- Ceremonial hood: -25% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/ThingDef[defName = "Apparel_CeremonialCultistMask"]/equippedStatOffsets</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_CeremonialCultistMask"]/equippedStatOffsets</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>-0.25</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_CeremonialCultistMask"]</xpath>
+                        <value>
+                            <equippedStatOffsets>
+                                <P42_AllergicSensitivity>-0.25</P42_AllergicSensitivity>
+                            </equippedStatOffsets>
+                        </value>
+                    </nomatch>
+                </li>
+
+                <!-- Ritual mask: -25% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/ThingDef[defName = "Apparel_CultistMask"]/equippedStatOffsets</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_CultistMask"]/equippedStatOffsets</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>-0.25</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_CultistMask"]</xpath>
+                        <value>
+                            <equippedStatOffsets>
+                                <P42_AllergicSensitivity>-0.25</P42_AllergicSensitivity>
+                            </equippedStatOffsets>
+                        </value>
+                    </nomatch>
+                </li>
+
+            </operations>
+        </match>
+    </Operation>
+</Patch>

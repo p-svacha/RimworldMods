@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <Operation Class="PatchOperationAdd">
+        <xpath>*/HediffGiverSetDef[defName="OrganicStandard"]/hediffGivers</xpath>
+        <value>
+            <li Class="HediffGiver_Birthday">
+                <hediff>P42_ChronicSinusitis</hediff>
+                <partsToAffect>
+                    <li>Nose</li>
+                </partsToAffect>
+                <ageFractionChanceCurve>
+                    <points>
+                        <li>(0, 0)</li>
+                        <li>(0.2, 0.00048)</li>
+                        <li>(0.3, 0.00096)</li>
+                        <li>(0.5, 0.001344)</li>
+                    </points>
+                </ageFractionChanceCurve>
+            </li>
+        </value>
+    </Operation>
+</Patch>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <HediffDef>
+    <defName>P42_AllergyHediff</defName>
+    <label>allergy</label>
+    <description>A condition in which the immune system mistakenly identifies an allergen as a threat. This results in allergic reactions when coming into contact with that allergen.
+      \nAllergic reactions can vary greatly depending on the level of exposure and the severity of the allergy. They can range from minor irritations to permanent conditions like asthma, or even life-threatening emergencies such as anaphylactic shock.
+      \nWhile it is best to avoid allergens entirely, it is possible to cure allergies. Taking allercure over an extended period can improve or heal allergies, and other treatments for chronic conditions, such as luciferium, may work as well.
+      \nPeople will generally avoid doing work that would expose them to allergens.</description>
+    <chronic>true</chronic>
+    <isBad>true</isBad>
+    <makesSickThought>false</makesSickThought>
+    <hediffClass>P42_Allergies.Hediff_Allergy</hediffClass>
+    <initialSeverity>0.001</initialSeverity>
+    <injuryProps>
+      <canMerge>false</canMerge>
+    </injuryProps>
+    <stages>
+      <li>
+        <label>hidden</label>
+        <becomeVisible>false</becomeVisible>
+      </li>
+      <li>
+        <minSeverity>0.1</minSeverity>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>P42_AllergenBuildup</defName>
+    <label>allergic reactions</label>
+    <description>Allergic reactions due to exposure to allergens. The reactions will get better and disappear with time but continuous exposure to allergens will increase their severity.
+      \nAllergic reactions will lead to health conditions like sneezing fits, skin rashes, pink eye or throat tightness.
+      \nAt higher levels they can also cause severe or permanent damage to the body such as asthma, chronic sinusitis or even anaphylactic shock, which can be lethal.</description>
+    <defaultLabelColor>(0.9, 1.0, 0.6)</defaultLabelColor>
+    <initialSeverity>0.001</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <alwaysShowSeverity>true</alwaysShowSeverity>
+    <hediffClass>P42_Allergies.Hediff_AllergenBuildup</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.35</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>initial</label>
+        <becomeVisible>false</becomeVisible>
+      </li>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>initial</label>
+        <minSeverity>0.10</minSeverity>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.05</WorkSpeedGlobal>
+          <RestFallRateFactor>0.05</RestFallRateFactor>
+        </statOffsets>
+      </li>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>minor</label>
+        <minSeverity>0.25</minSeverity>
+        <sneezingFitMtbDays>1.8</sneezingFitMtbDays>
+        <skinRashMtbDays>10</skinRashMtbDays>
+        <pinkEyeMtbDays>12</pinkEyeMtbDays>
+        <throatTightnessMtbDays>25</throatTightnessMtbDays>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.10</WorkSpeedGlobal>
+          <RestFallRateFactor>0.10</RestFallRateFactor>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.10</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+      </li>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>moderate</label>
+        <minSeverity>0.40</minSeverity>
+        <painOffset>0.05</painOffset>
+        <sneezingFitMtbDays>0.8</sneezingFitMtbDays>
+        <skinRashMtbDays>5</skinRashMtbDays>
+        <pinkEyeMtbDays>6</pinkEyeMtbDays>
+        <throatTightnessMtbDays>9</throatTightnessMtbDays>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.20</WorkSpeedGlobal>
+          <RestFallRateFactor>0.20</RestFallRateFactor>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.15</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Asthma</hediff>
+            <mtbDays>275</mtbDays>
+            <partsToAffect>
+              <li>Lung</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_AnaphylacticShock</hediff>
+            <mtbDays>150</mtbDays>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_ChronicSinusitis</hediff>
+            <mtbDays>275</mtbDays>
+            <partsToAffect>
+              <li>Nose</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>200</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_OwnRoom</mentalState>
+            <mtbDays>200</mtbDays>
+          </li>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>200</mtbDays>
+          </li>
+          <li>
+            <mentalState>Tantrum</mentalState>
+            <mtbDays>200</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>serious</label>
+        <minSeverity>0.60</minSeverity>
+        <painOffset>0.15</painOffset>
+        <vomitMtbDays>5</vomitMtbDays>
+        <sneezingFitMtbDays>0.4</sneezingFitMtbDays>
+        <skinRashMtbDays>1.5</skinRashMtbDays>
+        <pinkEyeMtbDays>2</pinkEyeMtbDays>
+        <throatTightnessMtbDays>4</throatTightnessMtbDays>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.30</WorkSpeedGlobal>
+          <RestFallRateFactor>0.30</RestFallRateFactor>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.08</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.25</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.25</offset>
+          </li>
+        </capMods>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Asthma</hediff>
+            <mtbDays>50</mtbDays>
+            <partsToAffect>
+              <li>Lung</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_AnaphylacticShock</hediff>
+            <mtbDays>25</mtbDays>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_ChronicSinusitis</hediff>
+            <mtbDays>50</mtbDays>
+            <partsToAffect>
+              <li>Nose</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>120</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_OwnRoom</mentalState>
+            <mtbDays>120</mtbDays>
+          </li>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>120</mtbDays>
+          </li>
+          <li>
+            <mentalState>Tantrum</mentalState>
+            <mtbDays>120</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li Class="P42_Allergies.AllergenBuildupStage">
+        <label>extreme</label>
+        <minSeverity>0.80</minSeverity>
+        <tale>P42_Tale_StrongAllergicReactions</tale>
+        <painOffset>0.25</painOffset>
+        <vomitMtbDays>2</vomitMtbDays>
+        <sneezingFitMtbDays>0.25</sneezingFitMtbDays>
+        <skinRashMtbDays>0.55</skinRashMtbDays>
+        <pinkEyeMtbDays>0.65</pinkEyeMtbDays>
+        <throatTightnessMtbDays>2</throatTightnessMtbDays>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.50</WorkSpeedGlobal>
+          <RestFallRateFactor>0.50</RestFallRateFactor>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.16</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.35</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.35</offset>
+          </li>
+        </capMods>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Asthma</hediff>
+            <mtbDays>15</mtbDays>
+            <partsToAffect>
+              <li>Lung</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_AnaphylacticShock</hediff>
+            <mtbDays>6</mtbDays>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>P42_ChronicSinusitis</hediff>
+            <mtbDays>15</mtbDays>
+            <partsToAffect>
+              <li>Nose</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>40</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_OwnRoom</mentalState>
+            <mtbDays>40</mtbDays>
+          </li>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>40</mtbDays>
+          </li>
+          <li>
+            <mentalState>Tantrum</mentalState>
+            <mtbDays>40</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

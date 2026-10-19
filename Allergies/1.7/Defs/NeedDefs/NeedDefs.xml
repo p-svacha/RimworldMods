@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <NeedDef ParentName="DrugAddictionNeedBase">
+        <defName>P42_Chemical_Allercure</defName>
+        <needClass>Need_Chemical</needClass>
+        <label>allercure</label>
+        <description>Because of an allercure dependence, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+        <listPriority>25</listPriority>
+    </NeedDef>
+</Defs>

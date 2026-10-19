@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ChemicalDef>
+    <defName>P42_Allercure</defName>
+    <label>allercure</label>
+    <addictionHediff>P42_AllercureAddiction</addictionHediff>
+    <onGeneratedAddictedToleranceChance>0.5</onGeneratedAddictedToleranceChance>
+    <generateAddictionGenes>false</generateAddictionGenes>
+  </ChemicalDef>
+</Defs>

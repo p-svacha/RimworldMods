@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <TaleDef>
+        <defName>P42_Tale_HadSneezingFit</defName>
+        <label>had a sneezing fit</label>
+        <taleClass>Tale_SinglePawn</taleClass>
+        <type>Volatile</type>
+        <baseInterest>0.2</baseInterest>
+        <ignoreChance>0.5</ignoreChance>
+        <rulePack>
+            <rulesStrings>
+                <li>tale_noun->[PAWN_nameDef]'s sneezing fit</li>
+                <li>image->[PAWN_nameFull] uncontrollably sneezing [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] wiping [PAWN_possessive] nose after sneezing [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] doubled over from a sneezing fit [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] sneezing violently with eyes squeezed shut [circumstance_group]</li>
+                <li>circumstance_phrase->while others look on in confusion</li>
+                <li>circumstance_phrase->with great discomfort</li>
+                <li>circumstance_phrase->as dust fills the air</li>
+                <li>circumstance_phrase->with snot flying everywhere</li>
+                <li>circumstance_phrase->while grabbing a tissue</li>
+                <li>desc_sentence->[PAWN_pronoun] is gasping for breath between sneezes.</li>
+                <li>desc_sentence->[PAWN_pronoun] looks dazed, nose red and eyes watery.</li>
+                <li>desc_sentence->[PAWN_pronoun] seems exhausted, clutching [PAWN_possessive] chest after the fit.</li>
+                <li>desc_sentence->[PAWN_pronoun] is sneezing so hard that [PAWN_possessive] whole body jerks with each one.</li>
+                <li>desc_sentence->There are [Quantity_adjphrase] tissues crumpled on the ground nearby.</li>
+                <li>desc_sentence->A startled [Animal] looks up at the sudden noise.</li>
+                <li>desc_sentence->[PAWN_pronoun] looks embarrassed, rubbing [PAWN_possessive] nose furiously.</li>
+                <li>desc_sentence->A fine mist hangs in the air from the sneezing fit.</li>
+            </rulesStrings>
+        </rulePack>
+    </TaleDef>
+
+    <TaleDef>
+        <defName>P42_Tale_AnaphylacticShock</defName>
+        <label>anaphylactic shock</label>
+        <taleClass>Tale_SinglePawnAndDef</taleClass>
+        <defSymbol>ILLNESS</defSymbol>
+        <type>Volatile</type>
+        <baseInterest>2</baseInterest>
+        <rulePack>
+            <rulesStrings>
+                <li>tale_noun->[PAWN_nameDef] experiencing an anaphylactic shock</li>
+                <li>tale_noun->[PAWN_nameDef] going into severe anaphylactic shock</li>
+                <li>image->[PAWN_nameFull] collapsing to the ground [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] clutching [PAWN_possessive] throat [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] struggling to breathe [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] gasping for air [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] with a swollen face and lips [circumstance_group]</li>
+                <li>circumstance_phrase->after exposure to a severe allergen</li>
+                <li>circumstance_phrase->as [PAWN_pronoun] fights for breath</li>
+                <li>circumstance_phrase->while panicking, unable to speak</li>
+                <li>circumstance_phrase->with rapid, shallow breaths</li>
+                <li>circumstance_phrase->while struggling to stay conscious</li>
+                <li>desc_sentence->The scene is tense and filled with urgency.</li>
+                <li>desc_sentence->A crowd of [PersonJob]s gathers, uncertain of what to do.</li>
+                <li>desc_sentence->The air feels thick with tension and desperation.</li>
+                <li>desc_sentence->Voices rise, filled with panic and worry.</li>
+                <li>desc_sentence->The atmosphere shifts, becoming heavy with fear and dread.</li>
+            </rulesStrings>
+        </rulePack>
+    </TaleDef>
+
+    <TaleDef>
+        <defName>P42_Tale_AntishockInjection</defName>
+        <label></label>
+        <taleClass>Tale_SinglePawn</taleClass>
+        <type>Volatile</type>
+        <baseInterest>1</baseInterest>
+        <rulePack>
+            <rulesStrings>
+                <li>tale_noun->[PAWN_nameDef] receiving an antishock injection</li>
+                <li>image->[PAWN_nameFull] receiving an injection in the arm [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] clutching an antishock injection [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] breathing easier after the shot [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] lying still, recovering [circumstance_group]</li>
+                <li>circumstance_phrase->after nearly collapsing</li>
+                <li>circumstance_phrase->as relief floods through [PAWN_objective]</li>
+                <li>circumstance_phrase->as [PAWN_possessive] breathing stabilizes</li>
+                <li>circumstance_phrase->with newfound hope in [PAWN_possessive] eyes</li>
+                <li>desc_sentence->A feeling of relief washes over the area.</li>
+                <li>desc_sentence->The tense atmosphere begins to ease.</li>
+                <li>desc_sentence->A sense of calm returns to those watching.</li>
+                <li>desc_sentence->The onlookers breathe a collective sigh of relief.</li>
+                <li>desc_sentence->The danger has passed, and a quiet calm settles in.</li>
+            </rulesStrings>
+        </rulePack>
+    </TaleDef>
+
+    <TaleDef>
+        <defName>P42_Tale_StrongAllergicReactions</defName>
+        <label>strong allergic reactions</label>
+        <taleClass>Tale_SinglePawn</taleClass>
+        <type>Volatile</type>
+        <baseInterest>0.85</baseInterest>
+        <rulePack>
+            <rulesStrings>
+                <li>tale_noun->[PAWN_nameDef]'s severe allergic reactions</li>
+                <li>tale_noun->[PAWN_nameDef] suffering from extreme allergic reactions</li>
+                <li>image->[PAWN_nameFull] wheezing and gasping for breath [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] clutching at [PAWN_possessive] throat, struggling to breathe [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] breaking out in hives, skin reddening [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] sneezing uncontrollably [circumstance_group]</li>
+                <li>image->[PAWN_nameFull] rubbing [PAWN_possessive] swollen eyes [circumstance_group]</li>
+                <li>circumstance_phrase->while gasping for air</li>
+                <li>circumstance_phrase->with a face flushed red</li>
+                <li>circumstance_phrase->while clutching at [PAWN_possessive] chest</li>
+                <li>circumstance_phrase->as [PAWN_possessive] lips swell up</li>
+                <li>circumstance_phrase->amid frantic attempts to find relief</li>
+                <li>circumstance_phrase->as [PAWN_pronoun] struggles with itchy skin</li>
+                <li>circumstance_phrase->while [PAWN_pronoun] can barely see through swollen eyes</li>
+                <li>desc_sentence->[PAWN_pronoun] seems on the verge of collapsing.</li>
+                <li>desc_sentence->[PAWN_pronoun] is scratching furiously, unable to stop.</li>
+                <li>desc_sentence->[PAWN_pronoun] is struggling to draw in breath, eyes wide with panic.</li>
+                <li>desc_sentence->Red blotches cover [PAWN_possessive] skin.</li>
+                <li>desc_sentence->[PAWN_pronoun] keeps coughing, unable to clear [PAWN_possessive] throat.</li>
+                <li>desc_sentence->There is a desperate look in [PAWN_possessive] eyes.</li>
+                <li>desc_sentence->[PAWN_pronoun] is on [PAWN_possessive] knees, wheezing.</li>
+                <li>desc_sentence->[PAWN_pronoun] stumbles as [PAWN_pronoun] fights off the reaction.</li>
+                <li>desc_sentence->[PAWN_possessive] face is swollen and puffy.</li>
+            </rulesStrings>
+        </rulePack>
+    </TaleDef>
+</Defs>

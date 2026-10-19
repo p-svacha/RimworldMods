@@ -17,11 +17,11 @@ namespace P42_Allergies
         protected const int AllercureHighCheckInterval = 1000;
 
         // Development values
-        private const int MinTicksUntilNaturalSeverityChange = 20 * 60000; // 20 days
+        private const int MinTicksUntilNaturalSeverityChange = 45 * 60000; // 45 days
         private const int MaxTicksUntilNaturalSeverityChange = 180 * 60000; // 180 days (3 years)
-        private const float ExtremeNaturalSeverityChangeChance = 0.05f; // Chance that an allergy instantly goes to extreme / goes away
+        private const float ExtremeNaturalSeverityChangeChance = 0.03f; // Chance that an allergy instantly goes to extreme / goes away
 
-        private const int MinTicksUntilAllercureImpact = 5 * 60000; // 5 days
+        private const int MinTicksUntilAllercureImpact = 8 * 60000; // 8 days
         private const int MaxTicksUntilAllercureImpact = 30 * 60000; // 30 days
         private const float AllercureInstantHealChance = 0.1f;
 
@@ -98,7 +98,10 @@ namespace P42_Allergies
 
         private void ResetTicksUntilNaturalSeverityChange()
         {
-            TicksUntilNaturalSeverityChange = Rand.Range(MinTicksUntilNaturalSeverityChange, MaxTicksUntilNaturalSeverityChange);
+            float factor = Allergies_Settings.severityChangeRateFactor;
+            int ticks = Rand.Range(MinTicksUntilNaturalSeverityChange, MaxTicksUntilNaturalSeverityChange);
+            // Higher factor = faster changes; at 0 changes are disabled in Tick()
+            TicksUntilNaturalSeverityChange = factor > 0f ? Math.Max(1, (int)(ticks / factor)) : ticks;
         }
         private void ResetTicksUntilAllercureSeverityChange()
         {
@@ -175,7 +178,7 @@ namespace P42_Allergies
         public void Tick()
         {
             // Check for natural severity change
-            if (!IsFromGene)
+            if (!IsFromGene && Allergies_Settings.severityChangeRateFactor > 0f)
             {
                 TicksUntilNaturalSeverityChange--;
                 if (TicksUntilNaturalSeverityChange <= 0)
@@ -184,8 +187,8 @@ namespace P42_Allergies
                     float chanceForGoodOutcome = 0.5f;
                     float allergicSensitivity = Utils.GetAllergicSensitivity(Pawn);
                     if (allergicSensitivity == 0f) chanceForGoodOutcome = 1f;
-                    else if (allergicSensitivity < 1f) chanceForGoodOutcome = 0.6f;
-                    else if (allergicSensitivity > 1f) chanceForGoodOutcome = 0.4f;
+                    else if (allergicSensitivity < 1f) chanceForGoodOutcome = 0.55f;
+                    else if (allergicSensitivity > 1f) chanceForGoodOutcome = 0.45f;
 
                     bool isGoodOutcome = Rand.Chance(chanceForGoodOutcome);
                     bool isExtremeOutcome = Rand.Chance(ExtremeNaturalSeverityChangeChance);

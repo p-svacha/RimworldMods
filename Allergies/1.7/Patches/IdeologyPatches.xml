@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Ideology</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+
+                <!-- Visage mask: -25% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/ThingDef[defName = "Apparel_VisageMask"]/equippedStatOffsets</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_VisageMask"]/equippedStatOffsets</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>-0.25</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_VisageMask"]</xpath>
+                        <value>
+                            <equippedStatOffsets>
+                                <P42_AllergicSensitivity>-0.25</P42_AllergicSensitivity>
+                            </equippedStatOffsets>
+                        </value>
+                    </nomatch>
+                </li>
+
+                <!-- Blindfold: -10% allergic sensitivity -->
+                <li Class="PatchOperationConditional">
+                    <xpath>*/ThingDef[defName = "Apparel_Blindfold"]/equippedStatOffsets</xpath>
+                    <match Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_Blindfold"]/equippedStatOffsets</xpath>
+                        <value>
+                            <P42_AllergicSensitivity>-0.10</P42_AllergicSensitivity>
+                        </value>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>*/ThingDef[defName = "Apparel_Blindfold"]</xpath>
+                        <value>
+                            <equippedStatOffsets>
+                                <P42_AllergicSensitivity>-0.10</P42_AllergicSensitivity>
+                            </equippedStatOffsets>
+                        </value>
+                    </nomatch>
+                </li>
+
+                <!-- Bioscupltor regeneration cycle can heal allergies and chronic sinusitis -->
+                <li Class="PatchOperationAdd">
+                    <xpath>*/ThingDef[defName="BiosculpterPod"]/comps/li[key="bioregeneration"]/conditionsToPossiblyCure</xpath>
+                    <value>
+                        <li>P42_ChronicSinusitis</li>
+                        <li>P42_AllergyHediff</li>
+                    </value>
+                </li>
+
+            </operations>
+        </match>
+    </Operation>
+</Patch>

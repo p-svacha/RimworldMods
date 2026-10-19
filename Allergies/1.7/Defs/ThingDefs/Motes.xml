@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <ThingDef ParentName="FoodBitBase">
+        <defName>P42_Mote_SneezeBit</defName>
+        <graphicData>
+          <texPath>Things/Mote/P42_SneezeBit</texPath>
+          <shaderType>Mote</shaderType>
+        </graphicData>
+      </ThingDef>
+</Defs>

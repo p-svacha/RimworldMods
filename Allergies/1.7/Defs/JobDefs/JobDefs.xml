@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef>
+    <defName>P42_SneezingFit</defName>
+    <driverClass>P42_Allergies.JobDriver_SneezingFit</driverClass>
+    <reportString>Having a sneezing fit.</reportString>
+    <playerInterruptible>false</playerInterruptible>
+    <casualInterruptible>false</casualInterruptible>
+    <suspendable>false</suspendable>
+  </JobDef>
+</Defs>
